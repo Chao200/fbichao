@@ -6,11 +6,11 @@ author: fbichao
 categories: 
   - leetcode
   - Hot 100
+  - Hard
 excerpt: LeetCode Hot 100 Hard
 math: true
 date: 2024-03-01 21:45:00
 ---
-
 ## [4. 寻找两个正序数组的中位数](https://leetcode.cn/problems/median-of-two-sorted-arrays/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 给定两个大小分别为 m 和 n 的正序（从小到大）数组 nums1 和 nums2。请你找出并返回这两个正序数组的 中位数 。
@@ -24,9 +24,8 @@ date: 2024-03-01 21:45:00
 ```
 
 - 排除法二分
-- 时间复杂度$O(log(m+n))$ 
-- 空间复杂度$O(1)$ 
-
+- 时间复杂度$O(log(m+n))$
+- 空间复杂度$O(1)$
 
 ```C++
 class Solution {
@@ -75,11 +74,6 @@ public:
 };
 ```
 
-
-
-
-
-
 ## [10. 正则表达式匹配](https://leetcode.cn/problems/regular-expression-matching/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 给你一个字符串 s 和一个字符规律 p，请你来实现一个支持 '.' 和 '*' 的正则表达式匹配。
@@ -95,9 +89,8 @@ public:
 ```
 
 - 动规
-- 时间复杂度$O(mn)$ 
-- 空间复杂度$O(mn)$ 
-
+- 时间复杂度$O(mn)$
+- 空间复杂度$O(mn)$
 
 ```C++
 class Solution {
@@ -152,11 +145,6 @@ public:
 };
 ```
 
-
-
-
-
-
 ## [23. 合并 K 个升序链表](https://leetcode.cn/problems/merge-k-sorted-lists/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 给你一个链表数组，每个链表都已经按升序排列。
@@ -177,15 +165,14 @@ public:
 ```
 
 - 优先队列、归并、依次合并
-- 时间复杂度$O(k\cdot{n}\cdot{log(n)})$ 
-- 空间复杂度$O(k)$ 
-
+- 时间复杂度$O(k\cdot{n}\cdot{log(n)})$
+- 空间复杂度$O(k)$
 
 ```C++
 class Solution {
 public:
-    
-    
+  
+  
     ListNode* mergeKLists(vector<ListNode*>& lists) {
         // 特殊 case
         if (lists.empty()) return nullptr;
@@ -200,7 +187,7 @@ public:
             return a->val > b->val;
         };
         priority_queue<ListNode*, vector<ListNode*>, decltype(cmp)> pq;
-        
+      
         // 非空入队
         for (auto node : lists)
         {
@@ -224,12 +211,11 @@ public:
                 pq.push(nxt->next);
             }
         }
-        
+      
         return dummy->next;
     }
 };
 ```
-
 
 ## [32. 最长有效括号](https://leetcode.cn/problems/longest-valid-parentheses/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
@@ -242,11 +228,11 @@ public:
 ```
 
 - 栈、动规
-- 时间复杂度$O(n)$ 
-- 空间复杂度$O(n)$ 
-
+- 时间复杂度$O(n)$
+- 空间复杂度$O(n)$
 
 ### 栈
+
 ```C++
 class Solution {
 public:
@@ -282,6 +268,7 @@ public:
 ```
 
 ### 动规
+
 ```C++
 class Solution {
 public:
@@ -328,9 +315,6 @@ public:
 };
 ```
 
-
-
-
 ## [42. 接雨水](https://leetcode.cn/problems/trapping-rain-water/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 给定 n 个非负整数表示每个宽度为 1 的柱子的高度图，计算按此排列的柱子，下雨之后能接多少雨水。
@@ -343,9 +327,8 @@ public:
 ```
 
 - 单调栈（小压大）
-- 时间复杂度$O(n)$ 
-- 空间复杂度$O(n)$ 
-
+- 时间复杂度$O(n)$
+- 空间复杂度$O(n)$
 
 ```C++
 class Solution {
@@ -377,11 +360,6 @@ public:
 };
 ```
 
-
-
-
-
-
 ## [76. 最小覆盖子串](https://leetcode.cn/problems/minimum-window-substring/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 给你一个字符串 s 、一个字符串 t 。返回 s 中涵盖 t 所有字符的最小子串。如果 s 中不存在涵盖 t 所有字符的子串，则返回空字符串 "" 。
@@ -393,9 +371,8 @@ public:
 ```
 
 - 滑动窗口 + 哈希表
-- 时间复杂度$O(len(s))$ 
-- 空间复杂度$O(|s|+|t|)$ 
-
+- 时间复杂度$O(len(s))$
+- 空间复杂度$O(|s|+|t|)$
 
 ```C++
 class Solution {
@@ -452,9 +429,6 @@ public:
 };
 ```
 
-
-
-
 ## [84. 柱状图中最大的矩形](https://leetcode.cn/problems/largest-rectangle-in-histogram/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 给定 n 个非负整数，用来表示柱状图中各个柱子的高度。每个柱子彼此相邻，且宽度为 1 。
@@ -469,9 +443,8 @@ public:
 ```
 
 - 单调栈（大压小），不同于 [42-接雨水](#42-接雨水)，这里需要首尾插入 0，因为 while 之后，栈中元素依然可以求结果，而 [42-接雨水](#42-接雨水) 则不需要管栈中剩余元素
-- 时间复杂度$O()$ 
-- 空间复杂度$O()$ 
-
+- 时间复杂度$O()$
+- 空间复杂度$O()$
 
 ```C++
 class Solution {
@@ -482,7 +455,7 @@ public:
         // 需要插入 0，使得栈中剩余元素全部出栈
         heights.push_back(0);
         heights.insert(heights.begin(), 0);
-        
+      
         for (int i = 0; i < heights.size(); ++i)
         {
             while (!st.empty() && heights[i] < heights[st.top()])
@@ -500,11 +473,6 @@ public:
 };
 ```
 
-
-
-
-
-
 ## [85. 最大矩形](https://leetcode.cn/problems/maximal-rectangle/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 给定一个仅包含 0 和 1 、大小为 rows x cols 的二维二进制矩阵，找出只包含 1 的最大矩形，并返回其面积。
@@ -517,9 +485,8 @@ public:
 ```
 
 - 压缩数组 + [84-柱状图中最大的矩形](#84-柱状图中最大的矩形)
-- 时间复杂度$O(mn)$ 
-- 空间复杂度$O(mn)$ 
-
+- 时间复杂度$O(mn)$
+- 空间复杂度$O(mn)$
 
 ```C++
 class Solution {
@@ -530,7 +497,7 @@ public:
         // 需要插入 0，使得栈中剩余元素全部出栈
         heights.push_back(0);
         heights.insert(heights.begin(), 0);
-        
+      
         for (int i = 0; i < heights.size(); ++i)
         {
             while (!st.empty() && heights[i] < heights[st.top()])
@@ -566,11 +533,6 @@ public:
 };
 ```
 
-
-
-
-
-
 ## [124. 二叉树中的最大路径和](https://leetcode.cn/problems/binary-tree-maximum-path-sum/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 二叉树中的 路径 被定义为一条节点序列，序列中每对相邻节点之间都存在一条边。同一个节点在一条路径序列中 至多出现一次 。该路径 至少包含一个 节点，且不一定经过根节点。
@@ -587,9 +549,8 @@ public:
 ```
 
 - 先序遍历的递归
-- 时间复杂度$O(n)$ 
-- 空间复杂度$O(n)$ 
-
+- 时间复杂度$O(n)$
+- 空间复杂度$O(n)$
 
 ```C++
 class Solution {
@@ -620,11 +581,9 @@ public:
 };
 ```
 
-
 ## [239. 滑动窗口最大值](https://leetcode.cn/problems/sliding-window-maximum/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 给你一个整数数组 nums，有一个大小为 k 的滑动窗口从数组的最左侧移动到数组的最右侧。你只可以看到在滑动窗口内的 k 个数字。滑动窗口每次只向右移动一位。
-
 
 ```
 输入：nums = [1,3,-1,-3,5,3,6,7], k = 3
@@ -641,9 +600,9 @@ public:
 ```
 
 ### 优先队列
-- 时间复杂度$O(nlogn)$ 
-- 空间复杂度$O(n)$ 
 
+- 时间复杂度$O(nlogn)$
+- 空间复杂度$O(n)$
 
 ```C++
 class Solution {
@@ -674,18 +633,17 @@ public:
 };
 ```
 
-
 ### 单调队列
-- 时间复杂度$O(n)$ 
-- 空间复杂度$O(k)$ 
 
+- 时间复杂度$O(n)$
+- 空间复杂度$O(k)$
 
 ```C++
 class Solution {
 public:
     vector<int> maxSlidingWindow(vector<int>& nums, int k) {
         deque<int> dq;
-        
+      
         for (int i = 0; i < k; ++i)
         {
             while (!dq.empty() && nums[dq.back()] <= nums[i])
@@ -719,8 +677,6 @@ public:
 };
 ```
 
-
-
 ## [312. 戳气球](https://leetcode.cn/problems/burst-balloons/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 有 n 个气球，编号为0 到 n - 1，每个气球上都标有一个数字，这些数字存在数组 nums 中。
@@ -738,8 +694,8 @@ coins =  3*1*5    +   3*5*8   +  1*3*8  + 1*8*1 = 167
 ```
 
 - 动规
-- 时间复杂度$O(n^3)$ 
-- 空间复杂度$O(n^2)$ 
+- 时间复杂度$O(n^3)$
+- 空间复杂度$O(n^2)$
 
 ```
 在首尾插入一个气球值为 1，定义 $dp[i][j]$ 表示击破 $i~j$ 之间气球获得的最大值（不包括 $i$ 和 $j$）
@@ -784,11 +740,6 @@ public:
 };
 ```
 
-
-
-
-
-
 ## [301. 删除无效的括号](https://leetcode.cn/problems/remove-invalid-parentheses/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 给你一个由若干括号和字母组成的字符串 s ，删除最小数量的无效括号，使得输入的字符串有效。
@@ -801,8 +752,8 @@ public:
 ```
 
 - 回溯
-- 时间复杂度$O(n\cdot{2^n})$ 
-- 空间复杂度$O(n^2)$ 
+- 时间复杂度$O(n\cdot{2^n})$
+- 空间复杂度$O(n^2)$
 
 ```
 1. 统计左右括号字最少得删除个数（removeInvalidParentheses）
@@ -871,7 +822,7 @@ public:
             if (i != index && str[i] == str[i-1]) continue;
             // 剪枝
             if ((leftRemoveNum + rightRemoveNum) > str.size() - i) return;
-            
+          
             // 删除左括号
             if (leftRemoveNum > 0 && str[i] == '(')
             {                                                 // i 不需要+1，此时 i 就是下一个待删除 index
@@ -886,9 +837,6 @@ public:
 };
 ```
 
-
-
-
 ## [297. 二叉树的序列化与反序列化](https://leetcode.cn/problems/serialize-and-deserialize-binary-tree/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 序列化是将一个数据结构或者对象转换为连续的比特位的操作，进而可以将转换后的数据存储在一个文件或者内存中，同时也可以通过网络传输到另一个计算机环境，采取相反方式重构得到原数据。
@@ -901,8 +849,8 @@ public:
 ```
 
 - 前序遍历递归
-- 时间复杂度$O(n)$ 
-- 空间复杂度$O(n)$ 
+- 时间复杂度$O(n)$
+- 空间复杂度$O(n)$
 
 ```
 我们知道需要根据遍历顺序得到二叉树，就必须要有两种遍历方式，但是这里只给了一个 string，所以需要特殊处理
@@ -947,7 +895,7 @@ public:
         root->right = redeserialize(lst);
         return root;
     }
-    
+  
     TreeNode* deserialize(string data) {
         list<string> lst;
         string str;
@@ -969,7 +917,7 @@ public:
             lst.push_back(str);
             str.clear();
         }
-        
+      
         // 去除逗号，得到 lst
         return redeserialize(lst);
     }
