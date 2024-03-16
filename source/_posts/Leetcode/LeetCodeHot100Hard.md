@@ -1,11 +1,13 @@
 ---
 title: LeetCode Hot 100 Hard
 tags:
-  - LeetCode Hot 100 Hard
+  - LeetCode
+  - Hot100
+  - Hard
 author: fbichao
-categories: 
+categories:
   - leetcode
-  - Hot 100
+  - Hot100
   - Hard
 excerpt: LeetCode Hot 100 Hard
 math: true
@@ -187,7 +189,7 @@ public:
             return a->val > b->val;
         };
         priority_queue<ListNode*, vector<ListNode*>, decltype(cmp)> pq;
-      
+    
         // 非空入队
         for (auto node : lists)
         {
@@ -211,7 +213,7 @@ public:
                 pq.push(nxt->next);
             }
         }
-      
+    
         return dummy->next;
     }
 };
@@ -455,7 +457,7 @@ public:
         // 需要插入 0，使得栈中剩余元素全部出栈
         heights.push_back(0);
         heights.insert(heights.begin(), 0);
-      
+    
         for (int i = 0; i < heights.size(); ++i)
         {
             while (!st.empty() && heights[i] < heights[st.top()])
@@ -497,7 +499,7 @@ public:
         // 需要插入 0，使得栈中剩余元素全部出栈
         heights.push_back(0);
         heights.insert(heights.begin(), 0);
-      
+    
         for (int i = 0; i < heights.size(); ++i)
         {
             while (!st.empty() && heights[i] < heights[st.top()])
@@ -643,7 +645,7 @@ class Solution {
 public:
     vector<int> maxSlidingWindow(vector<int>& nums, int k) {
         deque<int> dq;
-      
+    
         for (int i = 0; i < k; ++i)
         {
             while (!dq.empty() && nums[dq.back()] <= nums[i])
@@ -822,7 +824,7 @@ public:
             if (i != index && str[i] == str[i-1]) continue;
             // 剪枝
             if ((leftRemoveNum + rightRemoveNum) > str.size() - i) return;
-          
+        
             // 删除左括号
             if (leftRemoveNum > 0 && str[i] == '(')
             {                                                 // i 不需要+1，此时 i 就是下一个待删除 index
@@ -917,7 +919,7 @@ public:
             lst.push_back(str);
             str.clear();
         }
-      
+    
         // 去除逗号，得到 lst
         return redeserialize(lst);
     }

@@ -1,9 +1,11 @@
 ---
 title: LeetCode Hot 100 Mid(1)
 tags:
-  - LeetCode Hot 100 Mid
+  - LeetCode
+  - Hot100
+  - Mid
 author: fbichao
-categories: 
+categories:
   - leetcode
   - Hot 100
   - Mid
