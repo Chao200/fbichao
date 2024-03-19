@@ -11,7 +11,7 @@ categories:
   - Mid
 excerpt: LeetCode Hot 100 Mid(3)
 math: true
-date: 2024-03-013 21:45:00
+date: 2024-03-13 21:45:00
 ---
 ## [72. 编辑距离](https://leetcode.cn/problems/edit-distance/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
@@ -82,7 +82,6 @@ public:
 };
 ```
 
-
 ## [75. 颜色分类](https://leetcode.cn/problems/sort-colors/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 给定一个包含红色、白色和蓝色、共 n 个元素的数组 nums ，原地对它们进行排序，使得相同颜色的元素相邻，并按照红色、白色、蓝色顺序排列。
@@ -105,7 +104,6 @@ public:
 swap 的时候，只有 left 和 right 是确定的，可以移动，index 位置的值是交换后的信值，不确定，不能 index++
 所以可能会有 index < left 出现，需要 ++index
 ```
-
 
 ```C++
 class Solution {
@@ -139,13 +137,6 @@ public:
 };
 ```
 
-
-
-
-
-
-
-
 ## [78. 子集](https://leetcode.cn/problems/subsets/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 给你一个整数数组 nums ，数组中的元素 互不相同 。返回该数组所有可能的子集（幂集）。
@@ -165,7 +156,6 @@ public:
 遍历从当前 index 开始，递归一样
 ```
 
-
 ```C++
 class Solution {
 private:
@@ -177,7 +167,7 @@ public:
     void backtrack(vector<int>& nums, int index)
     {
         res.push_back(path);
-        
+      
         // 遍历从当前元素开始往后
         for (int i = index; i < nums.size(); ++i)
         {
@@ -193,13 +183,6 @@ public:
     }
 };
 ```
-
-
-
-
-
-
-
 
 ## [79. 单词搜索](https://leetcode.cn/problems/word-search/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
@@ -222,7 +205,6 @@ public:
 先确定 row 和 col 才可以访问 board 数组
 ```
 
-
 ```C++
 class Solution {
 public:
@@ -241,7 +223,7 @@ public:
                     || dfs(board, word, row-1, col, index + 1)
                     || dfs(board, word, row, col+1, index + 1)
                     || dfs(board, word, row, col-1, index + 1);
-        
+      
         // 还原
         board[row][col] = word[index];
 
@@ -264,13 +246,6 @@ public:
     }
 };
 ```
-
-
-
-
-
-
-
 
 ## [96. 不同的二叉搜索树](https://leetcode.cn/problems/unique-binary-search-trees/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
@@ -296,7 +271,6 @@ public:
 3）根节点为 3，左子树节点 2 个，右子树节点 0 个
 ```
 
-
 ```C++
 class Solution {
 public:
@@ -318,13 +292,6 @@ public:
 };
 ```
 
-
-
-
-
-
-
-
 ## [98. 验证二叉搜索树](https://leetcode.cn/problems/validate-binary-search-tree/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 给你一个二叉树的根节点 root ，判断其是否是一个有效的二叉搜索树。
@@ -341,6 +308,7 @@ public:
 ```
 
 ### 递归
+
 - 递归
 - 时间复杂度 $O(n)$
 - 空间复杂度 $O(n)$
@@ -349,7 +317,6 @@ public:
 前序遍历的递归，每个节点都有一个区间，不断更新这个区间
 注意使用 long 类型
 ```
-
 
 ```C++
 class Solution {
@@ -370,6 +337,7 @@ public:
 ```
 
 ### 迭代
+
 - 中序遍历二叉搜索树，得到的是升序数组
 - 时间复杂度 $O(n)$
 - 空间复杂度 $O(1)$
@@ -386,7 +354,7 @@ public:
         TreeNode* cur = root;
         // long 类型
         long prev = LONG_MIN;
-        
+      
         // 中序遍历的迭代形式
         while (!st.empty() || cur)
         {
@@ -410,11 +378,6 @@ public:
 };
 ```
 
-
-
-
-
-
 ## [102. 二叉树的层序遍历](https://leetcode.cn/problems/binary-tree-level-order-traversal/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 给你二叉树的根节点 root ，返回其节点值的 层序遍历 。 （即逐层地，从左到右访问所有节点）。
@@ -433,7 +396,6 @@ public:
 对每层遍历，所以 while 里面还嵌套循环
 ```
 
-
 ```C++
 class Solution {
 public:
@@ -443,7 +405,7 @@ public:
         // 队列保存节点
         queue<TreeNode*> que;
         que.push(root);
-        
+      
         vector<vector<int>> res;
         while (!que.empty())
         {
@@ -466,13 +428,6 @@ public:
 };
 ```
 
-
-
-
-
-
-
-
 ## [105. 从前序与中序遍历序列构造二叉树](https://leetcode.cn/problems/construct-binary-tree-from-preorder-and-inorder-traversal/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 给定两个整数数组 preorder 和 inorder ，其中 preorder 是二叉树的先序遍历， inorder 是同一棵树的中序遍历，请构造二叉树并返回其根节点。
@@ -492,7 +447,6 @@ public:
 使用左闭右开区间
 ```
 
-
 ```C++
 class Solution {
 private:
@@ -504,7 +458,7 @@ public:
     {
         if (ind_l == ind_r) return nullptr;
         int size = umap[preorder[pre_l]] - ind_l;
-        
+      
         TreeNode* leftTree = build(preorder, inorder,
                             pre_l + 1, pre_l + 1 + size,
                             ind_l, ind_l + size);
@@ -524,13 +478,6 @@ public:
     }
 };
 ```
-
-
-
-
-
-
-
 
 ## [114. 二叉树展开为链表](https://leetcode.cn/problems/flatten-binary-tree-to-linked-list/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
@@ -553,7 +500,6 @@ public:
 先序遍历的递归，先得到节点的先序遍历
 再拼接
 ```
-
 
 ```C++
 class Solution {
@@ -581,13 +527,6 @@ public:
 };
 ```
 
-
-
-
-
-
-
-
 ## [128. 最长连续序列](https://leetcode.cn/problems/longest-consecutive-sequence/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 给定一个未排序的整数数组 nums ，找出数字连续的最长序列（不要求序列元素在原数组中连续）的长度。
@@ -609,7 +548,6 @@ public:
 遍历集合，如果当前比元素小 1 的元素可以在集合中找到，就继续遍历
 如果找不到说明，当前元素是该序列的起点，则进入循环求解长度和值
 ```
-
 
 ```C++
 class Solution {
@@ -635,7 +573,7 @@ public:
                     currNum++;
                     currLen++;
                 }
-                
+              
                 res = max(res, currLen);
             }
         }
@@ -644,10 +582,3 @@ public:
     }
 };
 ```
-
-
-
-
-
-
-
