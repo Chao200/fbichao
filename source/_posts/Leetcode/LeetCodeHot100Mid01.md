@@ -7,13 +7,12 @@ tags:
 author: fbichao
 categories:
   - leetcode
-  - Hot 100
+  - Hot100
   - Mid
 excerpt: LeetCode Hot 100 Mid(1)
 math: true
 date: 2024-03-05 21:45:00
 ---
-
 ## [2. 两数相加](https://leetcode.cn/problems/add-two-numbers/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 给你两个 非空 的链表，表示两个非负的整数。它们每位数字都是按照 逆序 的方式存储的，并且每个节点只能存储 一位 数字。
@@ -73,8 +72,6 @@ public:
 };
 ```
 
-
-
 ## [3. 无重复字符的最长子串](https://leetcode.cn/problems/longest-substring-without-repeating-characters/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 给定一个字符串 s ，请你找出其中不含有重复字符的最长子串的长度。
@@ -104,7 +101,7 @@ public:
         unordered_map<char, int> umap;
 
         int res = 0;
-        
+      
         int slow = -1;
         for (int fast = 0; fast < s.size(); ++fast)
         {
@@ -123,9 +120,6 @@ public:
     }
 };
 ```
-
-
-
 
 ## [5. 最长回文子串](https://leetcode.cn/problems/longest-palindromic-substring/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
@@ -201,9 +195,6 @@ public:
 };
 ```
 
-
-
-
 ## [11. 盛最多水的容器](https://leetcode.cn/problems/container-with-most-water/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 给定一个长度为 n 的整数数组 height 。有 n 条垂线，第 i 条线的两个端点是 (i, 0) 和 (i, height[i]) 。
@@ -257,9 +248,6 @@ public:
 };
 ```
 
-
-
-
 ## [15. 三数之和](https://leetcode.cn/problems/3sum/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 给你一个整数数组 nums ，判断是否存在三元组 [nums[i], nums[j], nums[k]] 满足 i != j、i != k 且 j != k ，同时还满足 nums[i] + nums[j] + nums[k] == 0 。请
@@ -267,8 +255,6 @@ public:
 > 你返回所有和为 0 且不重复的三元组。
 
 > 注意：答案中不可以包含重复的三元组。
-
-
 
 ```
 输入：nums = [-1,0,1,2,-1,-4]
@@ -331,9 +317,6 @@ public:
     }
 };
 ```
-
-
-
 
 ## [17. 电话号码的字母组合](https://leetcode.cn/problems/letter-combinations-of-a-phone-number/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
@@ -406,14 +389,9 @@ public:
 };
 ```
 
-
-
-
 ## [19. 删除链表的倒数第 N 个结点](https://leetcode.cn/problems/remove-nth-node-from-end-of-list/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 给你一个链表，删除链表的倒数第 n 个结点，并且返回链表的头结点。
-
-
 
 ```
 ![](https://file.fbichao.top/2024/03/5d51a098c56eb5ad85ed2d1128e70adf.png)
@@ -458,9 +436,6 @@ public:
     }
 };
 ```
-
-
-
 
 ## [22. 括号生成](https://leetcode.cn/problems/generate-parentheses/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
@@ -520,9 +495,6 @@ public:
 };
 ```
 
-
-
-
 ## [31. 下一个排列](https://leetcode.cn/problems/next-permutation/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 整数数组的一个 排列  就是将其所有成员以序列或线性顺序排列。
@@ -563,7 +535,7 @@ public:
         if (n == 1) return;
 
         int i = n - 2, j = n - 1, k = n - 1;
-        
+      
         // 1. 查找第一对递增序列
         while (i >= 0 && nums[i] >= nums[j])
         {
@@ -586,8 +558,6 @@ public:
     }
 };
 ```
-
-
 
 ## [33. 搜索旋转排序数组](https://leetcode.cn/problems/search-in-rotated-sorted-array/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
@@ -648,5 +618,3 @@ public:
     }
 };
 ```
-
-
