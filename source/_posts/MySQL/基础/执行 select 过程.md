@@ -6,7 +6,7 @@ author: fbichao
 categories: 
   - MySQL
   - 基础
-excerpt: 
+excerpt: 执行 select 过程
 math: true
 date: 2024-03-19 21:45:00
 ---
