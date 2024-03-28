@@ -1,19 +1,16 @@
 ---
-title: LeetCode Hot 100 Mid(2)
+title: LeetCode Mid(2)
 tags:
   - LeetCode
-  - Hot100
   - Mid
 author: fbichao
 categories:
   - leetcode
-  - Hot100
   - Mid
-excerpt: LeetCode Hot 100 Mid(2)
+excerpt: LeetCode Mid(2)
 math: true
 date: 2024-03-08 21:45:00
 ---
-
 ## [34. 在排序数组中查找元素的第一个和最后一个位置](https://leetcode.cn/problems/find-first-and-last-position-of-element-in-sorted-array/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 给你一个按照非递减顺序排列的整数数组 nums，和一个目标值 target。请你找出给定目标值在数组中的开始位置和结束位置。
@@ -93,13 +90,11 @@ public:
 };
 ```
 
-
-
 ## [39. 组合总和](https://leetcode.cn/problems/combination-sum/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 给你一个 无重复元素 的整数数组 candidates 和一个目标整数 target ，找出 candidates 中可以使数字和为目标数 target 的 所有 不同组合 ，并以列表形式返回。你可以按 任意顺序 返回这些组合。
 
-> candidates 中的 同一个 数字可以 无限制重复被选取 。如果至少一个数字的被选数量不同，则两种组合是不同的。 
+> candidates 中的 同一个 数字可以 无限制重复被选取 。如果至少一个数字的被选数量不同，则两种组合是不同的。
 
 > 对于给定的输入，保证和为 target 的不同组合数少于 150 个。
 
@@ -153,14 +148,9 @@ public:
 };
 ```
 
-
-
-
 ## [46. 全排列](https://leetcode.cn/problems/permutations/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 给定一个不含重复数字的数组 nums ，返回其 所有可能的全排列 。你可以 按任意顺序 返回答案。
-
-
 
 ```
 输入：nums = [1,2,3]
@@ -211,15 +201,11 @@ public:
 };
 ```
 
-
-
-
 ## [48. 旋转图像](https://leetcode.cn/problems/rotate-image/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 给定一个 n × n 的二维矩阵 matrix 表示一个图像。请你将图像顺时针旋转 90 度。
 
 > 你必须在 原地 旋转图像，这意味着你需要直接修改输入的二维矩阵。请不要 使用另一个矩阵来旋转图像。
-
 
 ```
 ![](https://file.fbichao.top/2024/03/c6963849da5fdd7a0f28ffdcc8adc88e.png)
@@ -263,8 +249,6 @@ public:
 };
 ```
 
-
-
 ## [49. 字母异位词分组](https://leetcode.cn/problems/group-anagrams/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 给你一个字符串数组，请你将 字母异位词 组合在一起。可以按任意顺序返回结果列表。
@@ -307,8 +291,6 @@ public:
     }
 };
 ```
-
-
 
 ## [53. 最大子数组和](https://leetcode.cn/problems/maximum-subarray/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
@@ -354,8 +336,6 @@ public:
 };
 ```
 
-
-
 ## [55. 跳跃游戏](https://leetcode.cn/problems/jump-game/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 给你一个非负整数数组 nums ，你最初位于数组的 第一个下标 。数组中的每个元素代表你在该位置可以跳跃的最大长度。
@@ -398,9 +378,6 @@ public:
 };
 ```
 
-
-
-
 ## [56. 合并区间](https://leetcode.cn/problems/merge-intervals/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 以数组 intervals 表示若干个区间的集合，其中单个区间为 intervals[i] = [starti, endi] 。请你合并所有重叠的区间，并返回 一个不重叠的区间数组，该数组需恰好覆盖输入中的所有区间 。
@@ -424,7 +401,7 @@ class Solution {
 public:
     vector<vector<int>> merge(vector<vector<int>>& intervals) {
         if (intervals.size() == 0) return {};
-        
+      
         // 排序
         auto cmp = [](vector<int>& t1, vector<int>&t2)
         {
@@ -452,9 +429,6 @@ public:
     }
 };
 ```
-
-
-
 
 ## [62. 不同路径](https://leetcode.cn/problems/unique-paths/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
@@ -503,8 +477,6 @@ public:
 };
 ```
 
-
-
 ## [64. 最小路径和](https://leetcode.cn/problems/minimum-path-sum/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 给定一个包含非负整数的 m x n 网格 grid ，请找出一条从左上角到右下角的路径，使得路径上的数字总和为最小。
@@ -534,7 +506,7 @@ public:
         int cols = grid[0].size();
 
         vector<vector<int>> dp(rows, vector<int>(cols, 0));
-        
+      
         // 初始化
         dp[0][0] = grid[0][0];
         for (int i = 1; i < rows; ++i) dp[i][0] = dp[i-1][0] + grid[i][0];

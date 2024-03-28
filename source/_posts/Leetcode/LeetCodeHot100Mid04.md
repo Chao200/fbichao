@@ -1,19 +1,16 @@
 ---
-title: LeetCode Hot 100 Mid(4)
+title: LeetCode Mid(4)
 tags:
   - LeetCode
-  - Hot100
   - Mid
 author: fbichao
 categories:
   - leetcode
-  - Hot100
   - Mid
-excerpt: LeetCode Hot 100 Mid(4)
+excerpt: LeetCode Mid(4)
 math: true
 date: 2024-03-17 21:45:00
 ---
-
 ## [139. 单词拆分](https://leetcode.cn/problems/word-break/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 给你一个字符串 s 和一个字符串列表 wordDict 作为字典。如果可以利用字典中出现的一个或多个单词拼接出 s 则返回 true。
@@ -64,8 +61,6 @@ public:
     }
 };
 ```
-
-
 
 ## [142. 环形链表 II](https://leetcode.cn/problems/linked-list-cycle-ii/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
@@ -120,16 +115,14 @@ public:
 };
 ```
 
-
-
 ## [146. LRU 缓存](https://leetcode.cn/problems/lru-cache/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 请你设计并实现一个满足  LRU (最近最少使用) 缓存 约束的数据结构。
 
 > 实现 LRUCache 类：
 > LRUCache(int capacity) 以 正整数 作为容量 capacity 初始化 LRU 缓存
-int get(int key) 如果关键字 key 存在于缓存中，则返回关键字的值，否则返回 -1 。
-void put(int key, int value) 如果关键字 key 已经存在，则变更其数据值 value ；如果不存在，则向缓存中插入该组 key-value 。如果插入操作导致关键字数量超过 capacity ，则应该 逐出 最久未使用的关键字。
+> int get(int key) 如果关键字 key 存在于缓存中，则返回关键字的值，否则返回 -1 。
+> void put(int key, int value) 如果关键字 key 已经存在，则变更其数据值 value ；如果不存在，则向缓存中插入该组 key-value 。如果插入操作导致关键字数量超过 capacity ，则应该 逐出 最久未使用的关键字。
 
 > 函数 get 和 put 必须以 O(1) 的平均时间复杂度运行。
 
@@ -171,12 +164,12 @@ private:
     const int m_capacity;
     list<pair<int, int>> cache; // 存储 key-value
     unordered_map<int, decltype(cache.begin())> dict; // key 和 key 在链表中的位置
-    
+  
 public:
     // const 需要列表初始化
     LRUCache(int capacity) : m_capacity(capacity)
     { }
-    
+  
     int get(int key) {
         // 在 dict 中 O(1) 查找
         auto it = dict.find(key);
@@ -191,7 +184,7 @@ public:
 
         return cache.front().second;
     }
-    
+  
     void put(int key, int value) {
         auto it = dict.find(key);
         if (it != dict.end())
@@ -211,8 +204,6 @@ public:
     }
 };
 ```
-
-
 
 ## [148. 排序链表](https://leetcode.cn/problems/sort-list/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
@@ -240,7 +231,7 @@ public:
         // 归并两个有序链表
         ListNode* dummpy = new ListNode(-1);
         ListNode* cur = dummpy;
-        
+      
         while (left && right)
         {
             if (left->val > right->val)
@@ -286,8 +277,6 @@ public:
     }
 };
 ```
-
-
 
 ## [152. 乘积最大子数组](https://leetcode.cn/problems/maximum-product-subarray/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
@@ -335,8 +324,6 @@ public:
 };
 ```
 
-
-
 ## [155. 最小栈]()
 
 > 设计一个支持 push ，pop ，top 操作，并能在常数时间内检索到最小元素的栈。
@@ -344,10 +331,10 @@ public:
 > 实现 MinStack 类:
 
 > MinStack() 初始化堆栈对象。
-void push(int val) 将元素val推入堆栈。
-void pop() 删除堆栈顶部的元素。
-int top() 获取堆栈顶部的元素。
-int getMin() 获取堆栈中的最小元素。
+> void push(int val) 将元素val推入堆栈。
+> void pop() 删除堆栈顶部的元素。
+> int top() 获取堆栈顶部的元素。
+> int getMin() 获取堆栈中的最小元素。
 
 ```
 输入：
@@ -389,30 +376,28 @@ public:
         // 先加入一个 MAX
         min_st.push(INT_MAX);
     }
-    
+  
     void push(int val) {
         st.push(val);
         // 每次有新的 val 加入，比较一下，看当前的最小值是什么
         min_st.push(min(min_st.top(), val));
     }
-    
+  
     void pop() {
         // 一起 pop
         st.pop();
         min_st.pop();
     }
-    
+  
     int top() {
         return st.top();
     }
-    
+  
     int getMin() {
         return min_st.top();
     }
 };
 ```
-
-
 
 ## [198. 打家劫舍](https://leetcode.cn/problems/house-robber/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
@@ -459,8 +444,6 @@ public:
     }
 };
 ```
-
-
 
 ## [200. 岛屿数量](https://leetcode.cn/problems/number-of-islands/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
@@ -528,8 +511,6 @@ public:
 };
 ```
 
-
-
 ## [207. 课程表](https://leetcode.cn/problems/course-schedule/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 你这个学期必须选修 numCourses 门课程，记为 0 到 numCourses - 1 。
@@ -543,7 +524,7 @@ public:
 ```
 输入：numCourses = 2, prerequisites = [[1,0],[0,1]]
 输出：false
-解释：总共有 2 门课程。学习课程 1 之前，你需要先完成​课程 0 ；并且学习课程 0 之前，你还应先完成课程 1 。这是不可能的。
+解释：总共有 2 门课程。学习课程 1 之前，你需要先完成课程 0 ；并且学习课程 0 之前，你还应先完成课程 1 。这是不可能的。
 ```
 
 - BFS
@@ -605,8 +586,6 @@ public:
 };
 ```
 
-
-
 ## [208. 实现 Trie (前缀树)](https://leetcode.cn/problems/implement-trie-prefix-tree/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > Trie（发音类似 "try"）或者说 前缀树 是一种树形数据结构，用于高效地存储和检索字符串数据集中的键。这一数据结构有相当多的应用情景，例如自动补完和拼写检查。
@@ -649,5 +628,3 @@ trie.search("app");     // 返回 True
 
 
 ```
-
-

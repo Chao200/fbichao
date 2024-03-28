@@ -1,15 +1,13 @@
 ---
-title: LeetCode Hot 100 Mid(1)
+title: LeetCode Mid(1)
 tags:
   - LeetCode
-  - Hot100
   - Mid
 author: fbichao
 categories:
   - leetcode
-  - Hot100
   - Mid
-excerpt: LeetCode Hot 100 Mid(1)
+excerpt: LeetCode Mid(1)
 math: true
 date: 2024-03-05 21:45:00
 ---
@@ -101,7 +99,7 @@ public:
         unordered_map<char, int> umap;
 
         int res = 0;
-      
+    
         int slow = -1;
         for (int fast = 0; fast < s.size(); ++fast)
         {
@@ -535,7 +533,7 @@ public:
         if (n == 1) return;
 
         int i = n - 2, j = n - 1, k = n - 1;
-      
+    
         // 1. 查找第一对递增序列
         while (i >= 0 && nums[i] >= nums[j])
         {

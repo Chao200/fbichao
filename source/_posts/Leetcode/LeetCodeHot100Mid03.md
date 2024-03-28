@@ -1,15 +1,13 @@
 ---
-title: LeetCode Hot 100 Mid(3)
+title: LeetCode Mid(3)
 tags:
   - LeetCode
-  - Hot100
   - Mid
 author: fbichao
 categories:
   - leetcode
-  - Hot100
   - Mid
-excerpt: LeetCode Hot 100 Mid(3)
+excerpt: LeetCode Mid(3)
 math: true
 date: 2024-03-13 21:45:00
 ---
@@ -167,7 +165,7 @@ public:
     void backtrack(vector<int>& nums, int index)
     {
         res.push_back(path);
-      
+    
         // 遍历从当前元素开始往后
         for (int i = index; i < nums.size(); ++i)
         {
@@ -223,7 +221,7 @@ public:
                     || dfs(board, word, row-1, col, index + 1)
                     || dfs(board, word, row, col+1, index + 1)
                     || dfs(board, word, row, col-1, index + 1);
-      
+    
         // 还原
         board[row][col] = word[index];
 
@@ -354,7 +352,7 @@ public:
         TreeNode* cur = root;
         // long 类型
         long prev = LONG_MIN;
-      
+    
         // 中序遍历的迭代形式
         while (!st.empty() || cur)
         {
@@ -405,7 +403,7 @@ public:
         // 队列保存节点
         queue<TreeNode*> que;
         que.push(root);
-      
+    
         vector<vector<int>> res;
         while (!que.empty())
         {
@@ -458,7 +456,7 @@ public:
     {
         if (ind_l == ind_r) return nullptr;
         int size = umap[preorder[pre_l]] - ind_l;
-      
+    
         TreeNode* leftTree = build(preorder, inorder,
                             pre_l + 1, pre_l + 1 + size,
                             ind_l, ind_l + size);
@@ -573,7 +571,7 @@ public:
                     currNum++;
                     currLen++;
                 }
-              
+            
                 res = max(res, currLen);
             }
         }

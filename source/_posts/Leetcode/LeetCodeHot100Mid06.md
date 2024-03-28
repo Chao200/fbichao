@@ -1,19 +1,16 @@
 ---
-title: LeetCode Hot 100 Mid(6)
+title: LeetCode Mid(6)
 tags:
   - LeetCode
-  - Hot100
   - Mid
 author: fbichao
 categories:
   - leetcode
-  - Hot100
   - Mid
-excerpt: LeetCode Hot 100 Mid(6)
+excerpt: LeetCode Mid(6)
 math: true
 date: 2024-03-25 21:45:00
 ---
-
 ## [322. 零钱兑换](https://leetcode.cn/problems/coin-change/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 给你一个整数数组 coins ，表示不同面额的硬币；以及一个整数 amount ，表示总金额。
@@ -43,7 +40,7 @@ public:
     int coinChange(vector<int>& coins, int amount) {
         // 记录组成 amount 大小的个数
         vector<int> dp(amount+1, amount+1);
-        
+      
         dp[0] = 0;
 
         // 遍历大小
@@ -63,9 +60,6 @@ public:
     }
 };
 ```
-
-
-
 
 ## [337. 打家劫舍 III](https://leetcode.cn/problems/house-robber-iii/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
@@ -97,7 +91,7 @@ public:
     {
         // [偷、不偷]
         if (root == nullptr) return {0, 0};
-        
+      
         // 左右子树结果
         vector<int> left = f(root->left);
         vector<int> right = f(root->right);
@@ -114,8 +108,6 @@ public:
     }
 };
 ```
-
-
 
 ## [347. 前 K 个高频元素](https://leetcode.cn/problems/top-k-frequent-elements/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
@@ -166,8 +158,6 @@ public:
 };
 ```
 
-
-
 ## [394. 字符串解码](https://leetcode.cn/problems/decode-string/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 给定一个经过编码的字符串，返回它解码后的字符串。
@@ -177,8 +167,6 @@ public:
 > 你可以认为输入字符串总是有效的；输入字符串中没有额外的空格，且输入的方括号总是符合格式要求的。
 
 > 此外，你可以认为原始数据不包含数字，所有的数字只表示重复的次数 k ，例如不会出现像 3a 或 2[4] 的输入。
-
-
 
 ```
 输入：s = "3[a2[c]]"
@@ -244,8 +232,6 @@ public:
 };
 ```
 
-
-
 ## [399. 除法求值](https://leetcode.cn/problems/evaluate-division/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 给你一个变量对数组 equations 和一个实数值数组 values 作为已知条件，其中 equations[i] = [Ai, Bi] 和 values[i] 共同表示等式 Ai / Bi = values[i] 。每个 Ai 或 Bi 是一个表示单个变量的字符串。
@@ -274,15 +260,11 @@ public:
 
 ```
 
-
-
 ## [406. 根据身高重建队列](https://leetcode.cn/problems/queue-reconstruction-by-height/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 假设有打乱顺序的一群人站成一个队列，数组 people 表示队列中一些人的属性（不一定按顺序）。每个 people[i] = [hi, ki] 表示第 i 个人的身高为 hi ，前面 正好 有 ki 个身高大于或等于 hi 的人。
 
 > 请你重新构造并返回输入数组 people 所表示的队列。返回的队列应该格式化为数组 queue ，其中 queue[j] = [hj, kj] 是队列中第 j 个人的属性（queue[0] 是排在队列前面的人）。
-
-
 
 ```
 输入：people = [[7,0],[4,4],[7,1],[5,0],[6,1],[5,2]]
@@ -328,8 +310,6 @@ public:
     }
 };
 ```
-
-
 
 ## [416. 分割等和子集](https://leetcode.cn/problems/partition-equal-subset-sum/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
@@ -379,8 +359,6 @@ public:
     }
 };
 ```
-
-
 
 ## [437. 路径总和 III](https://leetcode.cn/problems/path-sum-iii/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
@@ -479,8 +457,6 @@ public:
 };
 ```
 
-
-
 ## [438. 找到字符串中所有字母异位词](https://leetcode.cn/problems/find-all-anagrams-in-a-string/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 给定两个字符串 s 和 p，找到 s 中所有 p 的 异位词 的子串，返回这些子串的起始索引。不考虑答案输出的顺序。
@@ -557,8 +533,6 @@ public:
 };
 ```
 
-
-
 ## [494. 目标和](https://leetcode.cn/problems/target-sum/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 给你一个非负整数数组 nums 和一个整数 target 。
@@ -599,7 +573,7 @@ public:
         // x = (sum + target) / 2
         if (sum + target < 0) return 0;
         if ((sum + target) % 2) return 0;
-        
+      
         int bag = (sum + target) / 2;
         vector<int> dp(bag + 1, 0);
         dp[0] = 1;  // 目标和为 0 是的 case
@@ -619,13 +593,9 @@ public:
 };
 ```
 
-
-
 ## [538. 把二叉搜索树转换为累加树](https://leetcode.cn/problems/convert-bst-to-greater-tree/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 给出二叉 搜索 树的根节点，该树的节点值各不相同，请你将其转换为累加树（Greater Sum Tree），使每个节点 node 的新值等于原树中大于或等于 node.val 的值之和。
-
-
 
 ```
 ![](https://file.fbichao.top/2024/03/0e44e54ce279a77731e6bbff0b54d2c4.png)
@@ -664,8 +634,6 @@ public:
     }
 };
 ```
-
-
 
 ## [560. 和为 K 的子数组](https://leetcode.cn/problems/subarray-sum-equals-k/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
@@ -711,8 +679,6 @@ public:
 };
 ```
 
-
-
 ## [581. 最短无序连续子数组](https://leetcode.cn/problems/shortest-unsorted-continuous-subarray/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 给你一个整数数组 nums ，你需要找出一个 连续子数组 ，如果对这个子数组进行升序排序，那么整个数组都会变为升序排序。
@@ -743,7 +709,7 @@ class Solution {
 public:
     int findUnsortedSubarray(vector<int>& nums) {
         int n = nums.size();
-        
+      
         // 区间是 【left， right】
         int left = 0, right = -1;   // 如果是升序的，则 right-left+1 是 0
         // 假设中段区间的最大值是 maxval，最小值是 minval
@@ -779,8 +745,6 @@ public:
     }
 };
 ```
-
-
 
 ## [621. 任务调度器](https://leetcode.cn/problems/task-scheduler/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
@@ -836,7 +800,6 @@ public:
 };
 ```
 
-
 ## [647. 回文子串](https://leetcode.cn/problems/palindromic-substrings/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 给你一个字符串 s ，请你统计并返回这个字符串中 回文子串 的数目。
@@ -862,7 +825,6 @@ public:
 - 状态转移 dp[i][j] = dp[i+1][j-1]
 - 遍历方向是 i 从大到小，j 是从小到大，由状态方程得到
 ```
-
 
 ```C++
 class Solution {
@@ -912,7 +874,6 @@ public:
 ```
 找大元素，就小压大
 ```
-
 
 ```C++
 class Solution {

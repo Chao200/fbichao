@@ -1,19 +1,16 @@
 ---
-title: LeetCode Hot 100 Mid(5)
+title: LeetCode Mid(5)
 tags:
   - LeetCode
-  - Hot100
   - Mid
 author: fbichao
 categories:
   - leetcode
-  - Hot100
   - Mid
-excerpt: LeetCode Hot 100 Mid(5)
+excerpt: LeetCode Mid(5)
 math: true
 date: 2024-03-19 21:45:00
 ---
-
 ## [215. 数组中的第K个最大元素](https://leetcode.cn/problems/kth-largest-element-in-an-array/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 给定整数数组 nums 和整数 k，请返回数组中第 k 个最大的元素。
@@ -26,7 +23,6 @@ date: 2024-03-19 21:45:00
 输入: [3,2,1,5,6,4], k = 2
 输出: 5
 ```
-
 
 ### 优先队列
 
@@ -104,8 +100,6 @@ public:
 };
 ```
 
-
-
 ## [221. 最大正方形](https://leetcode.cn/problems/maximal-square/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 在一个由 '0' 和 '1' 组成的二维矩阵内，找到只包含 '1' 的最大正方形，并返回其面积。
@@ -154,8 +148,6 @@ public:
 };
 ```
 
-
-
 ## [236. 二叉树的最近公共祖先](https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-tree/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 给定一个二叉树, 找到该树中两个指定节点的最近公共祖先。
@@ -199,8 +191,6 @@ public:
 };
 ```
 
-
-
 ## [238. 除自身以外数组的乘积](https://leetcode.cn/problems/product-of-array-except-self/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 给你一个整数数组 nums，返回 数组 answer ，其中 answer[i] 等于 nums 中除 nums[i] 之外其余各元素的乘积 。
@@ -227,7 +217,7 @@ class Solution {
 public:
     vector<int> productExceptSelf(vector<int>& nums) {
         vector<int> res(nums.size(), 1);
-        
+      
         // 计算每个数左侧的乘积
         int left = 1;
         for (int i = 0; i < nums.size(); ++i)
@@ -236,7 +226,7 @@ public:
             res[i] *= left;
             left *= nums[i];
         }
-        
+      
         // 计算每个数右侧的乘积
         int right = 1;
         for (int i = nums.size() - 1; i >= 0; --i)
@@ -249,8 +239,6 @@ public:
     }
 };
 ```
-
-
 
 ## [240. 搜索二维矩阵 II](https://leetcode.cn/problems/search-a-2d-matrix-ii/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
@@ -295,8 +283,6 @@ public:
     }
 };
 ```
-
-
 
 ## [279. 完全平方数](https://leetcode.cn/problems/perfect-squares/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
@@ -354,7 +340,6 @@ public:
 };
 ```
 
-
 - 时间复杂度 $O(n\sqrt{n})$
 
 ```C++
@@ -381,7 +366,6 @@ public:
 };
 ```
 
-
 ## [287. 寻找重复数](https://leetcode.cn/problems/find-the-duplicate-number/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 给定一个包含 n + 1 个整数的数组 nums ，其数字都在 [1, n] 范围内（包括 1 和 n），可知至少存在一个重复的整数。
@@ -396,6 +380,7 @@ public:
 ```
 
 ### 二分查找
+
 - 时间复杂度 $O(n\cdot{logn})$
 - 空间复杂度 $O(1)$
 
@@ -438,6 +423,7 @@ public:
 ```
 
 ### 双指针
+
 - 时间复杂度 $O(n)$
 - 空间复杂度 $O(1)$
 
@@ -468,16 +454,6 @@ public:
     }
 };
 ```
-
-
-
-
-
-
-
-
-
-
 
 ## [300. 最长递增子序列](https://leetcode.cn/problems/longest-increasing-subsequence/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
@@ -528,11 +504,9 @@ public:
 };
 ```
 
-
-
 ## [309. 买卖股票的最佳时机含冷冻期](https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-with-cooldown/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
-> 给定一个整数数组prices，其中第  prices[i] 表示第 i 天的股票价格 。​
+> 给定一个整数数组prices，其中第  prices[i] 表示第 i 天的股票价格 。
 
 > 设计一个算法计算出最大利润。在满足以下约束条件下，你可以尽可能地完成更多的交易（多次买卖一支股票）:
 
