@@ -11,7 +11,6 @@ excerpt: LeetCode Easy(01)
 math: true
 date: 2024-03-27 21:45:00
 ---
-
 ## [1. 两数之和](https://leetcode.cn/problems/two-sum/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 给定一个整数数组 nums 和一个整数目标值 target，请你在该数组中找出 和为目标值 target  的那 两个 整数，并返回它们的数组下标。
@@ -19,8 +18,6 @@ date: 2024-03-27 21:45:00
 > 你可以假设每种输入只会对应一个答案。但是，数组中同一个元素在答案里不能重复出现。
 
 > 你可以按任意顺序返回答案。
-
-
 
 ```
 输入：nums = [3,2,4], target = 6
@@ -53,13 +50,6 @@ public:
     }
 };
 ```
-
-
-
-
-
-
-
 
 ## [20. 有效的括号](https://leetcode.cn/problems/valid-parentheses/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
@@ -109,17 +99,9 @@ public:
 };
 ```
 
-
-
-
-
-
-
 ## [21. 合并两个有序链表](https://leetcode.cn/problems/merge-two-sorted-lists/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
-> 将两个升序链表合并为一个新的 升序 链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。 
-
-
+> 将两个升序链表合并为一个新的 升序 链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。
 
 ```
 ![](https://file.fbichao.top/2024/03/c59bb999f418f999eb450f0e4e816b4c.png)
@@ -141,7 +123,7 @@ public:
     ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
         ListNode* newHead = new ListNode(-1);
         ListNode* cur = newHead;
-        
+      
         // 当两个链表都是非空时
         while (list1 && list2)
         {
@@ -166,8 +148,6 @@ public:
     }
 };
 ```
-
-
 
 ## [27. 移除元素](https://leetcode.cn/problems/remove-element/description/)
 
@@ -320,10 +300,6 @@ public:
 };
 ```
 
-
-
-
-
 ## [70. 爬楼梯](https://leetcode.cn/problems/climbing-stairs/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 假设你正在爬楼梯。需要 n 阶你才能到达楼顶。
@@ -365,12 +341,6 @@ public:
     }
 };
 ```
-
-
-
-
-
-
 
 ## [94. 二叉树的中序遍历](https://leetcode.cn/problems/binary-tree-inorder-traversal/description/)
 
@@ -442,10 +412,6 @@ public:
     }
 };
 ```
-
-
-
-
 
 ## [101. 对称二叉树](https://leetcode.cn/problems/symmetric-tree/description/)
 
@@ -519,14 +485,6 @@ public:
 };
 ```
 
-
-
-
-
-
-
-
-
 ## [104. 二叉树的最大深度](https://leetcode.cn/problems/maximum-depth-of-binary-tree/description/)
 
 > 给定一个二叉树 root ，返回其最大深度。
@@ -593,9 +551,237 @@ public:
 };
 ```
 
+## [108. 将有序数组转换为二叉搜索树](https://leetcode.cn/problems/convert-sorted-array-to-binary-search-tree/description/)
+
+> 给你一个整数数组 nums ，其中元素已经按 升序 排列，请你将其转换为一棵 平衡二叉搜索树。
+
+> 结果可能不唯一
+
+```
+![](https://file.fbichao.top/2024/03/789ce587c82a359d8a71c5b64e21192d.png)
+输入：nums = [-10,-3,0,5,9]
+输出：[0,-3,9,-10,null,5]
+解释：[0,-10,5,null,-3,null,9] 也将被视为正确答案：
+```
+
+- 先序遍历的递归式
+- 时间复杂度 $O(n)$
+- 空间复杂度 $O(h)$
+
+```
+确定根节点如何选择，也就确定了结果
+这里选择中间节点左边的节点作为根节点
+即向下取整
+```
+
+```C++
+class Solution {
+public:
+    TreeNode* dfs(vector<int>&nums, int left, int right)
+    {
+        if (left > right) return nullptr;
+
+        int mid = left + (right - left) / 2;
+        TreeNode* root = new TreeNode(nums[mid]);
+        root->left = dfs(nums, left, mid - 1);
+        root->right = dfs(nums, mid + 1, right);
+
+        return root;
+    }
+
+    TreeNode* sortedArrayToBST(vector<int>& nums) {
+        int left = 0, right = nums.size() - 1;
+        return dfs(nums, left, right);
+    }
+};
+```
 
 
+## [110. 平衡二叉树](https://leetcode.cn/problems/balanced-binary-tree/description/)
 
+> 给定一个二叉树，判断它是否是 平衡二叉树，是指该树所有节点的左右子树的深度相差不超过 1。
+
+- 先序遍历的递归式
+- 时间复杂度 $O(n)$
+- 空间复杂度 $O(h)$
+
+```
+使用先序遍历的递归式
+```
+
+```C++
+class Solution {
+public:
+    int height(TreeNode* root)
+    {
+        if (root == nullptr) return 0;
+
+        int leftNum = height(root->left);
+        int rightNum = height(root->right);
+
+        // 首先根据 abs(leftNum - rightNum) > 1 return - 1
+        // 推迟 leftNum 和 rightNum 可能是 -1
+        if (abs(leftNum - rightNum) > 1 || leftNum == -1 || rightNum == -1)
+        {
+            return -1;
+        }
+        return max(leftNum, rightNum) + 1;
+    }
+
+    bool isBalanced(TreeNode* root) {
+        return height(root) != -1;
+    }
+};
+```
+
+## [111. 二叉树的最小深度](https://leetcode.cn/problems/minimum-depth-of-binary-tree/description/)
+
+> 给定一个二叉树，找出其最小深度。
+
+> 最小深度是从根节点到最近叶子节点的最短路径上的节点数量。
+
+> 说明：叶子节点是指没有子节点的节点。
+
+```
+![](https://file.fbichao.top/2024/03/1f362ad918ac752f8e1b69c4e29fe555.png)
+输入：root = [3,9,20,null,null,15,7]
+输出：2
+```
+
+### 层序遍历
+
+- 时间复杂度 $O(n)$
+- 空间复杂度 $O(n)$
+
+```
+队列存储节点和对应的深度，如果该节点左右都为空，则返回深度
+```
+
+```C++
+class Solution {
+public:
+    int minDepth(TreeNode* root) {
+        queue<pair<TreeNode*, int>> que;
+        if (root == nullptr) return 0;
+
+        que.push({root, 1});
+        while (!que.empty())
+        {
+            int size = que.size();
+
+            for (int i = 0; i < size; ++i)
+            {
+                TreeNode* node = que.front().first;
+                int depth = que.front().second;
+                que.pop();
+
+                if (node->left == nullptr && node->right == nullptr) return depth;
+
+                if (node->left) que.push({node->left, depth+1});
+                if (node->right) que.push({node->right, depth+1});
+            }
+        }
+
+        return -1;
+    }
+};
+```
+
+### 前序遍历递归式
+
+- 时间复杂度 $O(n)$
+- 空间复杂度 $O(h)$
+
+```C++
+class Solution {
+public:
+    int dfs(TreeNode* root)
+    {
+        // 特殊 case
+        if (root == nullptr) return 0;
+        if (root->left == nullptr && root->right == nullptr) return 1;
+
+        int minDepth = INT_MAX;
+        if (root->left)
+        {
+            minDepth = min(minDepth, dfs(root->left));
+        }
+        if (root->right)
+        {
+            minDepth = min(minDepth, dfs(root->right));
+        }
+        return minDepth + 1;
+    }
+
+    int minDepth(TreeNode* root) {
+        return dfs(root);
+    }
+};
+```
+
+## [112. 路径总和](https://leetcode.cn/problems/path-sum/description/)
+
+> 给你二叉树的根节点 root 和一个表示目标和的整数 targetSum 。判断该树中是否存在 根节点到叶子节点 的路径，这条路径上所有节点值相加等于目标和 targetSum 。如果存在，返回 true ；否则，返回 false 。
+
+
+```
+![](https://file.fbichao.top/2024/03/6a238d42031a13373fae5d9914984900.png)
+输入：root = [5,4,8,11,null,13,4,7,2,null,null,null,1], targetSum = 22
+输出：true
+解释：等于目标和的根节点到叶节点路径如上图所示。
+```
+
+### 前序遍历迭代法
+- 时间复杂度 $O(n)$
+- 空间复杂度 $O(n)$
+
+```C++
+class Solution {
+public:
+    bool hasPathSum(TreeNode* root, int targetSum) {
+        if (root == nullptr) return false;
+        // 此时栈里要放的是pair<节点指针，路径数值>
+        stack<pair<TreeNode*, int>> st;
+        st.push({root, root->val});
+        while (!st.empty()) {
+            auto node = st.top(); st.pop();
+            
+            // 如果该节点是叶子节点了，同时该节点的路径数值等于targetSum，那么就返回true
+            if (node.first->left == nullptr && node.first->right == nullptr)
+                if (targetSum == node.second) return true;
+
+            // 右节点，压进去一个节点的时候，将该节点的路径数值也记录下来
+            if (node.first->right) {
+                st.push(pair<TreeNode*, int>(node.first->right, node.second + node.first->right->val));
+            }
+
+            // 左节点，压进去一个节点的时候，将该节点的路径数值也记录下来
+            if (node.first->left) {
+                st.push(pair<TreeNode*, int>(node.first->left, node.second + node.first->left->val));
+            }
+        }
+        return false;
+    }
+};
+```
+
+### 前序遍历递归法
+- 时间复杂度 $O(n)$
+- 空间复杂度 $O(h)$
+
+```C++
+class Solution {
+public:
+    bool hasPathSum(TreeNode* root, int targetSum) {
+        if (root == nullptr) return false;
+        if (root->left == nullptr && root->right == nullptr) return targetSum == root->val;
+
+        bool leftPath = hasPathSum(root->left, targetSum - root->val);
+        bool rightPath = hasPathSum(root->right, targetSum - root->val);
+        return leftPath || rightPath;
+    }
+};
+```
 
 
 
@@ -647,11 +833,6 @@ public:
 };
 ```
 
-
-
-
-
-
 ## [136. 只出现一次的数字](https://leetcode.cn/problems/single-number/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 给你一个 非空 整数数组 nums ，除了某个元素只出现一次以外，其余每个元素均出现两次。找出那个只出现了一次的元素。
@@ -683,12 +864,6 @@ public:
     }
 };
 ```
-
-
-
-
-
-
 
 ## [141. 环形链表](https://leetcode.cn/problems/linked-list-cycle/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 

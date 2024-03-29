@@ -477,6 +477,62 @@ public:
 };
 ```
 
+## [106. 从中序与后序遍历序列构造二叉树](https://leetcode.cn/problems/construct-binary-tree-from-inorder-and-postorder-traversal/description/)
+
+> 给定两个整数数组 inorder 和 postorder ，其中 inorder 是二叉树的中序遍历， postorder 是同一棵树的后序遍历，请你构造并返回这颗 二叉树 。
+
+- 先序遍历递归
+- 时间复杂度 $O(n)$
+- 空间复杂度 $O(n)$
+
+```
+类似 [105-从前序与中序遍历序列构造二叉树](#105-从前序与中序遍历序列构造二叉树)
+```
+
+```C++
+class Solution {
+private:
+    unordered_map<int, int> index;
+
+public:
+    TreeNode* dfs(vector<int> &inorder, vector<int> &postorder, 
+                        int in_l, int in_r, int post_l, int post_r)
+    {
+        if (in_l == in_r) return nullptr;
+
+        int left_size = index[postorder[post_r - 1]] - in_l; // 左子树的大小
+        TreeNode *left = dfs(inorder, postorder, 
+                            in_l, in_l + left_size, 
+                            post_l, post_l + left_size
+                            );
+        TreeNode *right = dfs(inorder, postorder, 
+                            in_l + left_size + 1, in_r, 
+                            post_l + left_size, post_r - 1
+                            );
+
+        return new TreeNode(postorder[post_r - 1], left, right);
+    };
+
+    TreeNode *buildTree(vector<int> &inorder, vector<int> &postorder) {
+        int n = inorder.size();
+
+        for (int i = 0; i < n; i++) {
+            index[inorder[i]] = i;
+        }
+
+        return dfs(inorder, postorder, 0, n, 0, n); // 左闭右闭区间
+    }
+};
+
+```
+
+
+
+
+
+
+
+
 ## [114. 二叉树展开为链表](https://leetcode.cn/problems/flatten-binary-tree-to-linked-list/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 给你二叉树的根结点 root ，请你将它展开为一个单链表：

@@ -50,6 +50,29 @@ public:
 };
 ```
 
+## [700. 二叉搜索树中的搜索](https://leetcode.cn/problems/search-in-a-binary-search-tree/description/)
+
+> 给定二叉搜索树（BST）的根节点 root 和一个整数值 val。
+
+> 你需要在 BST 中找到节点值等于 val 的节点。 返回以该节点为根的子树。 如果节点不存在，则返回 null 。
+
+```C++
+class Solution {
+public:
+    TreeNode* searchBST(TreeNode* root, int val) {
+        TreeNode* cur = root;
+        while (cur)
+        {
+            if (cur->val > val) cur = cur->left;
+            else if (cur->val < val) cur = cur->right;
+            else break;
+        }
+        return cur;
+    }
+};
+```
+
+
 ## [704. 二分查找](https://leetcode.cn/problems/binary-search/description/)
 
 > 给定一个 n 个元素有序的（升序）整型数组 nums 和一个目标值 target  ，写一个函数搜索 nums 中的 target，如果目标值存在返回下标，否则返回 -1。

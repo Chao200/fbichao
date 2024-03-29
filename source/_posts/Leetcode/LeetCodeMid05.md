@@ -148,6 +148,36 @@ public:
 };
 ```
 
+## [235. 二叉搜索树的最近公共祖先](https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-search-tree/description/)
+
+> 给定一个二叉搜索树, 找到该树中两个指定节点的最近公共祖先。
+
+```
+可以使用 [236-二叉树的最近公共祖先](#236-二叉树的最近公共祖先)
+这里可以利用二叉树性质
+```
+
+- 二叉搜索树性质
+- 时间复杂度 $O(n)$
+- 空间复杂度 $O(1)$
+
+```C++
+class Solution {
+public:
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        TreeNode* res = root;
+        while (1)
+        {
+            if (res->val > p->val && res->val > q->val) res = res->left;
+            else if (res->val < p->val && res->val < q->val) res = res->right;
+            else break;
+        }
+        return res;
+    }
+};
+```
+
+
 ## [236. 二叉树的最近公共祖先](https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-tree/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 给定一个二叉树, 找到该树中两个指定节点的最近公共祖先。

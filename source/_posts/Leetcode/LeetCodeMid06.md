@@ -533,6 +533,66 @@ public:
 };
 ```
 
+## [450. 删除二叉搜索树中的节点](https://leetcode.cn/problems/delete-node-in-a-bst/description/)
+
+> 给定一个二叉搜索树的根节点 root 和一个值 key，删除二叉搜索树中的 key 对应的节点，并保证二叉搜索树的性质不变。返回二叉搜索树（有可能被更新）的根节点的引用。
+
+```
+![](https://file.fbichao.top/2024/03/614008a49fc09b875ae6ab3fa45921aa.png)
+输入：root = [5,3,6,2,4,null,7], key = 3
+输出：[5,4,6,2,null,null,7]
+解释：给定需要删除的节点值是 3，所以我们首先找到 3 这个节点，然后删除它。
+一个正确的答案是 [5,4,6,2,null,null,7], 如下图所示。
+另一个正确答案是 [5,2,6,null,4,null,7]。
+```
+
+- 前序遍历递归
+- 时间复杂度 $O(n)$
+- 空间复杂度 $O(h)$
+
+
+```C++
+class Solution {
+public:
+    TreeNode* deleteNode(TreeNode* root, int key) {
+        if (root == nullptr) return root;
+
+        // 如果当前节点是待删除的节点
+        if (root->val == key)
+        {
+            // 叶子结点
+            if (root->left == nullptr && root->right == nullptr) return nullptr;
+            // 有一个子节点
+            else if (root->left == nullptr) return root->right;
+            else if (root->right == nullptr) return root->left;
+            // 有两个，把 root 的左子树挂在右子树的最左边
+            else
+            {
+                // 找到最左边节点
+                TreeNode* cur = root->right;
+                while (cur->left)
+                {
+                    cur = cur->left;
+                }
+
+                // 将左子树挂载
+                cur->left = root->left;
+                // 返回右子树
+                return root->right;;
+            }
+        }
+
+        // 子节点的处理
+        if (root->val > key) root->left = deleteNode(root->left, key);
+        if (root->val < key) root->right = deleteNode(root->right, key);
+
+        return root;
+    }
+};
+```
+
+
+
 ## [454. 四数相加 II](https://leetcode.cn/problems/4sum-ii/description/)
 
 > 给你四个整数数组 nums1、nums2、nums3 和 nums4 ，数组长度都是 n ，请你计算有多少个元组 (i, j, k, l) 能满足：
@@ -694,6 +754,50 @@ public:
     }
 };
 ```
+
+## [513. 找树左下角的值](https://leetcode.cn/problems/find-bottom-left-tree-value/description/)
+
+> 给定一个二叉树的 根节点 root，请找出该二叉树的 最底层 最左边 节点的值。
+
+```
+![](https://file.fbichao.top/2024/03/465b0c598309d72c613b19bbb5cb2518.png)
+输入: [1,2,3,4,null,5,6,null,null,7]
+输出: 7
+```
+
+- 层次遍历
+- 时间复杂度 $O(n)$
+- 空间复杂度 $O(n)$，满二叉树，最后一层节点有 n/2 个
+
+
+```C++
+class Solution {
+public:
+    int findBottomLeftValue(TreeNode* root) {
+        int ret;
+        queue<TreeNode*> que;
+        que.push(root);
+        while (!que.empty())
+        {
+            int size = que.size();
+            for (int i = 0; i < size; ++i)
+            {
+                auto node = que.front(); que.pop();
+                if (i == 0) ret = node->val;
+                if (node->left) que.push(node->left);
+                if (node->right) que.push(node->right);
+            }
+        }
+
+        return ret;
+    }
+};
+```
+
+
+
+
+
 
 
 ## [538. 把二叉搜索树转换为累加树](https://leetcode.cn/problems/convert-bst-to-greater-tree/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
@@ -960,6 +1064,199 @@ public:
     }
 };
 ```
+
+## [654. 最大二叉树](https://leetcode.cn/problems/maximum-binary-tree/description/)
+
+> 给定一个不重复的整数数组 nums 。 最大二叉树 可以用下面的算法从 nums 递归地构建:
+
+> 创建一个根节点，其值为 nums 中的最大值。
+> 递归地在最大值 左边 的 子数组前缀上 构建左子树。
+> 递归地在最大值 右边 的 子数组后缀上 构建右子树。
+> 返回 nums 构建的 最大二叉树 。
+
+
+```
+![](https://file.fbichao.top/2024/03/85c0badcf2df15ec0db94dc2af6ef97e.png)
+输入：nums = [3,2,1,6,0,5]
+输出：[6,3,5,null,2,0,null,null,1]
+```
+
+- 单调栈
+- 时间复杂度 $O(n)$
+- 空间复杂度 $O(n)$
+
+```
+参考 [题解](https://leetcode.cn/problems/maximum-binary-tree/solutions/1762756/letmefly-shi-pin-yan-shi-654zui-da-er-ch-2fcl/)
+```
+
+```C++
+class Solution {
+public:
+    TreeNode* constructMaximumBinaryTree(vector<int>& nums) {
+        stack<TreeNode*> st;
+        for (int t: nums)
+        {
+            // 单调栈，大的元素放在左子树，小的放在右子树
+            TreeNode* node = new TreeNode(t);
+            while (!st.empty() && st.top()->val < t)
+            {
+                node->left = st.top();
+                st.pop();
+            }
+
+            if (!st.empty()) st.top()->right = node;
+
+            st.push(node);
+        }
+
+        // 栈底的元素就是根节点
+        TreeNode* res;
+        while (!st.empty())
+        {
+            res = st.top(); st.pop();
+        }
+        return res;
+    }
+};
+```
+
+## [669. 修剪二叉搜索树](https://leetcode.cn/problems/trim-a-binary-search-tree/description/)
+
+> 给你二叉搜索树的根节点 root ，同时给定最小边界low 和最大边界 high。通过修剪二叉搜索树，使得所有节点的值在[low, high]中。
+
+```
+![](https://file.fbichao.top/2024/03/9a46ef4c5b2035ab56ab6be2814f8507.png)
+输入：root = [3,0,4,null,2,null,null,1], low = 1, high = 3
+输出：[3,2,null,1]
+```
+
+### 先序遍历递归
+- 时间复杂度 $O(n)$
+- 空间复杂度 $O(h)$
+
+```
+如果某个节点越界，那么连带其左子树或右子树都越界，所以拼接就很简单了
+```
+
+```C++
+class Solution {
+public:
+    TreeNode* trimBST(TreeNode* root, int low, int high) {
+        // base case
+        if (root == nullptr) return nullptr;
+
+        // 越界 case
+        if (root->val < low) return trimBST(root->right, low, high);
+        if (root->val > high) return trimBST(root->left, low, high);
+
+        // 左右子树
+        root->left = trimBST(root->left, low, high);
+        root->right = trimBST(root->right, low, high);
+
+        return root;
+    }
+};
+```
+
+### 迭代
+- 时间复杂度 $O(n)$
+- 空间复杂度 $O(1)$
+
+```C++
+class Solution {
+public:
+    TreeNode* trimBST(TreeNode* root, int low, int high) {
+        // 找到满足条件的 root
+        while (root && (root->val < low || root->val > high))
+        {
+            if (root->val < low) root = root->right;
+            else root = root->left;
+        }
+
+        if (root == nullptr) return nullptr;
+
+        // 此时 root 处于区间内部
+        // 左子树只可能小于越界
+        for (auto node = root; node->left;)
+        {
+            if (node->left->val < low)
+            {
+                node->left = node->left->right;
+            }
+            else node = node->left;
+        }
+
+        // 右子树只可能大于越界
+        for (auto node = root; node->right;)
+        {
+            if (node->right->val > high)
+            {
+                node->right = node->right->left;
+            }
+            else node = node->right;
+        }
+        return root;
+    }
+};
+```
+
+
+## [701. 二叉搜索树中的插入操作](https://leetcode.cn/problems/insert-into-a-binary-search-tree/description/)
+
+> 给定二叉搜索树（BST）的根节点 root 和要插入树中的值 value ，将值插入二叉搜索树。 返回插入后二叉搜索树的根节点。
+
+> 可能有多个结果，返回一种即可
+
+
+- 模拟
+- 时间复杂度 $O(h)$
+- 空间复杂度 $O(1)$
+
+```
+根据二叉搜索树性质插入
+```
+
+```C++
+class Solution {
+public:
+    TreeNode* insertIntoBST(TreeNode* root, int val) {
+        TreeNode* cur = root;
+
+        // 空节点
+        if (cur == nullptr) return new TreeNode(val);
+
+        while (1)
+        {
+            // 叶子结点
+            if (cur->right == nullptr && cur->left == nullptr)
+            {
+                if (cur->val > val) cur->left = new TreeNode(val);
+                else cur->right = new TreeNode(val);
+                break;
+            }
+
+            // 根据性质
+            if (cur->val > val) 
+            {
+                if (cur->left) cur = cur->left;
+                else {cur->left = new TreeNode(val); break;}
+            }
+            else if (cur->val < val)
+            {
+                if (cur->right) cur = cur->right;
+                else {cur->right = new TreeNode(val); break;}
+            }
+        }
+
+        return root;
+    }
+};
+```
+
+
+
+
+
 
 
 ## [707. 设计链表]()

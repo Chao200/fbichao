@@ -12,6 +12,84 @@ math: true
 date: 2024-03-28 21:45:00
 ---
 
+## [144. 二叉树的前序遍历](https://leetcode.cn/problems/binary-tree-preorder-traversal/description/)
+
+> 给你二叉树的根节点 root ，返回它节点值的 前序 遍历。
+
+```
+输入：root = [1,null,2,3]
+输出：[1,2,3]
+```
+
+- 前序遍历
+- 后续遍历的递归写法就是把根节点的加入放在后面
+- 后续遍历的迭代写法，后续遍历是左右根，而前序是根左右，把后续反转，即根右左，迭代时候注意先入栈左后入栈右节点即可
+
+### 递归
+
+- 时间复杂度为 $O(n)$
+- 空间复杂度为 $O(n)$
+
+```C++
+class Solution {
+private:
+    vector<int> res;
+
+public:
+    void traversal(TreeNode* root)
+    {
+        // base case
+        if (root == nullptr) return;
+  
+        res.push_back(root->val);       // 根
+        traversal(root->left);          // 左
+        traversal(root->right);         // 右
+    }
+
+    vector<int> preorderTraversal(TreeNode* root) {
+        traversal(root);
+        return res;
+    }
+};
+```
+
+### 迭代
+
+- 栈模拟
+- 时间复杂度为 $O(n)$
+- 空间复杂度为 $O(n)$
+
+```C++
+class Solution {
+public:
+    vector<int> preorderTraversal(TreeNode* root) {
+        if (root == nullptr) return {};
+        vector<int> res;
+        stack<TreeNode*> st;
+
+        st.push(root);
+        while (!st.empty())
+        {
+            TreeNode* node = st.top(); st.pop();
+            res.push_back(node->val);                   // 根
+            if (node->right) st.push(node->right);      // 入栈是右，出栈左先出
+            if (node->left) st.push(node->left);        // 
+        }
+
+        return res;
+    }
+};
+```
+
+## [145. 二叉树的后序遍历](https://leetcode.cn/problems/binary-tree-postorder-traversal/description/)
+
+```
+递归算法简单，修改根节点的位置即可
+迭代算法，使用[先序遍历](#144-二叉树的前序遍历)的迭代方法，再反转
+```
+
+
+
 ## [160. 相交链表](https://leetcode.cn/problems/intersection-of-two-linked-lists/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 给你两个单链表的头节点 headA 和 headB ，请你找出并返回两个单链表相交的起始节点。如果两个链表不存在相交节点，返回 null 。
@@ -281,6 +359,58 @@ public:
     }
 };
 ```
+
+## [222. 完全二叉树的节点个数](https://leetcode.cn/problems/count-complete-tree-nodes/description/)
+
+> 给你一棵 完全二叉树 的根节点 root ，求出该树的节点个数。
+
+
+- 分离双指针递归
+- 时间复杂度 $O(n)$
+- 空间复杂度 $O(n)$
+
+```
+类似[对称二叉树](LeetCodeEasy01.md#101-对称二叉树)
+使用两个指针，分别向两边遍历
+如果某个子树是满二叉树，就返回该子树节点个数
+如果不是满的，就+1，遍历左右子节点是否为满的
+```
+
+```C++
+class Solution {
+public:
+    int countNodes(TreeNode* root) {
+        if (root == nullptr) return 0;
+
+        TreeNode* leftNode = root->left;
+        int leftCount = 0;
+        TreeNode* rightNode = root->right;
+        int rightCount = 0;
+
+        while (leftNode)
+        {
+            leftNode = leftNode->left;
+            ++leftCount;
+        }
+
+        while (rightNode)
+        {
+            rightNode = rightNode->right;
+            ++rightCount;
+        }
+
+        // 满二叉树 2^k-1
+        if (leftCount == rightCount)
+        {
+            return (2 << leftCount) - 1;
+        }
+
+        return countNodes(root->left) + countNodes(root->right) + 1;
+    }
+};
+```
+
+
 
 ## [225. 用队列实现栈](https://leetcode.cn/problems/implement-stack-using-queues/description/)
 
@@ -597,6 +727,53 @@ public:
 };
 ```
 
+## [257. 二叉树的所有路径](https://leetcode.cn/problems/binary-tree-paths/description/)
+
+> 给你一个二叉树的根节点 root ，按 任意顺序 ，返回所有从根节点到叶子节点的路径。
+
+> 叶子节点 是指没有子节点的节点。
+
+- 先序遍历递归式
+- 时间复杂度 $O(n^2)$
+- 空间复杂度 $O(n^2)$
+
+```
+先序遍历构造路径，直到叶子结点才 push
+```
+
+```C++
+class Solution {
+public:
+    void construct(TreeNode* root, string path, vector<string>& res)
+    {
+        if (root != nullptr)
+        {
+            // 构造 path
+            path += to_string(root->val);
+            // 如果是叶子结点了，就 push
+            if (root->left == nullptr && root->right == nullptr) res.push_back(path);
+            else
+            {
+                // 如果不是叶子结点，需要 "->"
+                path += "->";
+                // 继续遍历左子树和右子树，遍历到叶子结点就会终止，不会产生回溯
+                construct(root->left, path, res);
+                construct(root->right, path, res);
+            }
+        }
+    }
+
+    vector<string> binaryTreePaths(TreeNode* root) {
+        vector<string> res;
+        // res 存储结果，path 存储单个路径
+        construct(root, "", res);
+        return res;
+    }
+};
+```
+
+
+
 ## [283. 移动零](https://leetcode.cn/problems/move-zeroes/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 给定一个数组 nums，编写一个函数将所有 0 移动到数组的末尾，同时保持非零元素的相对顺序。
@@ -844,6 +1021,52 @@ public:
 };
 ```
 
+## [404. 左叶子之和](https://leetcode.cn/problems/sum-of-left-leaves/description/)
+
+> 给定二叉树的根节点 root ，返回所有左叶子之和。
+
+- 前序遍历递归式
+- 时间复杂度 $O(n)$
+- 空间复杂度 $O(n)$
+
+```
+左叶子结点，要么是 root 的左节点，要么在 root 的右子树中的某个左节点
+```
+
+```C++
+class Solution {
+public:
+    bool isLeafNode(TreeNode* node) 
+    {   // 判断是否为叶子结点
+        return !node->left && !node->right;
+    }
+
+    int dfs(TreeNode* root)
+    {
+        int ans = 0;
+        // 左子树
+        if (root->left)
+        {
+            // 如果是叶子结点，则加上 val，否则递归左子树
+            if (isLeafNode(root->left)) ans += root->left->val;
+            else ans += dfs(root->left);
+        }
+        // 右子树
+        if (root->right)
+        {   
+            if (isLeafNode(root->right)) return ans;
+            else ans += dfs(root->right);
+        }
+
+        return ans;
+    }
+
+    int sumOfLeftLeaves(TreeNode* root) {
+        if (root == nullptr) return 0;
+        return dfs(root);
+    }
+};
+```
 
 ## [448. 找到所有数组中消失的数字](https://leetcode.cn/problems/find-all-numbers-disappeared-in-an-array/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
@@ -1038,6 +1261,163 @@ public:
                 st.pop();
             }
             st.push(i);
+        }
+
+        return res;
+    }
+};
+```
+
+## [501. 二叉搜索树中的众数](https://leetcode.cn/problems/find-mode-in-binary-search-tree/description/)
+
+> 给你一个含重复值的二叉搜索树（BST）的根节点 root ，找出并返回 BST 中的所有 众数（即，出现频率最高的元素）。
+
+> 如果树中有不止一个众数，可以按 任意顺序 返回。
+
+- 中序遍历
+- 时间复杂度 $O(n)$
+- 空间复杂度 $O(h)$
+
+```
+中序遍历得到升序数组，遍历找到众数次数，再遍历加入到结果，也可以使用哈希表
+为了节省空间
+可以使用变量 count 记录当前数字的个数，maxCount 记录最大个数
+如果 count 超过 maxCount 就情况结果重算
+```
+
+```C++
+class Solution {
+private:
+    // 存储结果
+    vector<int> res;
+    // 记录当前遍历的数的 count
+    int count = 0;
+    // 记录当前最大 count
+    int maxCount = 0;
+    // 记录前一个节点
+    TreeNode* pre = nullptr;
+
+public:
+    void dfs(TreeNode* cur)
+    {
+        if (cur == nullptr) return;
+
+        dfs(cur->left);
+
+        // 第一个数
+        if (pre == nullptr) count = 1;
+        // 连续相等
+        else if (pre->val == cur->val) ++count;
+        // 出现新的数字
+        else count = 1;
+        // 赋值 pre
+        pre = cur;
+
+        // 如果和最大计数相等，追加到 res
+        if (count == maxCount) res.push_back(cur->val);
+
+        // 如果大于最大计数，更新最大计数，清空 res，追加 res
+        if (count > maxCount)
+        {
+            maxCount = count;
+            res.clear();
+            res.push_back(cur->val);
+        }
+
+        dfs(cur->right);
+    }
+
+    vector<int> findMode(TreeNode* root) {
+        dfs(root);
+        return res;
+    }
+};
+```
+
+
+
+
+## [530. 二叉搜索树的最小绝对差](https://leetcode.cn/problems/minimum-absolute-difference-in-bst/description/)
+
+> 给你一个二叉搜索树的根节点 root ，返回 树中任意两不同节点值之间的最小差值 。
+
+> 差值是一个正数，其数值等于两值之差的绝对值。
+
+```
+![](https://file.fbichao.top/2024/03/48d0cded37c01d3a11aa3277a680b10e.png)
+输入：root = [4,2,6,1,3]
+输出：1
+```
+
+```
+中序遍历得到的是递增的，所以只需要比较相邻元素差值即可
+```
+
+
+### 中序遍历递归法
+- 时间复杂度 $O(n)$
+- 空间复杂度 $O(h)$
+
+```C++
+class Solution {
+private:
+    int res = INT_MAX;          // 差值
+    TreeNode* pre = nullptr;    // 记录前一个元素
+
+public:
+    void dfs(TreeNode* root)
+    {
+        if (root == nullptr) return;
+
+        // 左节点
+        dfs(root->left);
+        // 中间节点，如果有前一个节点，那么更新 res，没有的话，把当前节点赋值为 pre
+        if (pre) res = min(res, abs(root->val - pre->val));
+        pre = root;
+        // 右节点
+        dfs(root->right);
+    }
+
+    int getMinimumDifference(TreeNode* root) {
+        dfs(root);
+        return res;
+    }
+};
+```
+
+### 中序遍历迭代法
+- 时间复杂度 $O(n)$
+- 空间复杂度 $O(h)$
+
+```C++
+class Solution {
+public:
+    int getMinimumDifference(TreeNode* root) {
+        stack<TreeNode*> st;
+        // 记录前一个节点
+        TreeNode* pre = nullptr;
+        // 记录结果
+        int res = INT_MAX;
+        // 记录当前节点
+        TreeNode* cur = root;
+
+        while (cur || !st.empty())
+        {
+            while (cur)
+            {
+                st.push(cur);
+                cur = cur->left;
+            }
+
+            // 当前节点
+            cur = st.top(); st.pop();
+            if (pre)    // 如果存在前一个节点
+            {           // 更新 res
+                res = min(res, abs(pre->val - cur->val));
+            }
+            // 将当前节点赋值为 pre
+            pre = cur;
+            cur = cur->right;
         }
 
         return res;
