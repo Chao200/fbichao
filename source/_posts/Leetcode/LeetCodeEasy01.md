@@ -169,6 +169,158 @@ public:
 
 
 
+## [27. 移除元素](https://leetcode.cn/problems/remove-element/description/)
+
+> 给你一个数组 nums 和一个值 val，你需要 原地 移除所有数值等于 val 的元素，并返回移除后数组的新长度。
+
+> 不要使用额外的数组空间，你必须仅使用 O(1) 额外空间并 原地 修改输入数组。
+
+> 元素的顺序可以改变。你不需要考虑数组中超出新长度后面的元素。
+
+```
+输入：nums = [3,2,2,3], val = 3
+输出：2, nums = [2,2]
+解释：函数应该返回新的长度 2, 并且 nums 中的前两个元素均为 2。你不需要考虑数组中超出新长度后面的元素。例如，函数返回的新长度为 2 ，而 nums = [2,2,3,3] 或 nums = [2,2,0,0]，也会被视作正确答案。
+```
+
+- 双指针
+- 时间复杂度 $O(n)$
+- 空间复杂度 $O(1)$
+
+```
+快慢双指针移除元素
+```
+
+```C++
+class Solution {
+public:
+    int removeElement(vector<int>& nums, int val) {
+        // slow 指向不等于 val 元素的最后一个
+        // fast 用于遍历
+        int slow = -1, fast = 0;
+        while (fast < nums.size())
+        {
+            // 找到不等于 val 的元素，调整 slow
+            if (nums[fast] != val)
+            {
+                ++slow;
+                nums[slow] = nums[fast];
+            }
+            ++fast;
+        }
+        return slow + 1;
+    }
+};
+```
+
+## [28. 找出字符串中第一个匹配项的下标](https://leetcode.cn/problems/find-the-index-of-the-first-occurrence-in-a-string/description/)
+
+> 给你两个字符串 haystack 和 needle ，请你在 haystack 字符串中找出 needle 字符串的第一个匹配项的下标（下标从 0 开始）。如果 needle 不是 haystack 的一部分，则返回  -1 。
+
+```
+输入：haystack = "sadbutsad", needle = "sad"
+输出：0
+解释："sad" 在下标 0 和 6 处匹配。
+第一个匹配项的下标是 0 ，所以返回 0 。
+```
+
+### 暴力匹配
+
+- 时间复杂度 $O(mn)$
+- 空间复杂度 $O(1)$
+
+```C++
+class Solution {
+public:
+    int strStr(string haystack, string needle) {
+        // 文本串 haystack，模式串 needle
+        int n = haystack.size(), m = needle.size();
+        // 遍历文本串，从 i 开始
+        for (int i = 0; i + m <= n; i++) {
+            bool flag = true;
+            // 遍历模式串，从 j 开始
+            for (int j = 0; j < m; j++) {
+                if (haystack[i + j] != needle[j]) {
+                    flag = false;
+                    break;
+                }
+            }
+            // 如果匹配
+            if (flag) {
+                return i;
+            }
+        }
+        return -1;
+    }
+};
+```
+
+### KMP
+
+- 时间复杂度 $O(m+n)$
+- 空间复杂度 $O(|needle.size()|)$
+
+```
+文本串的遍历不会回退，所以是 $O(m)$，模式串会回退，看似时间复杂度会很高。但考虑匹配成功时，指针会向右移动一个位置，这一部分对应的时间复杂度为 $O(n+m)$。又因为向左移动的次数不会超过向右移动的次数，因此总时间复杂度仍然为 $O(n+m)$
+```
+
+```C++
+class Solution {
+public:
+    vector<int> geneNext(string& needle)
+    {
+        vector<int> next(needle.size(), 0);
+
+        int left = 0;
+        for (int right = 1; right < needle.size(); ++right)
+        {
+            // 如果不相等，而且 left 不在 0 位置
+            // left 可以表示为与后缀匹配的前缀有多少个
+            while (left > 0 && needle[left] != needle[right])
+            {
+                //  left 已经不匹配了，返回 left 前一个位置
+                left = next[left - 1];
+            }
+
+            if (needle[left] == needle[right])
+            {
+                ++left;
+            }
+            next[right] = left;
+        }
+
+        return next;
+    }
+
+    int strStr(string haystack, string needle) {
+        // 对模式串 next 数组
+        vector<int> next = geneNext(needle);
+
+        int j = 0; // 模式串
+        // 遍历文本串，从 i 开始
+        for (int i = 0; i < haystack.size(); ++i)
+        {
+            // 如果 j 非 0，并且不匹配
+            // 移动 j
+            while (j > 0 && haystack[i] != needle[j])
+            {
+                j = next[j-1];
+            }
+            // 如果相等，移动模式串 j
+            if (haystack[i] == needle[j])
+            {
+                ++j;
+            }
+            // 如果 j 大小和模式串大小一致，则返回 i - j + 1
+            if (j == needle.size()) return i - j + 1;
+        }
+
+        return -1;
+    }
+};
+```
+
+
 
 
 

@@ -533,6 +533,66 @@ public:
 };
 ```
 
+## [454. 四数相加 II](https://leetcode.cn/problems/4sum-ii/description/)
+
+> 给你四个整数数组 nums1、nums2、nums3 和 nums4 ，数组长度都是 n ，请你计算有多少个元组 (i, j, k, l) 能满足：
+
+> 0 <= i, j, k, l < n
+> nums1[i] + nums2[j] + nums3[k] + nums4[l] == 0
+
+
+```
+输入：nums1 = [1,2], nums2 = [-2,-1], nums3 = [-1,2], nums4 = [0,2]
+输出：2
+解释：
+两个元组如下：
+1. (0, 0, 0, 1) -> nums1[0] + nums2[0] + nums3[0] + nums4[1] = 1 + (-2) + (-1) + 2 = 0
+2. (1, 1, 0, 0) -> nums1[1] + nums2[1] + nums3[0] + nums4[0] = 2 + (-1) + (-1) + 0 = 0
+```
+
+- 哈希表
+- 时间复杂度 $O(n^2)$
+- 空间复杂度 $O(logn)$
+
+```
+这里是四个数组，所以可以两两组合计算和
+```
+
+```C++
+class Solution {
+public:
+    int fourSumCount(vector<int>& nums1, vector<int>& nums2, vector<int>& nums3, vector<int>& nums4) {
+        unordered_map<int, int> umap;
+        int res = 0;
+
+        // 统计前两个数组两两相加之和次数
+        for (auto u: nums1)
+        {
+            for (auto v: nums2)
+            {
+                umap[u + v]++;
+            }
+        }
+
+        // 后两个数组两两相加之和是否出现在哈希表中
+        for (auto u: nums3)
+        {
+            for (auto v: nums4)
+            {
+                if (umap.count(-u-v))
+                {
+                    res += umap[-u-v];
+                }
+            }
+        }
+
+        return res;
+    }
+};
+```
+
+
+
 ## [494. 目标和](https://leetcode.cn/problems/target-sum/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 给你一个非负整数数组 nums 和一个整数 target 。
@@ -857,6 +917,139 @@ public:
     }
 };
 ```
+
+
+## [707. 设计链表]()
+
+> 你可以选择使用单链表或者双链表，设计并实现自己的链表。
+
+> 单链表中的节点应该具备两个属性：val 和 next 。val 是当前节点的值，next 是指向下一个节点的指针/引用。
+
+> 如果是双向链表，则还需要属性 prev 以指示链表中的上一个节点。假设链表中的所有节点下标从 0 开始。
+
+> 实现 MyLinkedList 类：
+
+> MyLinkedList() 初始化 MyLinkedList 对象。
+> int get(int index) 获取链表中下标为 index 的节点的值。如果下标无效，则返回 -1 。
+> void addAtHead(int val) 将一个值为 val 的节点插入到链表中第一个元素之前。在插入完成后，新节点会成为链表的第一个节点。
+> void addAtTail(int val) 将一个值为 val 的节点追加到链表中作为链表的最后一个元素。
+> void addAtIndex(int index, int val) 将一个值为 val 的节点插入到链表中下标为 index 的节点之前。如果 index 等于链表的长度，那么该节点会被追加到链表的末尾。如果 index 比长度更大，该节点将 不会插入 到链表中。
+> void deleteAtIndex(int index) 如果下标有效，则删除链表中下标为 index 的节点。
+
+```
+输入
+["MyLinkedList", "addAtHead", "addAtTail", "addAtIndex", "get", "deleteAtIndex", "get"]
+[[], [1], [3], [1, 2], [1], [1], [1]]
+输出
+[null, null, null, null, 2, null, 3]
+
+解释
+MyLinkedList myLinkedList = new MyLinkedList();
+myLinkedList.addAtHead(1);
+myLinkedList.addAtTail(3);
+myLinkedList.addAtIndex(1, 2);    // 链表变为 1->2->3
+myLinkedList.get(1);              // 返回 2
+myLinkedList.deleteAtIndex(1);    // 现在，链表变为 1->3
+myLinkedList.get(1);              // 返回 3
+```
+
+- 实现链表
+
+
+```
+自己定义结构体 ListNode，私有变量创建 size 和虚拟头结点，再构造函数中构造
+```
+
+```C++
+class MyLinkedList {
+public:
+    struct ListNode {
+        int val;
+        ListNode* next;
+        ListNode(int val): val(val), next(nullptr){}
+    };
+
+    MyLinkedList() : _size(0), _dummpyHead(new ListNode(-1)) { }
+    
+    int get(int index) {
+        if (index > _size - 1 || index < 0)
+        {
+            return -1;
+        }
+
+        ListNode* cur = _dummpyHead;
+        while (index--)
+        {
+            cur = cur->next;
+        }
+        return cur->next->val;
+    }
+    
+    void addAtHead(int val) {
+        ListNode* newHead = new ListNode(val);
+        newHead->next = _dummpyHead->next;
+        _dummpyHead->next = newHead;
+        _size++;
+    }
+    
+    void addAtTail(int val) {
+        ListNode* cur = _dummpyHead;
+        while (cur->next)
+        {
+            cur = cur->next;
+        }
+        ListNode* newHead = new ListNode(val);
+        cur->next = newHead;
+        _size++;
+    }
+    
+    void addAtIndex(int index, int val) {
+        if (index == _size)
+        {
+            addAtTail(val);
+            return;
+        }
+
+        if (index > _size)
+        {
+            return;
+        }
+
+        ListNode* cur = _dummpyHead;
+        while (index--)
+        {
+            cur = cur->next;
+        }
+        ListNode* newHead = new ListNode(val);
+        newHead->next = cur->next;
+        cur->next = newHead;
+        _size++;
+    }
+    
+    void deleteAtIndex(int index) {
+        if (index > _size - 1 || index < 0)
+        {
+            return;
+        }
+
+        ListNode* cur = _dummpyHead;
+        while (index--)
+        {
+            cur = cur->next;
+        }
+        ListNode* del = cur->next;
+        cur->next = cur->next->next;
+        delete del;
+        _size--;
+    }
+
+private:
+    int _size;
+    ListNode* _dummpyHead;
+};
+```
+
+
 
 ## [739. 每日温度](https://leetcode.cn/problems/daily-temperatures/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 

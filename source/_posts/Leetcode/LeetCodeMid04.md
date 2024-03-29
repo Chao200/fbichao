@@ -278,6 +278,160 @@ public:
 };
 ```
 
+## [150. 逆波兰表达式求值](https://leetcode.cn/problems/evaluate-reverse-polish-notation/description/)
+
+> 给你一个字符串数组 tokens ，表示一个根据 逆波兰表示法 表示的算术表达式。
+
+> 请你计算该表达式。返回一个表示表达式值的整数。
+
+> 注意：
+
+> 有效的算符为 '+'、'-'、'*' 和 '/' 。
+> 每个操作数（运算对象）都可以是一个整数或者另一个表达式。
+> 两个整数之间的除法总是 向零截断 。
+> 表达式中不含除零运算。
+> 输入是一个根据逆波兰表示法表示的算术表达式。
+> 答案及所有中间计算结果可以用 32 位 整数表示。
+
+```
+输入：tokens = ["4","13","5","/","+"]
+输出：6
+解释：该算式转化为常见的中缀算术表达式为：(4 + (13 / 5)) = 6
+```
+
+- 栈模拟
+- 时间复杂度 $O(n)$
+- 空间复杂度 $O(n)$
+
+```
+如果是符号，就取出栈中元素计算后入栈，注意计算的顺序
+如果是数字，转化为 int 入栈
+```
+
+```C++
+class Solution {
+public:
+    int str2int(string& str)
+    {
+        int index = 0;
+        // 考虑正负号
+        if (str[0] == '-') index = 1;
+
+        int num = 0;
+        while (index < str.size())
+        {
+            num = num * 10 + (str[index] - '0');
+            ++index;
+        }
+
+        return str[0] == '-' ? -num: num;
+    }
+
+    int evalRPN(vector<string>& tokens) {
+        stack<int> st;
+
+        for (auto str: tokens)
+        {
+            // 不是符号入栈，转化为 int
+            if (str != "+" && str != "-" && str != "*" && str != "/")
+            {
+                st.push(str2int(str));
+            }
+            // 否则根据符号计算
+            else
+            {
+                auto n1 = st.top(); st.pop();
+                auto n2 = st.top(); st.pop();
+                if (str == "+") st.push(n2 + n1);
+                if (str == "-") st.push(n2 - n1);
+                if (str == "*") st.push(n2 * n1);
+                if (str == "/") st.push(n2 / n1);
+            }
+        }
+
+        return st.top();
+    }
+};
+```
+
+
+
+## [151. 反转字符串中的单词](https://leetcode.cn/problems/reverse-words-in-a-string/description/)
+
+> 给你一个字符串 s ，请你反转字符串中 单词 的顺序。
+
+> 单词 是由非空格字符组成的字符串。s 中使用至少一个空格将字符串中的 单词 分隔开。
+
+> 返回 单词 顺序颠倒且 单词 之间用单个空格连接的结果字符串。
+
+> 注意：输入字符串 s中可能会存在前导空格、尾随空格或者单词间的多个空格。返回的结果字符串中，单词间应当仅用单个空格分隔，且不包含任何额外的空格。
+
+```
+输入：s = "  hello world  "
+输出："world hello"
+解释：反转后的字符串中不能存在前导空格和尾随空格。
+```
+
+- 双指针
+- 时间复杂度 $O(n)$
+- 空间复杂度 $O(1)$
+
+```
+1. 反转整个字符串
+2. 双指针删除多余空格
+3. 双指针反转每个单词
+4. 双指针反转最后一个单词
+```
+
+
+```C++
+class Solution {
+public:
+    string reverseWords(string s) {
+        // 先反转整个字符串 O(n)
+        reverse(s.begin(), s.end());
+
+        // 通过快慢双指针，删除多余空格
+        int slow = 0, fast = 0;
+        while (fast < s.size())
+        {   // 找到首个非空字符
+            if (s[fast] != ' ')
+            {
+                // 在下次遍历的单词前加上空格
+                if (slow != 0) s[slow++] = ' ';
+
+                // 直到遇到空格停止
+                while (fast < s.size() && s[fast] != ' ')
+                {
+                    s[slow++] = s[fast++];
+                }
+            }
+            ++fast;
+        }
+        
+        // resize
+        s.resize(slow);
+        
+        // 双指针反转每个单词
+        int left = 0, right = 0;
+        while (right < s.size())
+        {
+            if (s[right] == ' ')
+            {
+                reverse(s.begin()+left, s.begin()+right);
+                left = right + 1;
+            }
+            ++right;
+        }
+
+        // 反转最后一个单词
+        reverse(s.begin() + left, s.end());
+        return s;
+    }
+};
+```
+
+
 ## [152. 乘积最大子数组](https://leetcode.cn/problems/maximum-product-subarray/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 给你一个整数数组 nums ，请你找出数组中乘积最大的非空连续子数组（该子数组中至少包含一个数字），并返回该子数组所对应的乘积。
@@ -627,4 +781,54 @@ trie.search("app");     // 返回 True
 
 
 
+```
+
+
+## [209. 长度最小的子数组]()
+
+> 给定一个含有 n 个正整数的数组和一个正整数 target 。
+
+> 找出该数组中满足其总和大于等于 target 的长度最小的 连续子数组 [numsl, numsl+1, ..., numsr-1, numsr] ，并返回其长度。如果不存在符合条件的子数组，返回 0 。
+
+
+```
+输入：target = 7, nums = [2,3,1,2,4,3]
+输出：2
+解释：子数组 [4,3] 是该条件下的长度最小的子数组。
+```
+
+- 滑动窗口
+- 时间复杂度 $O(n)$
+- 空间复杂度 $O(1)$
+
+```
+滑动窗口，维护满足条件的范围
+```
+
+
+```C++
+class Solution {
+public:
+    int minSubArrayLen(int target, vector<int>& nums) {
+        // 滑动窗口
+        int slow = 0, fast = 0;
+
+        int sum = 0;
+        int res = nums.size() + 1;
+
+        while (fast < nums.size())
+        {
+            // 求窗口内的和
+            sum += nums[fast];
+            while (sum >= target)
+            {   // 如果和大于满足条件
+                res = min(res, fast - slow + 1);
+                sum -= nums[slow++];
+            }
+            ++fast;
+        }
+
+        return res == nums.size() + 1 ? 0 : res;
+    }
+};
 ```

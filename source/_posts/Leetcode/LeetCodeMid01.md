@@ -387,6 +387,74 @@ public:
 };
 ```
 
+## [18. 四数之和](https://leetcode.cn/problems/4sum/description/)
+
+> 给你一个由 n 个整数组成的数组 nums ，和一个目标值 target 。请你找出并返回满足下述全部条件且不重复的四元组 [nums[a], nums[b], nums[c], nums[d]] （若两个四元组元素一一对应，则认为两个四元组重复）：
+
+> 0 <= a, b, c, d < n，a、b、c 和 d 互不相同
+> nums[a] + nums[b] + nums[c] + nums[d] == target
+> 你可以按 任意顺序 返回答案 。
+
+```
+输入：nums = [1,0,-1,0,-2,2], target = 0
+输出：[[-2,-1,1,2],[-2,0,0,2],[-1,0,0,1]]
+```
+
+- 多指针
+- 时间复杂度 $O(n^3)$
+- 空间复杂度 $O(logn)$
+
+```C++
+class Solution {
+public:
+    vector<vector<int>> fourSum(vector<int>& nums, int target) {
+        vector<vector<int>> res;
+        int n = nums.size();
+        // 排序
+        sort(nums.begin(), nums.end());
+
+        // 固定第一个数
+        for (int first = 0; first < n - 3; ++first)
+        {
+            // 去重
+            if (first > 0 && nums[first] == nums[first - 1]) continue;
+
+            // 固定第二个数
+            for (int second = first + 1; second < n - 2; ++second)
+            {
+                // 去重
+                if (second > first + 1 && nums[second] == nums[second - 1]) continue;
+
+                int third = second + 1;
+                int fourth = n - 1;
+
+                // 双指针查找
+                while (third < fourth)
+                {
+                    long sum = (long) nums[first] + nums[second] + nums[third] + nums[fourth];
+                    if (sum > target) --fourth;
+                    else if (sum < target) ++third;
+                    else
+                    {
+                        res.push_back({nums[first], nums[second], nums[third], nums[fourth]});
+
+                        // 去重
+                        while (third < fourth && nums[third] == nums[third + 1]) ++third;
+                        while (third < fourth && nums[fourth] == nums[fourth - 1]) --fourth;
+
+                        ++third;
+                        --fourth;
+                    }
+                }
+            }
+        }
+
+        return res;
+    }
+};
+```
+
+
 ## [19. 删除链表的倒数第 N 个结点](https://leetcode.cn/problems/remove-nth-node-from-end-of-list/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 给你一个链表，删除链表的倒数第 n 个结点，并且返回链表的头结点。
@@ -492,6 +560,58 @@ public:
     }
 };
 ```
+
+
+## [24. 两两交换链表中的节点](https://leetcode.cn/problems/swap-nodes-in-pairs/description/)
+
+- 给你一个链表，两两交换其中相邻的节点，并返回交换后链表的头节点。你必须在不修改节点内部的值的情况下完成本题（即，只能进行节点交换）。
+
+```
+![](https://file.fbichao.top/2024/03/ce4b5db5f007cede62cfaf7a9a482ddc.png)
+输入：head = [1,2,3,4]
+输出：[2,1,4,3]
+```
+
+- 多个指针，两两交换
+- 时间复杂度 $O(n)$
+- 空间复杂度 $O(1)$
+
+```
+待交换的两个节点需要指针，待交换的两个节点的前面和后面需要指针
+```
+
+```C++
+class Solution {
+public:
+    ListNode* swapPairs(ListNode* head) {
+        if (head == nullptr || head->next == nullptr) return head;
+
+        ListNode* dummpy = new ListNode(-1);
+        dummpy->next = head;
+
+        // 交换的前一个节点
+        ListNode* prev = dummpy;
+        // 待交换的第一个节点
+        ListNode* cur = prev->next;
+        while (cur && cur->next)
+        {
+            // 待交换的第二个节点
+            ListNode* nxt = cur->next;
+            // 后续需要交换的节点
+            ListNode* nnxt = nxt->next;
+            nxt->next = cur;
+            cur->next = nnxt;
+            prev->next = nxt;
+
+            prev = cur;
+            cur = nnxt;
+        }
+
+        return dummpy->next;
+    }
+};
+```
+
 
 ## [31. 下一个排列](https://leetcode.cn/problems/next-permutation/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 

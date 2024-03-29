@@ -430,6 +430,72 @@ public:
 };
 ```
 
+## [59. 螺旋矩阵 II](https://leetcode.cn/problems/spiral-matrix-ii/description/)
+
+> 给你一个正整数 n ，生成一个包含 1 到 n2 所有元素，且元素按顺时针顺序螺旋排列的 n x n 正方形矩阵 matrix 。
+
+```
+![](https://file.fbichao.top/2024/03/321c9399458db43f4391ac1290354d23.png)
+输入：n = 3
+输出：[[1,2,3],[8,9,4],[7,6,5]]
+```
+
+- 模拟
+- 时间复杂度 $O(mn)$
+- 空间复杂度 $O(mn)$
+
+```
+模拟实现遍历
+```
+
+```C++
+class Solution {
+public:
+    vector<vector<int>> generateMatrix(int n) {
+        // 边界
+        int top = 0, down = n - 1;
+        int left = 0, right = n - 1;
+
+        // 存储结果
+        vector<vector<int>> res(n, vector<int>(n));
+        int count = 1;  // 用于计数
+        while (1)
+        {
+            for (int i = left; i <= right; ++i)
+            {   // 从左向右遍历
+                res[top][i] = count++;
+            }
+            ++top;
+            if (top > down) break;
+
+            for (int i = top; i <= down; ++i)
+            {   // 从上向下遍历
+                res[i][right] = count++;
+            }
+            --right;
+            if (left > right) break;
+
+            for (int i = right; i >= left; --i)
+            {   // 从右到左遍历
+                res[down][i] = count++;
+            }
+            --down;
+            if (top > down) break;
+
+            for (int i = down; i >= top; --i)
+            {   // 从下到上遍历
+                res[i][left] = count++;
+            }
+            ++left;
+            if (left > right) break;
+        }
+
+        return res;
+    }
+};
+```
+
+
 ## [62. 不同路径](https://leetcode.cn/problems/unique-paths/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 一个机器人位于一个 m x n 网格的左上角 （起始点在下图中标记为 “Start” ）。

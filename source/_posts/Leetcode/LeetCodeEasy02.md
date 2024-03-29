@@ -93,6 +93,155 @@ public:
 };
 ```
 
+## [202. 快乐数](https://leetcode.cn/problems/happy-number/description/)
+
+> 编写一个算法来判断一个数 n 是不是快乐数。
+
+> 「快乐数」 定义为：
+
+> 对于一个正整数，每一次将该数替换为它每个位置上的数字的平方和。
+> 然后重复这个过程直到这个数变为 1，也可能是 无限循环 但始终变不到 1。
+> 如果这个过程 结果为 1，那么这个数就是快乐数。
+> 如果 n 是 快乐数 就返回 true ；不是，则返回 false 。
+
+```
+输入：n = 19
+输出：true
+解释：
+12 + 92 = 82
+82 + 22 = 68
+62 + 82 = 100
+12 + 02 + 02 = 1
+```
+
+### 模拟
+- 时间复杂度 $O(logn)$
+- 空间复杂度 $O(logn)$
+
+```
+使用哈希表存储计算的结果，看是否出现循环或者 1
+```
+
+```C++
+class Solution {
+public:
+    bool isHappy(int n) {
+        // 存储计算结果
+        unordered_set<int> uset;
+        while (1)
+        {
+            uset.insert(n);
+            int res = cal(n);
+            if (res == 1) return true;
+            else if (uset.count(res)) return false;
+            // 更新
+            n = res;
+        }
+    }
+
+    int cal(int n)
+    {
+        // 计算 n 每个位置平方和
+        int res = 0;
+        while (n)
+        {
+            res += (n % 10) * (n % 10);
+            n /= 10;
+        }
+
+        return res;
+    }
+};
+```
+
+### 双指针
+
+- 时间复杂度 $O(logn)$
+- 空间复杂度 $O(1)$
+
+```
+通过快慢双指针找到循环点
+```
+
+```C++
+class Solution {
+public:
+    bool isHappy(int n) {
+        int slow = n, fast = n;
+        while (1)
+        {
+            slow = cal(slow);
+            fast = cal(cal(fast));
+            if (slow == fast) break;
+        }
+        return slow == 1;
+    }
+
+    int cal(int n)
+    {
+        // 计算 n 每个位置平方和
+        int res = 0;
+        while (n)
+        {
+            res += (n % 10) * (n % 10);
+            n /= 10;
+        }
+
+        return res;
+    }
+};
+```
+
+
+## [203. 移除链表元素](https://leetcode.cn/problems/remove-linked-list-elements/description/)
+
+> 给你一个链表的头节点 head 和一个整数 val ，请你删除链表中所有满足 Node.val == val 的节点，并返回 新的头节点 。
+
+
+```
+![](https://file.fbichao.top/2024/03/8520d803fa76421848544c6edd984421.png)
+输入：head = [1,2,6,3,4,5,6], val = 6
+输出：[1,2,3,4,5]
+```
+
+- 删除链表节点
+- 时间复杂度 $O(n)$
+- 空间复杂度 $O(1)$
+
+```
+通过指向待删除节点的前一个节点，删除链表节点
+```
+
+```C++
+class Solution {
+public:
+    ListNode* removeElements(ListNode* head, int val) {
+        if (head == nullptr) return head;
+        // 虚拟头，便于删除头结点
+        ListNode* dummpy = new ListNode(-1);
+        dummpy->next = head;
+        
+        // 前一个节点
+        ListNode* prev = dummpy;
+        // 当前节点
+        ListNode* cur = prev->next;
+        while (cur)
+        {
+            if (cur->val == val)
+            {   // 删除
+                prev->next = cur->next;
+                cur = prev->next;
+            }
+            else
+            {   // 移动
+                prev = prev->next;
+                cur = cur->next;
+            }
+        }
+        return dummpy->next;
+    }
+};
+```
 
 
 
@@ -133,6 +282,59 @@ public:
 };
 ```
 
+## [225. 用队列实现栈](https://leetcode.cn/problems/implement-stack-using-queues/description/)
+
+> 请你仅使用两个队列实现一个后入先出（LIFO）的栈，并支持普通栈的全部四种操作（push、top、pop 和 empty）。
+
+> 实现 MyStack 类：
+
+> void push(int x) 将元素 x 压入栈顶。
+> int pop() 移除并返回栈顶元素。
+> int top() 返回栈顶元素。
+> boolean empty() 如果栈是空的，返回 true ；否则，返回 false 。
+
+```
+用两个队列实现，push 正常 push 进一个队列，弹出元素时，将队列中的元素移动到另一个队列中，只剩下一个元素
+
+也可以用一个队列实现
+```
+
+```C++
+class MyStack {
+private:
+    queue<int> que;
+
+public:
+    MyStack() {
+
+    }
+    
+    void push(int x) {
+        que.push(x);
+    }
+    
+    int pop() {
+        int n = que.size();
+        --n;
+        while (n--)
+        {
+            que.push(que.front());  que.pop();
+        }
+        int num = que.front();  que.pop();
+        return num;
+    }
+    
+    int top() {
+        int num = this->pop();
+        que.push(num);
+        return num;
+    }
+    
+    bool empty() {
+        return que.empty();
+    }
+};
+```
 
 
 
@@ -203,6 +405,68 @@ public:
         }
 
         return root;
+    }
+};
+```
+
+## [232. 用栈实现队列](https://leetcode.cn/problems/implement-queue-using-stacks/description/)
+
+> 请你仅使用两个栈实现先入先出队列。队列应当支持一般队列支持的所有操作（push、pop、peek、empty）：
+
+> 实现 MyQueue 类：
+
+> void push(int x) 将元素 x 推到队列的末尾
+> int pop() 从队列的开头移除并返回元素
+> int peek() 返回队列开头的元素
+> boolean empty() 如果队列为空，返回 true ；否则，返回 false
+
+```
+用两个栈实现，一个栈用于在队列出列的时候使用，另一个就存储 push 的
+```
+
+```C++
+class MyQueue {
+private:
+    stack<int> st1;
+    stack<int> st2;
+
+public:
+    MyQueue() {
+
+    }
+    
+    void push(int x) {
+        st1.push(x);
+    }
+    
+    int pop() {
+        // st2 用于出
+        if (st2.empty())
+        {
+            while (!st1.empty())
+            {
+                st2.push(st1.top());  
+                st1.pop();
+            }
+        }
+        int res = st2.top();  st2.pop();
+        return res;
+    }
+    
+    int peek() {
+        if (st2.empty())
+        {
+            while (!st1.empty())
+            {
+                st2.push(st1.top());  
+                st1.pop();
+            }
+        }
+        return st2.top();
+    }
+    
+    bool empty() {
+        return (st1.empty() && st2.empty());
     }
 };
 ```
@@ -281,8 +545,57 @@ public:
 };
 ```
 
+## [242. 有效的字母异位词](https://leetcode.cn/problems/valid-anagram/description/)
+
+> 给定两个字符串 s 和 t ，编写一个函数来判断 t 是否是 s 的字母异位词。
+
+> 注意：若 s 和 t 中每个字符出现的次数都相同，则称 s 和 t 互为字母异位词。
+
+```
+输入: s = "anagram", t = "nagaram"
+输出: true
+```
+
+- 哈希表
+- 时间复杂度 $O(n)$
+- 空间复杂度 $O(\Sigma)$
 
 
+```C++
+class Solution {
+public:
+    bool isAnagram(string s, string t) {
+        // 存储
+        unordered_map<char, int> umap;
+        // 统计 s 字符串
+        for (char c: s)
+        {
+            umap[c]++;
+        }
+
+        // 根据 c 字符串删除
+        for (char c: t)
+        {
+            if (umap[c] <= 0)
+            {
+                return false;
+            }
+            umap[c]--;
+        }
+
+        // 如果还有字符
+        for (auto kv: umap)
+        {
+            if (kv.second != 0)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+};
+```
 
 ## [283. 移动零](https://leetcode.cn/problems/move-zeroes/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
@@ -369,7 +682,167 @@ public:
 };
 ```
 
+## [344. 反转字符串](https://leetcode.cn/problems/reverse-string/description/)
 
+> 编写一个函数，其作用是将输入的字符串反转过来。输入字符串以字符数组 s 的形式给出。
+
+> 不要给另外的数组分配额外的空间，你必须原地修改输入数组、使用 O(1) 的额外空间解决这一问题。
+
+```
+输入：s = ["h","e","l","l","o"]
+输出：["o","l","l","e","h"]
+```
+
+- 双指针
+- 时间复杂度 $O(n)$
+- 空间复杂度 $O(1)$
+
+```
+双指针反转
+```
+
+```C++
+class Solution {
+public:
+    void reverseString(vector<char>& s) {
+        int left = 0, right = s.size() - 1;
+        while (left < right)
+        {
+            swap(s[left], s[right]);
+            ++left;
+            --right;
+        }
+    }
+};
+```
+
+
+
+## [349. 两个数组的交集](https://leetcode.cn/problems/intersection-of-two-arrays/description/)
+
+> 给定两个数组 nums1 和 nums2 ，返回 它们的 交集 。输出结果中的每个元素一定是 唯一 的。我们可以 不考虑输出结果的顺序 。
+
+```
+输入：nums1 = [1,2,2,1], nums2 = [2,2]
+输出：[2]
+```
+
+### 哈希
+- 时间复杂度 $O(n^2)$
+- 空间复杂度 $O(n)$
+
+```C++
+class Solution {
+public:
+    vector<int> intersection(vector<int>& nums1, vector<int>& nums2) {
+        unordered_set<int> uset;
+        vector<int> res;
+
+        for (int c: nums1) uset.insert(c);
+
+        for (int c: nums2)
+        {
+            if (uset.count(c))
+            {
+                res.push_back(c);
+                uset.erase(c);
+            }
+        }
+
+        return res;
+    }
+};
+```
+
+### 分离双指针+排序
+- 时间复杂度 $O(nlogn + mlogm)$
+- 空间复杂度 $O(logm + logn)$
+
+
+```C++
+class Solution {
+public:
+    vector<int> intersection(vector<int>& nums1, vector<int>& nums2) {
+        sort(nums1.begin(), nums1.end());
+        sort(nums2.begin(), nums2.end());
+        int length1 = nums1.size(), length2 = nums2.size();
+        int index1 = 0, index2 = 0;
+        vector<int> res;
+
+        // 对排序后的两个数组，分离双指针
+        while (index1 < length1 && index2 < length2)
+        {
+            int a = nums1[index1], b = nums2[index2];
+            if (a == b)
+            {   // 去重
+                if (res.size() == 0 || a != res.back())
+                {
+                    res.push_back(a);
+                }
+                ++index1;
+                ++index2;
+            }
+            else if (a < b)
+            {
+                ++index1;
+            }
+            else
+            {
+                ++index2;
+            }
+        }
+        return res;
+    }
+};
+```
+
+## [383. 赎金信](https://leetcode.cn/problems/ransom-note/description/)
+
+> 给你两个字符串：ransomNote 和 magazine ，判断 ransomNote 能不能由 magazine 里面的字符构成。
+
+> 如果可以，返回 true ；否则返回 false 。
+
+> magazine 中的每个字符只能在 ransomNote 中使用一次。
+
+```
+输入：ransomNote = "aa", magazine = "ab"
+输出：false
+```
+
+- unoreder_map
+- 时间复杂度 $O(n+m)$
+- 空间复杂度 $O(\Sigma)$
+
+```C++
+class Solution {
+public:
+    bool canConstruct(string ransomNote, string magazine) {
+        unordered_map<char, int> umap;
+        // 统计 ransomNote 字符个数
+        for (char c: ransomNote) umap[c]++;
+
+        // 使用 magazine 组成
+        for (char c: magazine)
+        {
+            if (umap[c] > 0)
+            {
+                umap[c]--;
+            }
+        }
+
+        // 如果还存在非零的，就无法构成
+        for (auto kv: umap)
+        {
+            if (kv.second != 0)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+};
+```
 
 
 ## [448. 找到所有数组中消失的数字](https://leetcode.cn/problems/find-all-numbers-disappeared-in-an-array/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
@@ -455,7 +928,113 @@ public:
 };
 ```
 
+## [459. 重复的子字符串](https://leetcode.cn/problems/repeated-substring-pattern/description/)
 
+> 给定一个非空的字符串 s ，检查是否可以通过由它的一个子串重复多次构成。
+
+```
+输入: s = "abab"
+输出: true
+解释: 可由子串 "ab" 重复两次构成。
+```
+
+
+- KMP
+- 时间复杂度 $O(n)$
+- 空间复杂度 $O(n)$
+
+```
+计算 s 的 next 数组
+- 如果是重复构成的，最后一个字母的 next 数组一定不是 0
+- 如果是重复构成的，size - next[size-1] 就是重复字母的最小个数，一定可以被 size 整除
+```
+
+
+```C++
+class Solution {
+public:
+    vector<int> geneNext(string& s)
+    {
+        vector<int> next(s.size(), 0);
+
+        int left = 0;
+        for (int right = 1; right < s.size(); ++right)
+        {
+            while (left > 0 && s[left] != s[right])
+            {
+                left = next[left - 1];
+            }
+
+            if (s[left] == s[right])
+            {
+                ++left;
+            }
+            next[right] = left;
+        }
+        return next;
+    }
+
+    bool repeatedSubstringPattern(string s) {
+        vector<int> next = geneNext(s);
+        int size = s.size();
+        // 两个条件，缺一不可
+        // 如果是重复构成的，最后一个字母的 next 数组一定不是 0
+        // 如果是重复构成的，size - next[size-1] 就是重复字母的最小个数，一定可以被 size 整除
+        if (next[size - 1] && size % (size - next[size-1]) == 0) return true;
+        return false;
+    }
+};
+```
+
+
+## [541. 反转字符串 II](https://leetcode.cn/problems/reverse-string-ii/description/)
+
+> 给定一个字符串 s 和一个整数 k，从字符串开头算起，每计数至 2k 个字符，就反转这 2k 字符中的前 k 个字符。
+
+> 如果剩余字符少于 k 个，则将剩余字符全部反转。
+> 如果剩余字符小于 2k 但大于或等于 k 个，则反转前 k 个字符，其余字符保持原样。
+
+
+```
+输入：s = "abcdefg", k = 2
+输出："bacdfeg"
+```
+
+- 循环反转
+- 时间复杂度 $O(n)$
+- 空间复杂度 $O(1)$
+
+```
+循环步长为 2k
+```
+
+
+```C++
+class Solution {
+public:
+    // 反转字符串
+    void reverse(string& s, int left, int right)
+    {
+        while (left < right)
+        {
+            swap(s[left++], s[right--]);
+        }
+    }
+
+    string reverseStr(string s, int k) {
+        // 每次 2k 个遍历
+        for (int i = 0; i < s.size(); i+=2*k)
+        {
+            // 不足 k 个
+            if ((i + k) > s.size()) reverse(s, i, s.size() - 1);
+            // 超过 k 个
+            else reverse(s, i, i + k - 1);
+        }
+
+        return s;
+    }
+};
+```
 
 ## [543. 二叉树的直径](https://leetcode.cn/problems/diameter-of-binary-tree/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
