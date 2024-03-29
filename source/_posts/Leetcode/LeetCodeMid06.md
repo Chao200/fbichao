@@ -653,6 +653,49 @@ public:
 };
 ```
 
+## [503. 下一个更大元素 II](https://leetcode.cn/problems/next-greater-element-ii/description/)
+
+> 给定一个循环数组 nums （ nums[nums.length - 1] 的下一个元素是 nums[0] ），返回 nums 中每个元素的 下一个更大元素 。
+
+> 数字 x 的 下一个更大的元素 是按数组遍历顺序，这个数字之后的第一个比它更大的数，这意味着你应该循环地搜索它的下一个更大的数。如果不存在，则输出 -1 。
+
+```
+输入: nums = [1,2,1]
+输出: [2,-1,2]
+解释: 第一个 1 的下一个更大的数是 2；
+数字 2 找不到下一个更大的数； 
+第二个 1 的下一个最大的数需要循环搜索，结果也是 2。
+```
+
+- 单调栈+取模
+- 时间复杂度 $O(n)$
+- 空间复杂度 $O(n)$
+
+
+```C++
+class Solution {
+public:
+    vector<int> nextGreaterElements(vector<int>& nums) {
+        vector<int> res(nums.size(), -1);
+        stack<int> st;
+
+        // 拼接两个
+        for (int i = 0; i < 2 * nums.size(); ++i)
+        {   // 注意取模
+            while (!st.empty() && nums[i%nums.size()] > nums[st.top()])
+            {
+                res[st.top() % nums.size()] = nums[i%nums.size()];
+                st.pop();
+            }
+            st.push(i % nums.size());   // 取模
+        }
+
+        return res;
+    }
+};
+```
+
+
 ## [538. 把二叉搜索树转换为累加树](https://leetcode.cn/problems/convert-bst-to-greater-tree/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 给出二叉 搜索 树的根节点，该树的节点值各不相同，请你将其转换为累加树（Greater Sum Tree），使每个节点 node 的新值等于原树中大于或等于 node.val 的值之和。
