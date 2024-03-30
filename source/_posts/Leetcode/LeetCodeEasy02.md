@@ -1021,6 +1021,50 @@ public:
 };
 ```
 
+## [392. 判断子序列](https://leetcode.cn/problems/is-subsequence/description/)
+
+> 给定字符串 s 和 t ，判断 s 是否为 t 的子序列。
+
+> 字符串的一个子序列是原始字符串删除一些（也可以不删除）字符而不改变剩余字符相对位置形成的新字符串。（例如，"ace"是"abcde"的一个子序列，而"aec"不是）。
+
+> 进阶：
+
+> 如果有大量输入的 S，称作 S1, S2, ... , Sk 其中 k >= 10亿，你需要依次检查它们是否为 T 的子序列。在这种情况下，你会怎样改变代码？
+
+
+```C++
+class Solution {
+public:
+    bool isSubsequence(string s, string t) {
+        int m = s.size(), n = t.size();
+        vector<vector<int>> dp(m+1, vector<int>(n+1, 0));
+
+        for (int i = 1; i <= m; ++i)
+        {
+            for (int j = 1; j <= n; ++j)
+            {
+                if (s[i-1] == t[j-1])
+                {
+                    dp[i][j] = dp[i-1][j-1] + 1;
+                }
+                else
+                {
+                    dp[i][j] = max(dp[i-1][j], dp[i][j-1]);
+                }
+            }
+        }
+
+        return dp[m][n] == s.size();
+    }
+};
+```
+
+
+
+
+
+
+
 ## [404. 左叶子之和](https://leetcode.cn/problems/sum-of-left-leaves/description/)
 
 > 给定二叉树的根节点 root ，返回所有左叶子之和。
@@ -1334,7 +1378,26 @@ public:
 };
 ```
 
+## [509. 斐波那契数](https://leetcode.cn/problems/fibonacci-number/description/)
 
+```C++
+class Solution {
+public:
+    int fib(int n) {
+        if (n == 0) return 0;
+        if (n == 1) return 1;
+
+        vector<int> dp(n+1);
+        dp[0] = 0;
+        dp[1] = 1;
+        for (int i = 2; i <= n; ++i)
+        {
+            dp[i] = dp[i-1] + dp[i-2];
+        }
+        return dp[n];
+    }
+};
+```
 
 
 ## [530. 二叉搜索树的最小绝对差](https://leetcode.cn/problems/minimum-absolute-difference-in-bst/description/)

@@ -50,6 +50,44 @@ public:
 };
 ```
 
+## [674. 最长连续递增序列](https://leetcode.cn/problems/longest-continuous-increasing-subsequence/description/)
+
+> 给定一个未经排序的整数数组，找到最长且 连续递增的子序列，并返回该序列的长度。
+
+> 连续递增的子序列 可以由两个下标 l 和 r（l < r）确定，如果对于每个 l <= i < r，都有 nums[i] < nums[i + 1] ，那么子序列 [nums[l], nums[l + 1], ..., nums[r - 1], nums[r]] 就是连续递增子序列。
+
+```
+输入：nums = [1,3,5,4,7]
+输出：3
+解释：最长连续递增序列是 [1,3,5], 长度为3。
+尽管 [1,3,5,7] 也是升序的子序列, 但它不是连续的，因为 5 和 7 在原数组里被 4 隔开。
+```
+
+
+```C++
+class Solution {
+public:
+    int findLengthOfLCIS(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> dp(n, 1);
+        dp[0] = 1;
+        int res = 1;
+
+        for (int i = 1; i < n; ++i)
+        {
+            if (nums[i] > nums[i-1])
+                dp[i] = dp[i-1] + 1;
+            res = res > dp[i] ? res : dp[i];
+        }
+
+        return res;
+    }
+};
+```
+
+
+
+
 ## [700. 二叉搜索树中的搜索](https://leetcode.cn/problems/search-in-a-binary-search-tree/description/)
 
 > 给定二叉搜索树（BST）的根节点 root 和一个整数值 val。
@@ -111,25 +149,49 @@ public:
 };
 ```
 
-## []()
+## [746. 使用最小花费爬楼梯](https://leetcode.cn/problems/min-cost-climbing-stairs/description/)
 
-- 
+> 给你一个整数数组 cost ，其中 cost[i] 是从楼梯第 i 个台阶向上爬需要支付的费用。一旦你支付此费用，即可选择向上爬一个或者两个台阶。
+
+> 你可以选择从下标为 0 或下标为 1 的台阶开始爬楼梯。
+
+> 请你计算并返回达到楼梯顶部的最低花费。
 
 ```
-
+输入：cost = [1,100,1,1,1,100,1,1,100,1]
+输出：6
+解释：你将从下标为 0 的台阶开始。
+- 支付 1 ，向上爬两个台阶，到达下标为 2 的台阶。
+- 支付 1 ，向上爬两个台阶，到达下标为 4 的台阶。
+- 支付 1 ，向上爬两个台阶，到达下标为 6 的台阶。
+- 支付 1 ，向上爬一个台阶，到达下标为 7 的台阶。
+- 支付 1 ，向上爬两个台阶，到达下标为 9 的台阶。
+- 支付 1 ，向上爬一个台阶，到达楼梯顶部。
+总花费为 6 。
 ```
 
-- 
-- 时间复杂度 $O()$
-- 空间复杂度 $O()$
+- 动态规划
+- 时间复杂度 $O(n)$
+- 空间复杂度 $O(n)$
 
 ```
 
 ```
 
 ```C++
-
-
+class Solution {
+public:
+    int minCostClimbingStairs(vector<int>& cost) {
+        int n = cost.size();
+        vector<int> dp(n+1);
+        dp[0] = dp[1] = 0;
+        for (int i = 2; i <= n; ++i)
+        {
+            dp[i] = min(dp[i-1]+cost[i-1], dp[i-2]+cost[i-2]);
+        }
+        return dp[n];
+    }
+};
 ```
 
 

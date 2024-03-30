@@ -109,6 +109,39 @@ public:
 };
 ```
 
+## [343. 整数拆分](https://leetcode.cn/problems/integer-break/description/)
+
+> 给定一个正整数 n ，将其拆分为 k 个 正整数 的和（ k >= 2 ），并使这些整数的乘积最大化。
+
+> 返回 你可以获得的最大乘积 。
+
+```
+输入: n = 10
+输出: 36
+解释: 10 = 3 + 3 + 4, 3 × 3 × 4 = 36。
+```
+
+```C++
+class Solution {
+public:
+    int integerBreak(int n) {
+        vector<int> dp(n+1);
+        dp[2] = 1;
+
+        for (int i = 3; i <= n; ++i)
+        {
+            for (int j = 1; j <= i - 1; ++j)
+            {
+                dp[i] = max({dp[i], j * (i-j), j * dp[i-j]});
+            }
+        }
+
+        return dp[n];
+    }
+};
+```
+
+
 ## [347. 前 K 个高频元素](https://leetcode.cn/problems/top-k-frequent-elements/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 给你一个整数数组 nums 和一个整数 k ，请你返回其中出现频率前 k 高的元素。你可以按 任意顺序 返回答案。
@@ -157,6 +190,54 @@ public:
     }
 };
 ```
+
+## [377. 组合总和 Ⅳ](https://leetcode.cn/problems/combination-sum-iv/description/)
+
+> 给你一个由 不同 整数组成的数组 nums ，和一个目标整数 target 。请你从 nums 中找出并返回总和为 target 的元素组合的个数。
+
+> 题目数据保证答案符合 32 位整数范围。
+
+```
+输入：nums = [1,2,3], target = 4
+输出：7
+解释：
+所有可能的组合为：
+(1, 1, 1, 1)
+(1, 1, 2)
+(1, 2, 1)
+(1, 3)
+(2, 1, 1)
+(2, 2)
+(3, 1)
+请注意，顺序不同的序列被视作不同的组合。
+```
+
+
+```C++
+class Solution {
+public:
+    int combinationSum4(vector<int>& nums, int target) {
+        vector<int> dp(target + 1, 0);
+
+        dp[0] = 1;
+
+        for (int i = 0; i <= target; ++i)
+        {
+            for (int j = 0; j < nums.size(); ++j)
+            {
+                if (i >= nums[j] && dp[i] < INT_MAX - dp[i-nums[j]])
+                    dp[i] += dp[i- nums[j]];
+            }
+        }
+
+        return dp[target];
+    }
+};
+```
+
+
+
+
 
 ## [394. 字符串解码](https://leetcode.cn/problems/decode-string/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
@@ -651,6 +732,56 @@ public:
 };
 ```
 
+## [474. 一和零](https://leetcode.cn/problems/ones-and-zeroes/description/)
+
+> 给你一个二进制字符串数组 strs 和两个整数 m 和 n 。
+
+> 请你找出并返回 strs 的最大子集的长度，该子集中 最多 有 m 个 0 和 n 个 1 。
+
+> 如果 x 的所有元素也是 y 的元素，集合 x 是集合 y 的 子集 。
+
+```
+输入：strs = ["10", "0001", "111001", "1", "0"], m = 5, n = 3
+输出：4
+解释：最多有 5 个 0 和 3 个 1 的最大子集是 {"10","0001","1","0"} ，因此答案是 4 。
+其他满足题意但较小的子集包括 {"0001","1"} 和 {"10","1","0"} 。{"111001"} 不满足题意，因为它含 4 个 1 ，大于 n 的值 3 。
+```
+
+```C++
+class Solution {
+public:
+    int findMaxForm(vector<string>& strs, int m, int n) {
+        // 物品是 str
+        // 背包是 m 和 n
+        vector<vector<int>> dp(m+1, vector<int>(n+1, 0));
+        for (auto str: strs)
+        {
+            int oneNum = 0, zeroNum = 0;
+            for (char c: str)
+            {
+                if (c == '1') ++oneNum;
+                else ++zeroNum;
+            }
+
+            for (int i = m; i >= zeroNum; --i)
+            {
+                for (int j = n; j >= oneNum; --j)
+                {
+                    dp[i][j] = max(dp[i-zeroNum][j-oneNum] + 1, dp[i][j]);
+                }
+            }
+        }
+
+        return dp[m][n];
+    }
+};
+```
+
+
+
+
+
+
 ## [491. 非递减子序列](https://leetcode.cn/problems/non-decreasing-subsequences/description/)
 
 > 给你一个整数数组 nums ，找出并返回所有该数组中不同的递增子序列，递增子序列中 至少有两个元素 。你可以按 任意顺序 返回答案。
@@ -846,11 +977,85 @@ public:
 };
 ```
 
+## [516. 最长回文子序列](https://leetcode.cn/problems/longest-palindromic-subsequence/description/)
+
+
+> 给你一个字符串 s ，找出其中最长的回文子序列，并返回该序列的长度。
+
+> 子序列定义为：不改变剩余字符顺序的情况下，删除某些字符或者不删除任何字符形成的一个序列。
+
+```
+输入：s = "bbbab"
+输出：4
+解释：一个可能的最长回文子序列为 "bbbb" 。
+```
+
+```C++
+class Solution {
+public:
+    int longestPalindromeSubseq(string s) {
+        int n = s.size();
+        vector<vector<int>> dp(n, vector<int>(n, 0));
+        for (int i = 0; i < n; ++i) dp[i][i] = 1;
+
+        for (int start = n-1; start >= 0; --start)
+        {
+            for (int end = start+1; end < n; ++end)
+            {
+                if (s[start]==s[end]) dp[start][end] = dp[start+1][end-1] + 2;
+                else dp[start][end] = max(dp[start+1][end], dp[start][end-1]);
+            }
+        }
+        return dp[0][n-1];
+    }
+};
+```
 
 
 
 
 
+## [518. 零钱兑换 II](https://leetcode.cn/problems/coin-change-ii/description/)
+
+> 给你一个整数数组 coins 表示不同面额的硬币，另给一个整数 amount 表示总金额。
+
+> 请你计算并返回可以凑成总金额的硬币组合数。如果任何硬币组合都无法凑出总金额，返回 0 。
+
+> 假设每一种面额的硬币有无限个。 
+
+> 题目数据保证结果符合 32 位带符号整数。
+
+```
+输入：amount = 5, coins = [1, 2, 5]
+输出：4
+解释：有四种方式可以凑成总金额：
+5=5
+5=2+2+1
+5=2+1+1+1
+5=1+1+1+1+1
+```
+
+
+```C++
+class Solution {
+public:
+    int change(int amount, vector<int>& coins) {
+        vector<int> dp(amount + 1, 0);
+
+        dp[0] = 1;
+
+        for (int i = 0 ; i < coins.size(); ++i)
+        {
+            for (int j = coins[i]; j <= amount; ++j)
+            {
+                dp[j] += dp[j - coins[i]];
+            }
+        }
+
+        return dp[amount];
+    }
+};
+```
 
 ## [538. 把二叉搜索树转换为累加树](https://leetcode.cn/problems/convert-bst-to-greater-tree/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
@@ -1004,6 +1209,56 @@ public:
     }
 };
 ```
+
+## [583. 两个字符串的删除操作](https://leetcode.cn/problems/delete-operation-for-two-strings/description/)
+
+> 给定两个单词 word1 和 word2 ，返回使得 word1 和  word2 相同所需的最小步数。
+
+> 每步 可以删除任意一个字符串中的一个字符。
+
+```
+输入: word1 = "sea", word2 = "eat"
+输出: 2
+解释: 第一步将 "sea" 变为 "ea" ，第二步将 "eat "变为 "ea"
+```
+
+
+```C++
+class Solution {
+public:
+    int minDistance(string word1, string word2) {
+        int m = word1.size(), n = word2.size();
+
+        vector<vector<int>> dp(m+1, vector<int>(n+1, 0));
+
+        for (int i = 0; i <= m; ++i) dp[i][0] = i;
+        for (int j = 0; j <= n; ++j) dp[0][j] = j;
+
+        for (int i = 1; i <= m; ++i)
+        {
+            for (int j = 1; j <= n; ++j)
+            {
+                if (word1[i-1] == word2[j-1])
+                {
+                    dp[i][j] = dp[i-1][j-1];
+                }
+                else
+                {
+                    dp[i][j] = min({dp[i-1][j]+1, dp[i-1][j-1]+2, dp[i][j-1]+1});
+                }
+            }
+        }
+
+        return dp[m][n];
+    }
+};
+```
+
+
+
+
+
+
 
 ## [621. 任务调度器](https://leetcode.cn/problems/task-scheduler/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
@@ -1441,6 +1696,87 @@ private:
 };
 ```
 
+## [714. 买卖股票的最佳时机含手续费](https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/description/)
+
+> 给定一个整数数组 prices，其中 prices[i]表示第 i 天的股票价格 ；整数 fee 代表了交易股票的手续费用。
+
+> 你可以无限次地完成交易，但是你每笔交易都需要付手续费。如果你已经购买了一个股票，在卖出它之前你就不能再继续购买股票了。
+
+> 返回获得利润的最大值。
+
+> 注意：这里的一笔交易指买入持有并卖出股票的整个过程，每笔交易你只需要为支付一次手续费。
+
+
+```
+输入：prices = [1, 3, 2, 8, 4, 9], fee = 2
+输出：8
+解释：能够达到的最大利润:  
+在此处买入 prices[0] = 1
+在此处卖出 prices[3] = 8
+在此处买入 prices[4] = 4
+在此处卖出 prices[5] = 9
+总利润: ((8 - 1) - 2) + ((9 - 4) - 2) = 8
+```
+
+```C++
+class Solution {
+public:
+    int maxProfit(vector<int>& prices, int fee) {
+        // 卖出的时候需要 fee
+        int n = prices.size();
+        vector<vector<int>> dp(n, vector<int>(2, 0));
+        dp[0][0] = 0;
+        dp[0][1] = -prices[0];
+
+        for (int i = 1; i < n; ++i)
+        {
+            dp[i][0] = max(dp[i-1][0], dp[i-1][1] + prices[i] - fee);
+            dp[i][1] = max(dp[i-1][1], dp[i-1][0] - prices[i]);
+        }
+
+        return dp[n-1][0];
+    }
+};
+```
+
+## [718. 最长重复子数组](https://leetcode.cn/problems/maximum-length-of-repeated-subarray/description/)
+
+> 给两个整数数组 nums1 和 nums2 ，返回 两个数组中 公共的 、长度最长的子数组的长度 。
+
+```
+输入：nums1 = [1,2,3,2,1], nums2 = [3,2,1,4,7]
+输出：3
+解释：长度最长的公共子数组是 [3,2,1] 。
+```
+
+```C++
+class Solution {
+public:
+    int findLength(vector<int>& nums1, vector<int>& nums2) {
+        int m = nums1.size(), n = nums2.size();
+        int res = 0;
+
+        vector<vector<int>> dp(m+1, vector<int>(n+1, 0));
+
+        for (int i = 1; i <= m; ++i)
+        {
+            for (int j = 1; j <= n; ++j)
+            {
+                if (nums1[i-1] == nums2[j-1])
+                {
+                    dp[i][j] = dp[i-1][j-1] + 1;
+                    if (res < dp[i][j]) res = dp[i][j];
+                }
+            }
+        }
+
+        return res;
+    }
+};
+```
+
+
+
 
 
 ## [739. 每日温度](https://leetcode.cn/problems/daily-temperatures/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
@@ -1538,3 +1874,147 @@ public:
     }
 };
 ```
+
+## [1035. 不相交的线]()
+
+> 在两条独立的水平线上按给定的顺序写下 nums1 和 nums2 中的整数。
+
+> 现在，可以绘制一些连接两个数字 nums1[i] 和 nums2[j] 的直线，这些直线需要同时满足：
+
+> nums1[i] == nums2[j]
+> 且绘制的直线不与任何其他连线（非水平线）相交。
+
+> 请注意，连线即使在端点也不能相交：每个数字只能属于一条连线。
+
+> 以这种方法绘制线条，并返回可以绘制的最大连线数。
+
+
+```
+![](https://file.fbichao.top/2024/03/ec809fea0e935636a5efbfd278b2e136.png)
+输入：nums1 = [1,4,2], nums2 = [1,2,4]
+输出：2
+解释：可以画出两条不交叉的线，如上图所示。 
+但无法画出第三条不相交的直线，因为从 nums1[1]=4 到 nums2[2]=4 的直线将与从 nums1[2]=2 到 nums2[1]=2 的直线相交。
+```
+
+
+```C++
+class Solution {
+public:
+    int maxUncrossedLines(vector<int>& nums1, vector<int>& nums2) {
+        int m = nums1.size(), n = nums2.size();
+
+        vector<vector<int>> dp(m+1, vector<int>(n+1, 0));
+
+        for (int i = 1; i <= m; ++i)
+        {
+            for (int j = 1; j <= n; ++j)
+            {
+                if (nums1[i-1] == nums2[j-1])
+                {
+                    dp[i][j] = dp[i-1][j-1] + 1;
+                }
+                else
+                {
+                    dp[i][j] = max(dp[i-1][j], dp[i][j-1]);
+                }
+            }
+        }
+
+        return dp[m][n];
+    }
+};
+```
+
+
+
+
+## [1049. 最后一块石头的重量 II](https://leetcode.cn/problems/last-stone-weight-ii/description/)
+
+> 有一堆石头，用整数数组 stones 表示。其中 stones[i] 表示第 i 块石头的重量。
+
+> 每一回合，从中选出任意两块石头，然后将它们一起粉碎。假设石头的重量分别为 x 和 y，且 x <= y。那么粉碎的可能结果如下：
+
+> 如果 x == y，那么两块石头都会被完全粉碎；
+> 如果 x != y，那么重量为 x 的石头将会完全粉碎，而重量为 y 的石头新重量为 y-x。
+> 最后，最多只会剩下一块 石头。返回此石头 最小的可能重量 。如果没有石头剩下，就返回 0。
+
+
+```C++
+class Solution {
+public:
+    int lastStoneWeightII(vector<int>& stones) {
+        int sum = 0;
+        for (auto s: stones) sum+=s;
+
+        int target = sum / 2;
+
+        // 容量为 target 的背包，最多可以装多少石头
+        vector<int> dp(target+1,0);
+
+        for (int i = 0; i < stones.size(); ++i)
+        {
+            for (int j = target; j >= stones[i]; --j)
+            {
+                dp[j] = max(dp[j], dp[j-stones[i]]+stones[i]);
+            }
+        }
+
+        // sum - dp[target] 是另一堆石头重量
+        return sum - dp[target] - dp[target];
+    }
+};
+```
+
+
+## [1143. 最长公共子序列](https://leetcode.cn/problems/longest-common-subsequence/description/)
+
+> 给定两个字符串 text1 和 text2，返回这两个字符串的最长 公共子序列 的长度。如果不存在 公共子序列 ，返回 0 。
+
+> 一个字符串的 子序列 是指这样一个新的字符串：它是由原字符串在不改变字符的相对顺序的情况下删除某些字符（也可以不删除任何字符）后组成的新字符串。
+
+> 例如，"ace" 是 "abcde" 的子序列，但 "aec" 不是 "abcde" 的子序列。
+> 两个字符串的 公共子序列 是这两个字符串所共同拥有的子序列。
+
+
+```
+输入：text1 = "abcde", text2 = "ace" 
+输出：3  
+解释：最长公共子序列是 "ace" ，它的长度为 3 。
+```
+
+```C++
+class Solution {
+public:
+    int longestCommonSubsequence(string text1, string text2) {
+        int m = text1.size(), n = text2.size();
+
+        vector<vector<int>> dp(m, vector<int>(n, 0));
+        dp[0][0] = text1[0] == text2[0] ? 1 : 0;
+        int res = dp[0][0];
+
+        for (int i = 1; i < m; ++i)
+        {
+            for (int j = 1; j < n; ++j)
+            {
+                if (text1[i] == text2[j])
+                {
+                    dp[i][j] = max(dp[i][j], dp[i-1][j-1] + 1);
+                    res = res > dp[i][j] ? res : dp[i][j];
+                }
+            }
+        }
+
+        return res;
+        
+    }
+};
+```
+
+
+
+
+
+
+
+

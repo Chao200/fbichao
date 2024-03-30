@@ -330,7 +330,6 @@ public:
 遍历行列，对填入的数字判断是否合法即可
 ```
 
-
 ```C++
 class Solution {
 public:
@@ -343,7 +342,7 @@ public:
             // 行是否合法
             if (board[row][i] == val) return false;
         }
-        
+      
         // 找到该行列属于第几个小的九宫格
         int startRow = row / 3;
         int startCol = col / 3;
@@ -389,10 +388,6 @@ public:
     }
 };
 ```
-
-
-
-
 
 ## [42. 接雨水](https://leetcode.cn/problems/trapping-rain-water/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
@@ -449,7 +444,6 @@ public:
 
 > 每一种解法包含一个不同的 n 皇后问题 的棋子放置方案，该方案中 'Q' 和 '.' 分别代表了皇后和空位。
 
-
 ```
 ![](https://file.fbichao.top/2024/03/94efebaef19d44bfcc3925c47e05bad2.png)
 输入：n = 4
@@ -498,7 +492,7 @@ public:
             res.push_back(chessBoard);
             return;
         }
-        
+      
         for (int col = 0; col < n; ++col)
         {
             if (isValid(chessBoard, row, col, n))
@@ -517,8 +511,6 @@ public:
     }
 };
 ```
-
-
 
 ## [76. 最小覆盖子串](https://leetcode.cn/problems/minimum-window-substring/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
@@ -693,6 +685,104 @@ public:
 };
 ```
 
+## [115. 不同的子序列](https://leetcode.cn/problems/distinct-subsequences/description/)
+
+> 给你两个字符串 s 和 t ，统计并返回在 s 的 子序列 中 t 出现的个数，结果需要对 109 + 7 取模。
+
+```
+输入：s = "rabbbit", t = "rabbit"
+输出：3
+解释：
+如下所示, 有 3 种可以从 s 中得到 "rabbit" 的方案。
+rabbbit
+rabbbit
+rabbbit
+```
+
+```C++
+class Solution {
+public:
+    int numDistinct(string s, string t) {
+        int mod = 1000000007;
+
+        int m = s.size(), n = t.size();
+
+        vector<vector<int>> dp(m + 1, vector<int>(n+1, 0));
+
+        for (int i = 0; i <= m; ++i) dp[i][0] = 1;
+
+        for (int i = 1; i <= m; ++i)
+        {
+            for (int j = 1; j <= n; ++j)
+            {
+                if (s[i-1] == t[j-1])
+                {
+                    dp[i][j] = dp[i-1][j-1] + dp[i-1][j];
+                }
+                else
+                {
+                    dp[i][j] = dp[i-1][j];
+                }
+                dp[i][j] %= mod;
+            }
+        }
+
+        return dp[m][n];
+    }
+};
+```
+
+
+
+
+
+
+
+
+
+## [123. 买卖股票的最佳时机 III](https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-iii/description/)
+
+> 给定一个数组，它的第 i 个元素是一支给定的股票在第 i 天的价格。
+
+> 设计一个算法来计算你所能获取的最大利润。你最多可以完成 两笔 交易。
+
+> 注意：你不能同时参与多笔交易（你必须在再次购买前出售掉之前的股票）。
+
+```
+输入：prices = [3,3,5,0,0,3,1,4]
+输出：6
+解释：在第 4 天（股票价格 = 0）的时候买入，在第 6 天（股票价格 = 3）的时候卖出，这笔交易所能获得利润 = 3-0 = 3 。
+     随后，在第 7 天（股票价格 = 1）的时候买入，在第 8 天 （股票价格 = 4）的时候卖出，这笔交易所能获得利润 = 4-1 = 3 。
+```
+
+```C++
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int n = prices.size();
+        vector<vector<int>> dp(n, vector<int>(5, 0));
+        // 5 种状态，
+        // 第一次不持有、第一次持有、第二次不持有、第二次持有、最后不持有
+        dp[0][0] = 0;
+        dp[0][1] = -prices[0];
+        dp[0][2] = 0;
+        dp[0][3] = -prices[0];
+        dp[0][4] = 0;
+
+        for (int i = 1; i < n; ++i)
+        {
+            dp[i][0] = dp[i-1][0]; 
+            dp[i][1] = max(dp[i-1][1], dp[i-1][0] - prices[i]);
+            dp[i][2] = max(dp[i-1][2], dp[i-1][1] + prices[i]);
+            dp[i][3] = max(dp[i-1][3], dp[i-1][2] - prices[i]);
+            dp[i][4] = max(dp[i-1][4], dp[i-1][3] + prices[i]);
+        }
+
+        return dp[n-1][4];
+    }
+};
+```
+
 ## [124. 二叉树中的最大路径和](https://leetcode.cn/problems/binary-tree-maximum-path-sum/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 二叉树中的 路径 被定义为一条节点序列，序列中每对相邻节点之间都存在一条边。同一个节点在一条路径序列中 至多出现一次 。该路径 至少包含一个 节点，且不一定经过根节点。
@@ -737,6 +827,51 @@ public:
     int maxPathSum(TreeNode* root) {
         dfs(root);
         return res;
+    }
+};
+```
+
+## [188. 买卖股票的最佳时机 IV](https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-iv/description/)
+
+> 给你一个整数数组 prices 和一个整数 k ，其中 prices[i] 是某支给定的股票在第 i 天的价格。
+
+> 设计一个算法来计算你所能获取的最大利润。你最多可以完成 k 笔交易。也就是说，你最多可以买 k 次，卖 k 次。
+
+> 注意：你不能同时参与多笔交易（你必须在再次购买前出售掉之前的股票）。
+
+```
+输入：k = 2, prices = [3,2,6,5,0,3]
+输出：7
+解释：在第 2 天 (股票价格 = 2) 的时候买入，在第 3 天 (股票价格 = 6) 的时候卖出, 这笔交易所能获得利润 = 6-2 = 4 。
+     随后，在第 5 天 (股票价格 = 0) 的时候买入，在第 6 天 (股票价格 = 3) 的时候卖出, 这笔交易所能获得利润 = 3-0 = 3 。
+```
+
+```C++
+class Solution {
+public:
+    int maxProfit(int k, vector<int>& prices) {
+        int n = prices.size();
+        vector<vector<int>> dp(n, vector<int>(2*k+1, 0));
+
+        // 2k+1 个状态
+        dp[0][0] = 0;   // 不持有
+        for (int i = 1; i <= 2 * k; ++i)
+        {
+            // 持有、不持有……
+            dp[0][i] = ((i % 2) ? -prices[0] : 0);
+        }
+
+        for (int i = 1; i < n; ++i)
+        {
+            for (int j = 1; j <= 2 * k; ++j)
+            {
+                dp[i][j] = ((j % 2) ? 
+                                max(dp[i-1][j], dp[i-1][j-1] - prices[i]) :
+                                max(dp[i-1][j], dp[i-1][j-1]+prices[i]));
+            }
+        }
+
+        return dp[n-1][2*k];
     }
 };
 ```
@@ -837,7 +972,6 @@ public:
 };
 ```
 
-
 ## [297. 二叉树的序列化与反序列化](https://leetcode.cn/problems/serialize-and-deserialize-binary-tree/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 序列化是将一个数据结构或者对象转换为连续的比特位的操作，进而可以将转换后的数据存储在一个文件或者内存中，同时也可以通过网络传输到另一个计算机环境，采取相反方式重构得到原数据。
@@ -925,8 +1059,6 @@ public:
 };
 ```
 
-
-
 ## [301. 删除无效的括号](https://leetcode.cn/problems/remove-invalid-parentheses/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 给你一个由若干括号和字母组成的字符串 s ，删除最小数量的无效括号，使得输入的字符串有效。
@@ -1009,7 +1141,7 @@ public:
             if (i != index && str[i] == str[i-1]) continue;
             // 剪枝
             if ((leftRemoveNum + rightRemoveNum) > str.size() - i) return;
-      
+    
             // 删除左括号
             if (leftRemoveNum > 0 && str[i] == '(')
             {                                                 // i 不需要+1，此时 i 就是下一个待删除 index
@@ -1023,7 +1155,6 @@ public:
     }
 };
 ```
-
 
 ## [312. 戳气球](https://leetcode.cn/problems/burst-balloons/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
@@ -1088,7 +1219,6 @@ public:
 };
 ```
 
-
 ## [332. 重新安排行程](https://leetcode.cn/problems/reconstruct-itinerary/description/)
 
 > 给你一份航线列表 tickets ，其中 tickets[i] = [fromi, toi] 表示飞机出发和降落的机场地点。请你对该行程进行重新规划排序。
@@ -1097,7 +1227,6 @@ public:
 
 > 例如，行程 ["JFK", "LGA"] 与 ["JFK", "LGB"] 相比就更小，排序更靠前。
 > 假定所有机票至少存在一种合理的行程。且所有的机票 必须都用一次 且 只能用一次。
-
 
 ```
 ![](https://file.fbichao.top/2024/03/40cdc554cb555d8e9d723af649b832dd.png)
@@ -1133,7 +1262,7 @@ public:
     {
         // 两趟航班，三个地点，所以+1
         if (res.size() == num + 1) return true;
-        
+      
         // 当前起点对应终点
         for (auto& target: umap[res.back()])
         {
@@ -1161,5 +1290,3 @@ public:
     }
 };
 ```
-
-
