@@ -417,8 +417,9 @@ public:
 
 > 给你一个二叉树的根节点 root ， 检查它是否轴对称。
 
-```
+
 ![](https://file.fbichao.top/2024/03/a289e4aabab604854de69c428a5dc8b2.png)
+```
 输入：root = [1,2,2,3,4,4,3]
 输出：true
 ```
@@ -491,8 +492,8 @@ public:
 
 > 二叉树的 最大深度 是指从根节点到最远叶子节点的最长路径上的节点数。
 
-```
 ![](https://file.fbichao.top/2024/03/e9cb59a669a780f34d7b047c5a27fb90.png)
+```
 输入：root = [3,9,20,null,null,15,7]
 输出：3
 ```
@@ -557,8 +558,8 @@ public:
 
 > 结果可能不唯一
 
-```
 ![](https://file.fbichao.top/2024/03/789ce587c82a359d8a71c5b64e21192d.png)
+```
 输入：nums = [-10,-3,0,5,9]
 输出：[0,-3,9,-10,null,5]
 解释：[0,-10,5,null,-3,null,9] 也将被视为正确答案：
@@ -642,8 +643,9 @@ public:
 
 > 说明：叶子节点是指没有子节点的节点。
 
-```
+
 ![](https://file.fbichao.top/2024/03/1f362ad918ac752f8e1b69c4e29fe555.png)
+```
 输入：root = [3,9,20,null,null,15,7]
 输出：2
 ```
@@ -724,8 +726,8 @@ public:
 > 给你二叉树的根节点 root 和一个表示目标和的整数 targetSum 。判断该树中是否存在 根节点到叶子节点 的路径，这条路径上所有节点值相加等于目标和 targetSum 。如果存在，返回 true ；否则，返回 false 。
 
 
-```
 ![](https://file.fbichao.top/2024/03/6a238d42031a13373fae5d9914984900.png)
+```
 输入：root = [5,4,8,11,null,13,4,7,2,null,null,null,1], targetSum = 22
 输出：true
 解释：等于目标和的根节点到叶节点路径如上图所示。
@@ -873,8 +875,8 @@ public:
 
 > 如果链表中存在环 ，则返回 true 。 否则，返回 false 。
 
-```
 ![](https://file.fbichao.top/2024/03/762ab93fb1f80317cecd225f2c7d4809.png)
+```
 输入：head = [3,2,0,-4], pos = 1
 输出：true
 解释：链表中有一个环，其尾部连接到第二个节点。

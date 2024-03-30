@@ -11,7 +11,6 @@ excerpt: LeetCode Easy(02)
 math: true
 date: 2024-03-28 21:45:00
 ---
-
 ## [144. 二叉树的前序遍历](https://leetcode.cn/problems/binary-tree-preorder-traversal/description/)
 
 > 给你二叉树的根节点 root ，返回它节点值的 前序 遍历。
@@ -88,14 +87,12 @@ public:
 迭代算法，使用[先序遍历](#144-二叉树的前序遍历)的迭代方法，再反转
 ```
 
-
-
 ## [160. 相交链表](https://leetcode.cn/problems/intersection-of-two-linked-lists/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 给你两个单链表的头节点 headA 和 headB ，请你找出并返回两个单链表相交的起始节点。如果两个链表不存在相交节点，返回 null 。
 
 > 图示两个链表在节点 c1 开始相交：
-![](https://file.fbichao.top/2024/03/e894bf9bd8faa691a3ce9afb894897f2.png)
+> ![](https://file.fbichao.top/2024/03/e894bf9bd8faa691a3ce9afb894897f2.png)
 
 ```
 输入：intersectVal = 8, listA = [4,1,8,4,5], listB = [5,6,1,8,4,5], skipA = 2, skipB = 3
@@ -126,10 +123,6 @@ public:
     }
 };
 ```
-
-
-
-
 
 ## [169. 多数元素](https://leetcode.cn/problems/majority-element/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
@@ -193,6 +186,7 @@ public:
 ```
 
 ### 模拟
+
 - 时间复杂度 $O(logn)$
 - 空间复杂度 $O(logn)$
 
@@ -270,14 +264,13 @@ public:
 };
 ```
 
-
 ## [203. 移除链表元素](https://leetcode.cn/problems/remove-linked-list-elements/description/)
 
 > 给你一个链表的头节点 head 和一个整数 val ，请你删除链表中所有满足 Node.val == val 的节点，并返回 新的头节点 。
 
+![](https://file.fbichao.top/2024/03/8520d803fa76421848544c6edd984421.png)
 
 ```
-![](https://file.fbichao.top/2024/03/8520d803fa76421848544c6edd984421.png)
 输入：head = [1,2,6,3,4,5,6], val = 6
 输出：[1,2,3,4,5]
 ```
@@ -298,7 +291,7 @@ public:
         // 虚拟头，便于删除头结点
         ListNode* dummpy = new ListNode(-1);
         dummpy->next = head;
-        
+      
         // 前一个节点
         ListNode* prev = dummpy;
         // 当前节点
@@ -321,12 +314,9 @@ public:
 };
 ```
 
-
-
 ## [206. 反转链表](https://leetcode.cn/problems/reverse-linked-list/description/)
 
 > 给你单链表的头节点 head ，请你反转链表，并返回反转后的链表。
-
 
 ```
 输入：head = [1,2,3,4,5]
@@ -363,7 +353,6 @@ public:
 ## [222. 完全二叉树的节点个数](https://leetcode.cn/problems/count-complete-tree-nodes/description/)
 
 > 给你一棵 完全二叉树 的根节点 root ，求出该树的节点个数。
-
 
 - 分离双指针递归
 - 时间复杂度 $O(n)$
@@ -410,8 +399,6 @@ public:
 };
 ```
 
-
-
 ## [225. 用队列实现栈](https://leetcode.cn/problems/implement-stack-using-queues/description/)
 
 > 请你仅使用两个队列实现一个后入先出（LIFO）的栈，并支持普通栈的全部四种操作（push、top、pop 和 empty）。
@@ -438,11 +425,11 @@ public:
     MyStack() {
 
     }
-    
+  
     void push(int x) {
         que.push(x);
     }
-    
+  
     int pop() {
         int n = que.size();
         --n;
@@ -453,26 +440,22 @@ public:
         int num = que.front();  que.pop();
         return num;
     }
-    
+  
     int top() {
         int num = this->pop();
         que.push(num);
         return num;
     }
-    
+  
     bool empty() {
         return que.empty();
     }
 };
 ```
 
-
-
 ## [226. 翻转二叉树](https://leetcode.cn/problems/invert-binary-tree/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 给你一棵二叉树的根节点 root ，翻转这棵二叉树，并返回其根节点。
-
-
 
 ```
 ![](https://file.fbichao.top/2024/03/1f7d5e15bf17f2c0983eafc8b08898d3.png)
@@ -481,6 +464,7 @@ public:
 ```
 
 ### 递归
+
 - 时间复杂度 $O(n)$
 - 空间复杂度 $O(n)$
 
@@ -508,6 +492,7 @@ public:
 ```
 
 ### 迭代
+
 - 时间复杂度 $O(n)$
 - 空间复杂度 $O(n)$
 
@@ -564,11 +549,11 @@ public:
     MyQueue() {
 
     }
-    
+  
     void push(int x) {
         st1.push(x);
     }
-    
+  
     int pop() {
         // st2 用于出
         if (st2.empty())
@@ -582,7 +567,7 @@ public:
         int res = st2.top();  st2.pop();
         return res;
     }
-    
+  
     int peek() {
         if (st2.empty())
         {
@@ -594,13 +579,12 @@ public:
         }
         return st2.top();
     }
-    
+  
     bool empty() {
         return (st1.empty() && st2.empty());
     }
 };
 ```
-
 
 ## [234. 回文链表](https://leetcode.cn/problems/palindrome-linked-list/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
@@ -690,7 +674,6 @@ public:
 - 时间复杂度 $O(n)$
 - 空间复杂度 $O(\Sigma)$
 
-
 ```C++
 class Solution {
 public:
@@ -772,8 +755,6 @@ public:
 };
 ```
 
-
-
 ## [283. 移动零](https://leetcode.cn/problems/move-zeroes/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 给定一个数组 nums，编写一个函数将所有 0 移动到数组的末尾，同时保持非零元素的相对顺序。
@@ -814,9 +795,6 @@ public:
     }
 };
 ```
-
-
-
 
 ## [338. 比特位计数](https://leetcode.cn/problems/counting-bits/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
@@ -893,8 +871,6 @@ public:
 };
 ```
 
-
-
 ## [349. 两个数组的交集](https://leetcode.cn/problems/intersection-of-two-arrays/description/)
 
 > 给定两个数组 nums1 和 nums2 ，返回 它们的 交集 。输出结果中的每个元素一定是 唯一 的。我们可以 不考虑输出结果的顺序 。
@@ -905,6 +881,7 @@ public:
 ```
 
 ### 哈希
+
 - 时间复杂度 $O(n^2)$
 - 空间复杂度 $O(n)$
 
@@ -932,9 +909,9 @@ public:
 ```
 
 ### 分离双指针+排序
+
 - 时间复杂度 $O(nlogn + mlogm)$
 - 空间复杂度 $O(logm + logn)$
-
 
 ```C++
 class Solution {
@@ -1032,6 +1009,12 @@ public:
 > 如果有大量输入的 S，称作 S1, S2, ... , Sk 其中 k >= 10亿，你需要依次检查它们是否为 T 的子序列。在这种情况下，你会怎样改变代码？
 
 
+
+```
+输入：s = "abc", t = "ahbgdc"
+输出：true
+```
+
 ```C++
 class Solution {
 public:
@@ -1058,12 +1041,6 @@ public:
     }
 };
 ```
-
-
-
-
-
-
 
 ## [404. 左叶子之和](https://leetcode.cn/problems/sum-of-left-leaves/description/)
 
@@ -1157,18 +1134,20 @@ public:
 };
 ```
 
-
-
 ## [461. 汉明距离](https://leetcode.cn/problems/hamming-distance/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 两个整数之间的 汉明距离 指的是这两个数字对应二进制位不同的位置的数目。
 
 > 给你两个整数 x 和 y，计算并返回它们之间的汉明距离。
 
-
-
 ```
-按位异或后移位计数
+输入：x = 1, y = 4
+输出：2
+解释：
+1   (0 0 0 1)
+4   (0 1 0 0)
+       ↑   ↑
+上面的箭头指出了对应二进制位不同的位置。
 ```
 
 - 异或
@@ -1205,7 +1184,6 @@ public:
 解释: 可由子串 "ab" 重复两次构成。
 ```
 
-
 - KMP
 - 时间复杂度 $O(n)$
 - 空间复杂度 $O(n)$
@@ -1215,7 +1193,6 @@ public:
 - 如果是重复构成的，最后一个字母的 next 数组一定不是 0
 - 如果是重复构成的，size - next[size-1] 就是重复字母的最小个数，一定可以被 size 整除
 ```
-
 
 ```C++
 class Solution {
@@ -1399,7 +1376,6 @@ public:
 };
 ```
 
-
 ## [530. 二叉搜索树的最小绝对差](https://leetcode.cn/problems/minimum-absolute-difference-in-bst/description/)
 
 > 给你一个二叉搜索树的根节点 root ，返回 树中任意两不同节点值之间的最小差值 。
@@ -1416,8 +1392,8 @@ public:
 中序遍历得到的是递增的，所以只需要比较相邻元素差值即可
 ```
 
-
 ### 中序遍历递归法
+
 - 时间复杂度 $O(n)$
 - 空间复杂度 $O(h)$
 
@@ -1449,6 +1425,7 @@ public:
 ```
 
 ### 中序遍历迭代法
+
 - 时间复杂度 $O(n)$
 - 空间复杂度 $O(h)$
 
@@ -1488,15 +1465,12 @@ public:
 };
 ```
 
-
-
 ## [541. 反转字符串 II](https://leetcode.cn/problems/reverse-string-ii/description/)
 
 > 给定一个字符串 s 和一个整数 k，从字符串开头算起，每计数至 2k 个字符，就反转这 2k 字符中的前 k 个字符。
 
 > 如果剩余字符少于 k 个，则将剩余字符全部反转。
 > 如果剩余字符小于 2k 但大于或等于 k 个，则反转前 k 个字符，其余字符保持原样。
-
 
 ```
 输入：s = "abcdefg", k = 2
@@ -1510,7 +1484,6 @@ public:
 ```
 循环步长为 2k
 ```
-
 
 ```C++
 class Solution {
@@ -1547,8 +1520,9 @@ public:
 
 > 两节点之间路径的 长度 由它们之间边数表示。
 
-```
 ![](https://file.fbichao.top/2024/03/6f14534edd42950e0c5db39bf1807479.png)
+
+```
 输入：root = [1,2,3,4,5]
 输出：3
 解释：3 ，取路径 [4,2,1,3] 或 [5,2,1,3] 的长度。
