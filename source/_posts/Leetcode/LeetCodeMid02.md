@@ -148,6 +148,72 @@ public:
 };
 ```
 
+
+## [40. 组合总和 II](https://leetcode.cn/problems/combination-sum-ii/description/)
+
+> 给定一个候选人编号的集合 candidates 和一个目标数 target ，找出 candidates 中所有可以使数字和为 target 的组合。
+
+> candidates 中的每个数字在每个组合中只能使用 一次 。
+
+> 注意：解集不能包含重复的组合。 
+
+
+```
+去重是对同一层的节点去重，即同一层使用过的数字不能再使用
+for 循环实现的同一层的遍历，看一层的结果时候，不看 backtrack
+```
+
+
+```C++
+class Solution {
+private:
+    vector<vector<int>> res;
+    vector<int> path;
+
+public:
+    void backtrack(vector<int>& candidates, int target, vector<bool>& used, int sum, int index)
+    {
+        if (sum == target)
+        {
+            res.push_back(path);
+            return;
+        }
+        if (sum > target) return;
+
+        // for 循环取的是同一层
+        // backtrack 是分支
+        for (int i = index; i < candidates.size(); ++i)
+        {
+            if (i > 0 && candidates[i] == candidates[i-1] && used[i-1] == false)
+            {
+                continue;
+            }
+
+            used[i] = true;
+            path.push_back(candidates[i]);
+            sum += candidates[i];
+            backtrack(candidates, target, used, sum, i + 1);
+            sum -= candidates[i];
+            path.pop_back();
+            used[i] = false;
+        }
+    }
+
+    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
+        // 排序
+        sort(candidates.begin(), candidates.end());
+        vector<bool> used(candidates.size(), false);
+        backtrack(candidates, target, used, 0, 0);
+        return res;
+    }
+};
+```
+
+
+
+
+
+
 ## [46. 全排列](https://leetcode.cn/problems/permutations/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 给定一个不含重复数字的数组 nums ，返回其 所有可能的全排列 。你可以 按任意顺序 返回答案。
@@ -200,6 +266,68 @@ public:
     }
 };
 ```
+
+
+## [47. 全排列 II](https://leetcode.cn/problems/permutations-ii/description/)
+
+> 给定一个可包含重复数字的序列 nums ，按任意顺序 返回所有不重复的全排列。
+
+```
+输入：nums = [1,1,2]
+输出：
+[[1,1,2],
+ [1,2,1],
+ [2,1,1]]
+```
+
+```
+排列问题，每个元素在每次递归都可能用到，所以 for 每次都是遍历全部元素
+for 确定一个元素后，backtrack 根据这个元素，继续构造结果
+```
+
+
+```C++
+class Solution {
+private:
+    vector<vector<int>> res;
+    vector<int> path;
+
+public:
+    void backtrack(vector<int>& nums, vector<bool>& used)
+    {
+        if (nums.size() == path.size()) 
+        {
+            res.push_back(path);
+            return;
+        }
+
+        // for 循环是选择结果中的每个构成元素
+        // backtrack 则是根据 for 的元素，构成完整的结果
+        for (int i = 0; i < nums.size(); ++i)
+        {
+            if (i > 0 && nums[i] == nums[i-1] && used[i-1] == false) continue;
+
+            if (used[i] == false)
+            {
+                used[i] = true;
+                path.push_back(nums[i]);
+                backtrack(nums, used);
+                path.pop_back();
+                used[i] = false;
+            }
+        }
+    }
+
+    vector<vector<int>> permuteUnique(vector<int>& nums) {
+        sort(nums.begin(), nums.end());
+        vector<bool> used(nums.size(), false);
+        backtrack(nums, used);
+        return res;
+    }
+};
+```
+
+
 
 ## [48. 旋转图像](https://leetcode.cn/problems/rotate-image/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 

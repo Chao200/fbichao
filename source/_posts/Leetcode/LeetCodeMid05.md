@@ -100,6 +100,73 @@ public:
 };
 ```
 
+## [216. 组合总和 III](https://leetcode.cn/problems/combination-sum-iii/description/)
+
+> 找出所有相加之和为 n 的 k 个数的组合，且满足下列条件：
+
+> 只使用数字 1 到 9 每个数字 最多使用一次，返回 所有可能的有效组合的列表 。该列表不能包含相同的组合两次，组合可以以任何顺序返回。
+
+
+
+```
+输入: k = 3, n = 9
+输出: [[1,2,6], [1,3,5], [2,3,4]]
+解释:
+1 + 2 + 6 = 9
+1 + 3 + 5 = 9
+2 + 3 + 4 = 9
+没有其他符合的组合了。
+```
+
+```
+数据源是 1~9，不重复
+backtrack 每次需要后移
+```
+
+
+```C++
+class Solution {
+private:
+    vector<vector<int>> res;
+    vector<int> path;
+
+public:
+    int sum(vector<int>& tmp)
+    {   // 求和
+        int sn = 0;
+        for (auto n: tmp)
+            sn += n;
+        return sn;
+    }
+
+    void backtrack(int k, int n, int index)
+    {
+        if (path.size() == k)
+        {
+            if (sum(path) == n)
+                res.push_back(path);
+            return;
+        }
+
+        // 剩余数字和加入 path 的数字个数必须不小于 k 个
+        for (int i = index; 9 - i + 1 + path.size() >= k; ++i)
+        {
+            path.push_back(i);
+            backtrack(k, n, i + 1);
+            path.pop_back();
+        }
+    }
+
+    vector<vector<int>> combinationSum3(int k, int n) {
+        backtrack(k, n, 1);
+        return res;
+    }
+};
+```
+
+
+
+
 ## [221. 最大正方形](https://leetcode.cn/problems/maximal-square/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 在一个由 '0' 和 '1' 组成的二维矩阵内，找到只包含 '1' 的最大正方形，并返回其面积。

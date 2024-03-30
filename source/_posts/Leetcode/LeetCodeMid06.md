@@ -651,6 +651,58 @@ public:
 };
 ```
 
+## [491. 非递减子序列](https://leetcode.cn/problems/non-decreasing-subsequences/description/)
+
+> 给你一个整数数组 nums ，找出并返回所有该数组中不同的递增子序列，递增子序列中 至少有两个元素 。你可以按 任意顺序 返回答案。
+
+> 数组中可能含有重复元素，如出现两个整数相等，也可以视作递增序列的一种特殊情况。
+
+
+```
+输入：nums = [4,6,7,7]
+输出：[[4,6],[4,6,7],[4,6,7,7],[4,7],[4,7,7],[6,7],[6,7,7],[7,7]]
+```
+
+```
+又是去重，但是不能排序，使用 unordered_set 记录每层中出现过的数字
+```
+
+```C++
+class Solution {
+private:
+    vector<vector<int>> res;
+    vector<int> path;
+
+public:
+    void backtrack(vector<int>& nums, int index)
+    {
+        if (path.size() > 1)
+        {
+            res.push_back(path);
+            // return;
+        }
+
+        unordered_set<int> uset;
+        for (int i = index; i < nums.size(); ++i)
+        {
+            if (!path.empty() && nums[i] < path.back()) continue;
+            if (uset.find(nums[i]) != uset.end()) continue;
+
+            uset.insert(nums[i]);
+            path.push_back(nums[i]);
+            backtrack(nums, i+1);
+            path.pop_back();
+        }
+    }
+
+    vector<vector<int>> findSubsequences(vector<int>& nums) {
+        backtrack(nums, 0);
+        return res;
+    }
+};
+```
+
+
 
 
 ## [494. 目标和](https://leetcode.cn/problems/target-sum/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
@@ -1427,6 +1479,61 @@ public:
             st.push(i);
         }
 
+        return res;
+    }
+};
+```
+
+
+## [845. 数组中的最长山脉](https://leetcode.cn/problems/longest-mountain-in-array/description/)
+
+> 把符合下列属性的数组 arr 称为 山脉数组 ：
+
+> arr.length >= 3
+> 存在下标 i（0 < i < arr.length - 1），满足
+> arr[0] < arr[1] < ... < arr[i - 1] < arr[i]
+> arr[i] > arr[i + 1] > ... > arr[arr.length - 1]
+> 给出一个整数数组 arr，返回最长山脉子数组的长度。如果不存在山脉子数组，返回 0 。
+
+```
+输入：arr = [2,1,4,7,3,2,5]
+输出：5
+解释：最长的山脉子数组是 [1,4,7,3,2]，长度为 5。
+```
+
+- 双指针 + 中心扩展
+- 时间复杂度 $O(n)$
+- 空间复杂度 $O(1)$
+
+```
+找到山峰，向两边扩展
+```
+
+```C++
+class Solution {
+public:
+    int longestMountain(vector<int>& arr) {
+        int n = arr.size();
+        int left = 0, right = 0;
+        int res = 0;
+        for (int i = 1; i < n - 1; ++i)
+        {   // 找到山峰
+            if (arr[i] > arr[i-1] && arr[i] > arr[i+1])
+            {
+                // 向两边扩展
+                left = i - 1;
+                right = i + 1;
+                while (left > 0 && arr[left] > arr[left - 1])
+                {
+                    --left;
+                }
+                while (right < n - 1 && arr[right] > arr[right + 1])
+                {
+                    ++right;
+                }
+                res = max(res, right - left + 1);
+            }
+        }
         return res;
     }
 };

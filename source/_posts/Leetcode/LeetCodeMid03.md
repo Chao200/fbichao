@@ -135,6 +135,60 @@ public:
 };
 ```
 
+## [77. 组合](https://leetcode.cn/problems/combinations/description/)
+
+> 给定两个整数 n 和 k，返回范围 [1, n] 中所有可能的 k 个数的组合。
+
+```
+输入：n = 4, k = 2
+输出：
+[
+  [2,4],
+  [3,4],
+  [2,3],
+  [1,2],
+  [1,3],
+  [1,4],
+]
+```
+
+```C++
+class Solution {
+private:
+    // 存储结果
+    vector<vector<int>> res;
+    // 存储路径
+    vector<int> path;
+    // 来源
+    vector<int> nums;
+    
+public:
+    void backtrack(int n, int k, int startIndex)
+    {   // 满足要求
+        if (path.size() == k)
+        {
+            res.push_back(path);
+            return;
+        }
+
+        for (int i = startIndex; i < n; ++i)
+        {
+            path.push_back(nums[i]);
+            backtrack(n, k, i+1);
+            path.pop_back();
+        }
+    }
+
+    vector<vector<int>> combine(int n, int k) {
+        for (int i = 1; i <= n; ++i) nums.push_back(i);
+        backtrack(n, k, 0);
+        return res;
+    }
+};
+```
+
+
+
 ## [78. 子集](https://leetcode.cn/problems/subsets/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 给你一个整数数组 nums ，数组中的元素 互不相同 。返回该数组所有可能的子集（幂集）。
@@ -244,6 +298,137 @@ public:
     }
 };
 ```
+
+## [90. 子集 II](https://leetcode.cn/problems/subsets-ii/description/)
+
+> 给你一个整数数组 nums ，其中可能包含重复元素，请你返回该数组所有可能的 子集（幂集）。
+
+> 解集 不能 包含重复的子集。返回的解集中，子集可以按 任意顺序 排列。
+
+```
+输入：nums = [1,2,2]
+输出：[[],[1],[1,2],[1,2,2],[2],[2,2]]
+```
+
+```
+不重复，就排序+used
+```
+
+
+```C++
+class Solution {
+private:
+    vector<vector<int>>  res;
+    vector<int> path;
+
+public:
+    void backtrack(vector<int>& nums, vector<bool>& used, int index)
+    {
+        res.push_back(path);
+        
+        if (index == nums.size()) return;
+
+        for (int i = index; i < nums.size(); ++i)
+        {
+            if (i > 0 && nums[i] == nums[i-1] && used[i-1] == false) continue;
+            used[i] = true;
+            path.push_back(nums[i]);
+            backtrack(nums, used, i + 1);
+            path.pop_back();
+            used[i] = false;
+        }
+    }
+
+    vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+        vector<bool> used(nums.size(), false);
+        sort(nums.begin(), nums.end());
+        backtrack(nums, used, 0);
+
+        return res;
+    }
+};
+```
+
+
+
+
+## [93. 复原 IP 地址](https://leetcode.cn/problems/restore-ip-addresses/description/)
+
+> 有效 IP 地址 正好由四个整数（每个整数位于 0 到 255 之间组成，且不能含有前导 0），整数之间用 '.' 分隔。
+
+> 例如："0.1.2.201" 和 "192.168.1.1" 是 有效 IP 地址，但是 "0.011.255.245"、"192.168.1.312" 和 "192.168@1.1" 是 无效 IP 地址。
+> 给定一个只包含数字的字符串 s ，用以表示一个 IP 地址，返回所有可能的有效 IP 地址，这些地址可以通过在 s 中插入 '.' 来形成。你 不能 重新排序或删除 s 中的任何数字。你可以按 任何 顺序返回答案。
+
+
+```
+输入：s = "101023"
+输出：["1.0.10.23","1.0.102.3","10.1.0.23","10.10.2.3","101.0.2.3"]
+```
+
+
+```C++
+class Solution {
+private:
+    vector<string> res;
+    vector<string> path;
+
+public:
+    // 判断字符串是否合法
+    bool isValid(string& s, int start, int end)
+    {
+        if (start > end) return false;
+
+        if (s[start] == '0' && start != end) return false;
+
+        int num = 0;
+        for (int i = start; i <= end; ++i)
+        {
+            if (s[i] > '9' || s[i] < '0') return false;
+            num = num * 10 + s[i] - '0';
+            if (num > 255) return false;
+        }
+
+        return true;
+    }
+
+    void backtrack(string& s, int index)
+    {
+        if (path.size() > 4) return;
+        if (path.size() == 4 && index == s.size())
+        {
+            string temp = path[0];
+            for (int i = 1; i < 4; ++i)
+            {
+                temp += ".";
+                temp += path[i];
+            }
+            res.push_back(temp);
+            return;
+        }
+
+        for (int i = index; i < s.size(); ++i)
+        {
+            if (isValid(s, index, i))
+            {
+                path.push_back(s.substr(index, i - index + 1));
+                backtrack(s, i + 1);
+                path.pop_back();
+            }
+        }
+    }
+
+    vector<string> restoreIpAddresses(string s) {
+        if (s.size() < 4 || s.size() > 12) return res;
+        backtrack(s, 0);
+        return res;
+    }
+};
+```
+
+
+
+
+
 
 ## [96. 不同的二叉搜索树](https://leetcode.cn/problems/unique-binary-search-trees/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
@@ -636,3 +821,71 @@ public:
     }
 };
 ```
+
+## [131. 分割回文串](https://leetcode.cn/problems/palindrome-partitioning/description/)
+
+
+> 给你一个字符串 s，请你将 s 分割成一些子串，使每个子串都是 回文串 。返回 s 所有可能的分割方案。
+
+```
+输入：s = "aab"
+输出：[["a","a","b"],["aa","b"]]
+```
+
+```
+可以允许重复
+for 循环遍历的是同一层，所以需要 substr
+```
+
+
+```C++
+class Solution {
+private:
+    vector<vector<string>> res;
+    vector<string> path;
+
+public:
+    bool is_hui(string s)
+    {
+        if (s.size() == 1) return true;
+        int left = 0, right = s.size() - 1;
+        while (left < right)
+        {
+            if (s[left++] != s[right--]) return false;
+        }
+
+        return true;
+    }
+
+    void backtrack(string s, int index)
+    {
+        if (index == s.size())
+        {
+            res.push_back(path);
+            return;
+        }
+
+        for (int i = index; i < s.size(); ++i)
+        {
+            // 从节点 index 开始的每个子串
+            string str = s.substr(index, i - index + 1); 
+            if (is_hui(str))
+            {
+                path.push_back(str);
+            }
+            else continue;
+            backtrack(s, i+1);
+            path.pop_back();
+        }
+    }
+
+    vector<vector<string>> partition(string s) {
+        backtrack(s, 0);
+        return res;
+    }
+};
+```
+
+
+
+

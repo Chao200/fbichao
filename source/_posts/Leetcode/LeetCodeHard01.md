@@ -315,6 +315,85 @@ public:
 };
 ```
 
+## [37. 解数独](https://leetcode.cn/problems/sudoku-solver/description/)
+
+> 编写一个程序，通过填充空格来解决数独问题。
+
+> 数独的解法需 遵循如下规则：
+
+> 数字 1-9 在每一行只能出现一次。
+> 数字 1-9 在每一列只能出现一次。
+> 数字 1-9 在每一个以粗实线分隔的 3x3 宫内只能出现一次。（请参考示例图）
+> 数独部分空格内已填入了数字，空白格用 '.' 表示。
+
+```
+遍历行列，对填入的数字判断是否合法即可
+```
+
+
+```C++
+class Solution {
+public:
+    bool isValid(vector<vector<char>>& board, int row, int col, char val)
+    {   // 此时还未填入数字
+
+        for (int i = 0; i < 9; ++i)
+        {   // 列是否合法
+            if (board[i][col] == val) return false;
+            // 行是否合法
+            if (board[row][i] == val) return false;
+        }
+        
+        // 找到该行列属于第几个小的九宫格
+        int startRow = row / 3;
+        int startCol = col / 3;
+
+        for (int i = startRow * 3; i < (startRow * 3 + 3); ++i)
+        {
+            for (int j = startCol * 3; j < (startCol * 3 + 3); ++j)
+            {
+                if (board[i][j] == val) return false;
+            }
+        }
+
+        return true;
+    }
+
+    bool backtrack(vector<vector<char>>& board)
+    {
+        for (int i = 0; i < board.size(); ++i)
+        {
+            for (int j = 0; j < board[0].size(); ++j)
+            {
+                if (board[i][j] == '.')
+                {
+                    for (char k = '1'; k <= '9'; ++k)
+                    {
+                        // 在第 i 行 j 列填入 k，是否合法
+                        if (isValid(board, i, j, k))
+                        {
+                            board[i][j] = k;
+                            if (backtrack(board)) return true;
+                            board[i][j] = '.';
+                        }
+                    }
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    void solveSudoku(vector<vector<char>>& board) {
+        backtrack(board);
+    }
+};
+```
+
+
+
+
+
 ## [42. 接雨水](https://leetcode.cn/problems/trapping-rain-water/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
 > 给定 n 个非负整数表示每个宽度为 1 的柱子的高度图，计算按此排列的柱子，下雨之后能接多少雨水。
@@ -359,6 +438,87 @@ public:
     }
 };
 ```
+
+## [51. N 皇后](https://leetcode.cn/problems/n-queens/description/)
+
+> 按照国际象棋的规则，皇后可以攻击与之处在同一行或同一列或同一斜线上的棋子。
+
+> n 皇后问题 研究的是如何将 n 个皇后放置在 n×n 的棋盘上，并且使皇后彼此之间不能相互攻击。
+
+> 给你一个整数 n ，返回所有不同的 n 皇后问题 的解决方案。
+
+> 每一种解法包含一个不同的 n 皇后问题 的棋子放置方案，该方案中 'Q' 和 '.' 分别代表了皇后和空位。
+
+
+```
+![](https://file.fbichao.top/2024/03/94efebaef19d44bfcc3925c47e05bad2.png)
+输入：n = 4
+输出：[[".Q..","...Q","Q...","..Q."],["..Q.","Q...","...Q",".Q.."]]
+解释：如上图所示，4 皇后问题存在两个不同的解法。
+```
+
+```
+每个位置放了之后，判断是否合法就行
+```
+
+```C++
+class Solution {
+private:
+    vector<vector<string>> res;
+
+public:
+    bool isValid(vector<string>& chessBoard, int row, int col, int n)
+    {
+        // 上方的列
+        for (int i = 0; i < row; ++i)
+        {
+            if (chessBoard[i][col] == 'Q') return false;
+        }
+
+        // 左上对角线
+        for (int i = row - 1, j = col - 1; i >= 0 && j >= 0; --i, --j)
+        {
+            if (chessBoard[i][j] == 'Q') return false;
+        }
+
+        // 右上对角线
+        for (int i = row - 1, j = col + 1; i >= 0 && j <= n - 1; --i, ++j)
+        {
+            if (chessBoard[i][j] == 'Q') return false;
+        }
+
+        // 左侧的行不需要考虑，因为一行只放一个
+        return true;
+    }
+
+    void backtrack(vector<string>& chessBoard, int row, int n)
+    {
+        if (row == n)
+        {
+            res.push_back(chessBoard);
+            return;
+        }
+        
+        for (int col = 0; col < n; ++col)
+        {
+            if (isValid(chessBoard, row, col, n))
+            {
+                chessBoard[row][col] = 'Q';
+                backtrack(chessBoard, row + 1, n);
+                chessBoard[row][col] = '.';
+            }
+        }
+    }
+
+    vector<vector<string>> solveNQueens(int n) {
+        vector<string> chessBoard(n, string(n, '.'));
+        backtrack(chessBoard, 0, n);
+        return res;
+    }
+};
+```
+
+
 
 ## [76. 最小覆盖子串](https://leetcode.cn/problems/minimum-window-substring/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
@@ -677,68 +837,95 @@ public:
 };
 ```
 
-## [312. 戳气球](https://leetcode.cn/problems/burst-balloons/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
-> 有 n 个气球，编号为0 到 n - 1，每个气球上都标有一个数字，这些数字存在数组 nums 中。
+## [297. 二叉树的序列化与反序列化](https://leetcode.cn/problems/serialize-and-deserialize-binary-tree/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
-> 现在要求你戳破所有的气球。戳破第 i 个气球，你可以获得 nums[i - 1] * nums[i] * nums[i + 1] 枚硬币。 这里的 i - 1 和 i + 1 代表和 i 相邻的两个气球的序号。如果 i - 1或 i + 1 超出了数组的边界，那么就当它是一个数字为 1 的气球。
+> 序列化是将一个数据结构或者对象转换为连续的比特位的操作，进而可以将转换后的数据存储在一个文件或者内存中，同时也可以通过网络传输到另一个计算机环境，采取相反方式重构得到原数据。
 
-> 求所能获得硬币的最大数量。
-
-```
-输入：nums = [3,1,5,8]
-输出：167
-解释：
-nums = [3,1,5,8] --> [3,5,8] --> [3,8] --> [8] --> []
-coins =  3*1*5    +   3*5*8   +  1*3*8  + 1*8*1 = 167
-```
-
-- 动规
-- 时间复杂度$O(n^3)$
-- 空间复杂度$O(n^2)$
+> 请设计一个算法来实现二叉树的序列化与反序列化。这里不限定你的序列 / 反序列化算法执行逻辑，你只需要保证一个二叉树可以被序列化为一个字符串并且将这个字符串反序列化为原始的树结构。
 
 ```
-在首尾插入一个气球值为 1，定义 $dp[i][j]$ 表示击破 $i~j$ 之间气球获得的最大值（不包括 $i$ 和 $j$）
-假设 $i~j$ 之间最后一个击破的是 $k$，则 $dp[i][j] = dp[i][k] + dp[k][j] + nums[i] * nums[k] * nums[j]$
-可以得到状态转移方程
-$$
-dp[i][j] = max{dp[i][j], dp[i][k] + dp[k][j] + nums[i] * nums[k] * nums[j]}
-$$
-遍历的时候可以先从长度开始，即 3 开始
-再确定开始和结束节点，再遍历中间节点
+输入：root = [1,2,3,null,null,4,5]
+输出：[1,2,3,null,null,4,5]
+```
+
+- 前序遍历递归
+- 时间复杂度$O(n)$
+- 空间复杂度$O(n)$
+
+```
+我们知道需要根据遍历顺序得到二叉树，就必须要有两种遍历方式，但是这里只给了一个 string，所以需要特殊处理
+使用 "," 分割每个节点，并将空节点表示为 "nullptr"，这样就得到前序遍历的 string
+再将该 string 按照 "," 分隔，可以使用 list<string> 存储
+使用递归的前序遍历
 ```
 
 ```C++
-class Solution {
+class Codec {
 public:
-    int maxCoins(vector<int>& nums) {
-        nums.insert(nums.begin(), 1);
-        nums.push_back(1);
-
-        int n = nums.size();
-
-        vector<vector<int>> dp(n, vector<int>(n, 0));
-
-        // 区间长度
-        for (int len = 3; len <= n; ++len)
+    void reserialize(TreeNode* root, string& str)
+    {
+        if (root == nullptr) str += "nullptr,";
+        else
         {
-            // 开始节点
-            for (int start = 0; start < n; ++start)
+            str += to_string(root->val) + ",";
+            reserialize(root->left, str);
+            reserialize(root->right, str);
+        }
+    }
+
+    string serialize(TreeNode* root) {
+        string res;
+        // 得到加上逗号和 nullptr 的前序遍历 string
+        reserialize(root, res);
+        return res;
+    }
+
+    TreeNode* redeserialize(list<string>& lst)
+    {
+        if (lst.front() == "nullptr")
+        {
+            lst.erase(lst.begin());
+            return nullptr;
+        }
+
+        // 前序遍历的递归形式
+        TreeNode* root = new TreeNode(stoi(lst.front()));
+        lst.erase(lst.begin());
+        root->left = redeserialize(lst);
+        root->right = redeserialize(lst);
+        return root;
+    }
+  
+    TreeNode* deserialize(string data) {
+        list<string> lst;
+        string str;
+        for (auto c: data)
+        {
+            if (c == ',')
             {
-                // 结束节点
-                int end = start + len - 1;
-                if (end > n - 1) break;
-                // 中间节点
-                for (int split = start + 1; split < end; ++split)
-                {   // 状态转移方程
-                    dp[start][end] = max(dp[start][end], dp[start][split] + dp[split][end] + nums[start] * nums[split] * nums[end]);
-                }
+                lst.push_back(str);
+                str.clear();
+            }
+            else
+            {
+                str.push_back(c);
             }
         }
-        return dp[0][n-1];  // 最终的结果是不包括首尾的
+
+        if (!str.empty())
+        {
+            lst.push_back(str);
+            str.clear();
+        }
+  
+        // 去除逗号，得到 lst
+        return redeserialize(lst);
     }
 };
 ```
+
+
 
 ## [301. 删除无效的括号](https://leetcode.cn/problems/remove-invalid-parentheses/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
@@ -837,89 +1024,142 @@ public:
 };
 ```
 
-## [297. 二叉树的序列化与反序列化](https://leetcode.cn/problems/serialize-and-deserialize-binary-tree/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
-> 序列化是将一个数据结构或者对象转换为连续的比特位的操作，进而可以将转换后的数据存储在一个文件或者内存中，同时也可以通过网络传输到另一个计算机环境，采取相反方式重构得到原数据。
+## [312. 戳气球](https://leetcode.cn/problems/burst-balloons/description/?envType=featured-list&envId=2cktkvj?envType=featured-list&envId=2cktkvj)
 
-> 请设计一个算法来实现二叉树的序列化与反序列化。这里不限定你的序列 / 反序列化算法执行逻辑，你只需要保证一个二叉树可以被序列化为一个字符串并且将这个字符串反序列化为原始的树结构。
+> 有 n 个气球，编号为0 到 n - 1，每个气球上都标有一个数字，这些数字存在数组 nums 中。
 
-```
-输入：root = [1,2,3,null,null,4,5]
-输出：[1,2,3,null,null,4,5]
-```
+> 现在要求你戳破所有的气球。戳破第 i 个气球，你可以获得 nums[i - 1] * nums[i] * nums[i + 1] 枚硬币。 这里的 i - 1 和 i + 1 代表和 i 相邻的两个气球的序号。如果 i - 1或 i + 1 超出了数组的边界，那么就当它是一个数字为 1 的气球。
 
-- 前序遍历递归
-- 时间复杂度$O(n)$
-- 空间复杂度$O(n)$
+> 求所能获得硬币的最大数量。
 
 ```
-我们知道需要根据遍历顺序得到二叉树，就必须要有两种遍历方式，但是这里只给了一个 string，所以需要特殊处理
-使用 "," 分割每个节点，并将空节点表示为 "nullptr"，这样就得到前序遍历的 string
-再将该 string 按照 "," 分隔，可以使用 list<string> 存储
-使用递归的前序遍历
+输入：nums = [3,1,5,8]
+输出：167
+解释：
+nums = [3,1,5,8] --> [3,5,8] --> [3,8] --> [8] --> []
+coins =  3*1*5    +   3*5*8   +  1*3*8  + 1*8*1 = 167
+```
+
+- 动规
+- 时间复杂度$O(n^3)$
+- 空间复杂度$O(n^2)$
+
+```
+在首尾插入一个气球值为 1，定义 $dp[i][j]$ 表示击破 $i~j$ 之间气球获得的最大值（不包括 $i$ 和 $j$）
+假设 $i~j$ 之间最后一个击破的是 $k$，则 $dp[i][j] = dp[i][k] + dp[k][j] + nums[i] * nums[k] * nums[j]$
+可以得到状态转移方程
+$$
+dp[i][j] = max{dp[i][j], dp[i][k] + dp[k][j] + nums[i] * nums[k] * nums[j]}
+$$
+遍历的时候可以先从长度开始，即 3 开始
+再确定开始和结束节点，再遍历中间节点
 ```
 
 ```C++
-class Codec {
+class Solution {
 public:
-    void reserialize(TreeNode* root, string& str)
-    {
-        if (root == nullptr) str += "nullptr,";
-        else
-        {
-            str += to_string(root->val) + ",";
-            reserialize(root->left, str);
-            reserialize(root->right, str);
-        }
-    }
+    int maxCoins(vector<int>& nums) {
+        nums.insert(nums.begin(), 1);
+        nums.push_back(1);
 
-    string serialize(TreeNode* root) {
-        string res;
-        // 得到加上逗号和 nullptr 的前序遍历 string
-        reserialize(root, res);
-        return res;
-    }
+        int n = nums.size();
 
-    TreeNode* redeserialize(list<string>& lst)
-    {
-        if (lst.front() == "nullptr")
-        {
-            lst.erase(lst.begin());
-            return nullptr;
-        }
+        vector<vector<int>> dp(n, vector<int>(n, 0));
 
-        // 前序遍历的递归形式
-        TreeNode* root = new TreeNode(stoi(lst.front()));
-        lst.erase(lst.begin());
-        root->left = redeserialize(lst);
-        root->right = redeserialize(lst);
-        return root;
-    }
-  
-    TreeNode* deserialize(string data) {
-        list<string> lst;
-        string str;
-        for (auto c: data)
+        // 区间长度
+        for (int len = 3; len <= n; ++len)
         {
-            if (c == ',')
+            // 开始节点
+            for (int start = 0; start < n; ++start)
             {
-                lst.push_back(str);
-                str.clear();
-            }
-            else
-            {
-                str.push_back(c);
+                // 结束节点
+                int end = start + len - 1;
+                if (end > n - 1) break;
+                // 中间节点
+                for (int split = start + 1; split < end; ++split)
+                {   // 状态转移方程
+                    dp[start][end] = max(dp[start][end], dp[start][split] + dp[split][end] + nums[start] * nums[split] * nums[end]);
+                }
             }
         }
-
-        if (!str.empty())
-        {
-            lst.push_back(str);
-            str.clear();
-        }
-  
-        // 去除逗号，得到 lst
-        return redeserialize(lst);
+        return dp[0][n-1];  // 最终的结果是不包括首尾的
     }
 };
 ```
+
+
+## [332. 重新安排行程](https://leetcode.cn/problems/reconstruct-itinerary/description/)
+
+> 给你一份航线列表 tickets ，其中 tickets[i] = [fromi, toi] 表示飞机出发和降落的机场地点。请你对该行程进行重新规划排序。
+
+> 所有这些机票都属于一个从 JFK（肯尼迪国际机场）出发的先生，所以该行程必须从 JFK 开始。如果存在多种有效的行程，请你按字典排序返回最小的行程组合。
+
+> 例如，行程 ["JFK", "LGA"] 与 ["JFK", "LGB"] 相比就更小，排序更靠前。
+> 假定所有机票至少存在一种合理的行程。且所有的机票 必须都用一次 且 只能用一次。
+
+
+```
+![](https://file.fbichao.top/2024/03/40cdc554cb555d8e9d723af649b832dd.png)
+输入：tickets = [["JFK","SFO"],["JFK","ATL"],["SFO","ATL"],["ATL","JFK"],["ATL","SFO"]]
+输出：["JFK","ATL","JFK","SFO","ATL","SFO"]
+解释：另一种有效的行程是 ["JFK","SFO","ATL","JFK","ATL","SFO"] ，但是它字典排序更大更靠后。
+```
+
+```
+首先得到每个起点对应终点的航班
+根据给定的起点 "JFK" 来遍历是否能够回溯成功
+```
+
+```C++
+class Solution {
+public:
+    struct cmp 
+    {
+        bool operator() (const string& lhs, const string& rhs) const
+        {
+            return lhs < rhs;
+        }
+    };
+
+private:
+    vector<string> res;
+    // 从一个地点，到另一个地点的航班数
+    // 并且终点按照字典序排列
+    unordered_map<string, map<string, int, cmp>> umap;
+
+public:
+    bool backtrack(int num)
+    {
+        // 两趟航班，三个地点，所以+1
+        if (res.size() == num + 1) return true;
+        
+        // 当前起点对应终点
+        for (auto& target: umap[res.back()])
+        {
+            if (target.second > 0)
+            {
+                res.push_back(target.first);
+                target.second--;
+                if (backtrack(num)) return true;
+                target.second++;
+                res.pop_back();
+            }
+        }
+        return false;
+    }
+
+    vector<string> findItinerary(vector<vector<string>>& tickets) {
+        for (auto ticket: tickets)
+        {
+            umap[ticket[0]][ticket[1]]++;
+        }
+
+        res.push_back("JFK");
+        backtrack(tickets.size());
+        return res;
+    }
+};
+```
+
+
