@@ -24,4 +24,9 @@ date: 2024-04-01 21:45:00
     - [Floyd 判圈法](https://blog.csdn.net/qq_45928520/article/details/118787532)
 
 - 2024/04/03
-    - 并查集
+    - [470. 用 Rand7() 实现 Rand10()](https://leetcode.cn/problems/implement-rand10-using-rand7/description/)
+    - [179. 最大数](https://leetcode.cn/problems/largest-number/description/)
+
+- 2024/04/04
+    - []()
+
