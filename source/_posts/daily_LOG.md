@@ -28,5 +28,8 @@ date: 2024-04-01 21:45:00
     - [179. 最大数](https://leetcode.cn/problems/largest-number/description/)
 
 - 2024/04/04
-    - []()
+    - [0-1背包](https://algo.itcharge.cn/10.Dynamic-Programming/04.Knapsack-Problem/01.Knapsack-Problem-01/)
+    - [完全背包](https://algo.itcharge.cn/10.Dynamic-Programming/04.Knapsack-Problem/02.Knapsack-Problem-02/)
+
+
 
