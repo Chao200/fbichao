@@ -6,12 +6,11 @@ tags:
 author: fbichao
 categories:
   - leetcode
-  - Easy
+  - Codetop
 excerpt: codetop中等(1)
 math: true
 date: 2024-04-01 21:45:00
 ---
-
 ## [3. 无重复字符的最长子串](https://leetcode.cn/problems/longest-substring-without-repeating-characters/description/)
 
 - 滑动窗口
@@ -42,7 +41,6 @@ public:
 };
 ```
 
-
 ## [146. LRU 缓存](https://leetcode.cn/problems/lru-cache/description/)
 
 - list + unorder_map
@@ -61,11 +59,11 @@ public:
     // const 需要列表初始化
     LRUCache(int capacity) : m_capacity(capacity)
     { }
-    
+  
     int get(int key) {
         pair<int, int> p = {key, -1};
         auto it = umap.find(key);
-        
+      
         // 找不到 key
         if (it == umap.end()) return -1;
 
@@ -79,7 +77,7 @@ public:
 
         return cache.front().second;
     }
-    
+  
     void put(int key, int value) {
         pair<int, int> p = {key, value};
         auto it = umap.find(key);
@@ -136,10 +134,10 @@ public:
         head->next = tail;
         tail->prev = head;
     }
-    
+  
     int get(int key) {
         auto it = umap.find(key);
-        
+      
         // 找不到 key
         if (it == umap.end()) return -1;
 
@@ -148,7 +146,7 @@ public:
         moveToHead(node);
         return node->value;
     }
-    
+  
     void put(int key, int value) {
         if (!umap.count(key))
         {
@@ -215,9 +213,9 @@ public:
             return a < b;
         }
     };
-    
+  
     int findKthLargest(vector<int>& nums, int k) {
-        priority_queue<int, vector<int>, cmp> pri_que;        
+        priority_queue<int, vector<int>, cmp> pri_que;      
 
         for (int i = 0; i < nums.size(); ++i)
         {
@@ -274,7 +272,6 @@ public:
     }
 };
 ```
-
 
 ## [15. 三数之和](https://leetcode.cn/problems/3sum/description/)
 
@@ -487,7 +484,6 @@ public:
 };
 ```
 
-
 ## [5. 最长回文子串](https://leetcode.cn/problems/longest-palindromic-substring/description/)
 
 - 动态规划，注意变量方向
@@ -537,8 +533,6 @@ public:
 };
 ```
 
-
-
 ## [33. 搜索旋转排序数组](https://leetcode.cn/problems/search-in-rotated-sorted-array/description/)
 
 - 二分搜索，分两个区间段讨论
@@ -579,7 +573,6 @@ public:
 };
 ```
 
-
 ## [102. 二叉树的层序遍历](https://leetcode.cn/problems/binary-tree-level-order-traversal/description/)
 
 - 层序遍历
@@ -592,7 +585,7 @@ public:
 
         queue<TreeNode*> que;
         que.push(root);
-        
+      
         vector<vector<int>> res;
         while (!que.empty())
         {
@@ -613,7 +606,6 @@ public:
     }
 };
 ```
-
 
 ## [200. 岛屿数量](https://leetcode.cn/problems/number-of-islands/description/)
 
@@ -658,7 +650,6 @@ public:
 };
 ```
 
-
 ## [46. 全排列](https://leetcode.cn/problems/permutations/description/)
 
 - 回溯
@@ -701,7 +692,6 @@ public:
 };
 ```
 
-
 ## [236. 二叉树的最近公共祖先](https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-tree/description/)
 
 - 先序遍历递归
@@ -725,7 +715,6 @@ public:
     }
 };
 ```
-
 
 ## [103. 二叉树的锯齿形层序遍历](https://leetcode.cn/problems/binary-tree-zigzag-level-order-traversal/description/)
 
@@ -769,7 +758,6 @@ public:
     }
 };
 ```
-
 
 ## [92. 反转链表 II](https://leetcode.cn/problems/reverse-linked-list-ii/description/)
 
@@ -822,7 +810,6 @@ public:
 };
 ```
 
-
 ## [54. 螺旋矩阵](https://leetcode.cn/problems/spiral-matrix/description/)
 
 - 模拟
@@ -834,7 +821,7 @@ public:
         int m = matrix.size(), n = matrix[0].size();
         int left = 0, right = n - 1;
         int top = 0, down = m - 1;
-        
+      
         vector<int> res;
         while (1)
         {
@@ -872,7 +859,6 @@ public:
 };
 ```
 
-
 ## [300. 最长递增子序列](https://leetcode.cn/problems/longest-increasing-subsequence/description/)
 
 - 动态规划，两阶段
@@ -901,7 +887,6 @@ public:
     }
 };
 ```
-
 
 ## [143. 重排链表](https://leetcode.cn/problems/reorder-list/description/)
 
@@ -935,7 +920,6 @@ public:
     }
 };
 ```
-
 
 ## [142. 环形链表 II](https://leetcode.cn/problems/linked-list-cycle-ii/description/)
 
@@ -971,7 +955,6 @@ public:
 };
 ```
 
-
 ## [56. 合并区间](https://leetcode.cn/problems/merge-intervals/description/)
 
 - 排序 + 合并
@@ -981,7 +964,7 @@ class Solution {
 public:
     vector<vector<int>> merge(vector<vector<int>>& intervals) {
         if (intervals.size() == 0) return {};
-        
+      
         // 先对一个排序
         auto cmp = [](vector<int>& a, vector<int>& b)
         {
@@ -1012,7 +995,6 @@ public:
     }
 };
 ```
-
 
 ## [19. 删除链表的倒数第 N 个结点](https://leetcode.cn/problems/remove-nth-node-from-end-of-list/description/)
 
