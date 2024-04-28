@@ -35,7 +35,7 @@ mysql 使用三个逻辑，true、false、unknown
 （3）gbk编码：一个汉字两个字节，一个数字或字母一个字节。
 
 
-# 连接
+# 2. 连接
 
 ## [left join](https://leetcode.cn/problems/replace-employee-id-with-the-unique-identifier/?envType=study-plan-v2&envId=sql-free-50)
 
@@ -57,5 +57,32 @@ mysql 使用三个逻辑，true、false、unknown
 ## [ifnull/ 条件 avg](https://leetcode.cn/problems/confirmation-rate/solutions/2345877/xin-shou-jie-ti-fen-xi-ti-mu-yi-bu-yi-bu-8xuf/?envType=study-plan-v2&envId=sql-free-50)
 
 
-# 聚合函数
+# 3. 聚合函数
+
+## [ifnull/ subquery/ left join](https://leetcode.cn/problems/average-selling-price/description/?envType=study-plan-v2&envId=sql-free-50)
+
+
+## [right join](https://leetcode.cn/problems/percentage-of-users-attended-a-contest/?envType=study-plan-v2&envId=sql-free-50)
+
+
+## [条件 sum/ having](https://leetcode.cn/problems/queries-quality-and-percentage/?envType=study-plan-v2&envId=sql-free-50)
+
+
+## [date_format/ 条件 count/ 条件 sum](https://leetcode.cn/problems/monthly-transactions-i/?envType=study-plan-v2&envId=sql-free-50)
+
+
+## [group by/ subquery](https://leetcode.cn/problems/immediate-food-delivery-ii/?envType=study-plan-v2&envId=sql-free-50)
+
+
+## [subquery/ group by/ left join/ datediff/ 条件 avg](https://leetcode.cn/problems/game-play-analysis-iv/?envType=study-plan-v2&envId=sql-free-50)
+
+
+# 4. 排序和分组
+
+## [group by/ having](https://leetcode.cn/problems/sales-analysis-iii/?envType=study-plan-v2&envId=sql-free-50)
+
+
+
+
+
 
